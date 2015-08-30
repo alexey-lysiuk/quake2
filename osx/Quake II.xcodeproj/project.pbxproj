@@ -7,6 +7,58 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A62D1FF1B93385500F4B744 /* g_ai.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1A81B93376A00F4B744 /* g_ai.c */; };
+		8A62D2001B93385500F4B744 /* g_chase.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1A91B93376A00F4B744 /* g_chase.c */; };
+		8A62D2011B93385500F4B744 /* g_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1AA1B93376A00F4B744 /* g_cmds.c */; };
+		8A62D2021B93385500F4B744 /* g_combat.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1AB1B93376A00F4B744 /* g_combat.c */; };
+		8A62D2031B93385500F4B744 /* g_func.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1AC1B93376A00F4B744 /* g_func.c */; };
+		8A62D2041B93385500F4B744 /* g_items.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1AD1B93376A00F4B744 /* g_items.c */; };
+		8A62D2051B93385500F4B744 /* g_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1AF1B93376A00F4B744 /* g_main.c */; };
+		8A62D2061B93385500F4B744 /* g_misc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B01B93376A00F4B744 /* g_misc.c */; };
+		8A62D2071B93385500F4B744 /* g_monster.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B11B93376A00F4B744 /* g_monster.c */; };
+		8A62D2081B93385500F4B744 /* g_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B21B93376A00F4B744 /* g_phys.c */; };
+		8A62D2091B93385500F4B744 /* g_save.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B31B93376A00F4B744 /* g_save.c */; };
+		8A62D20A1B93385500F4B744 /* g_spawn.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B41B93376A00F4B744 /* g_spawn.c */; };
+		8A62D20B1B93385500F4B744 /* g_svcmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B51B93376A00F4B744 /* g_svcmds.c */; };
+		8A62D20C1B93385500F4B744 /* g_target.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B61B93376A00F4B744 /* g_target.c */; };
+		8A62D20D1B93385500F4B744 /* g_trigger.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B71B93376A00F4B744 /* g_trigger.c */; };
+		8A62D20E1B93385500F4B744 /* g_turret.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B81B93376A00F4B744 /* g_turret.c */; };
+		8A62D20F1B93385500F4B744 /* g_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1B91B93376A00F4B744 /* g_utils.c */; };
+		8A62D2101B93385500F4B744 /* g_weapon.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1BA1B93376A00F4B744 /* g_weapon.c */; };
+		8A62D2111B93386200F4B744 /* m_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1BC1B93376A00F4B744 /* m_actor.c */; };
+		8A62D2121B93386200F4B744 /* m_berserk.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1BE1B93376A00F4B744 /* m_berserk.c */; };
+		8A62D2131B93386200F4B744 /* m_boss2.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1C01B93376A00F4B744 /* m_boss2.c */; };
+		8A62D2141B93386200F4B744 /* m_boss3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1C21B93376A00F4B744 /* m_boss3.c */; };
+		8A62D2151B93386200F4B744 /* m_boss5.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1C31B93376A00F4B744 /* m_boss5.c */; };
+		8A62D2161B93386200F4B744 /* m_boss31.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1C41B93376A00F4B744 /* m_boss31.c */; };
+		8A62D2171B93386200F4B744 /* m_boss32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1C61B93376A00F4B744 /* m_boss32.c */; };
+		8A62D2181B93386200F4B744 /* m_brain.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1C81B93376A00F4B744 /* m_brain.c */; };
+		8A62D2191B93386200F4B744 /* m_chick.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1CA1B93376A00F4B744 /* m_chick.c */; };
+		8A62D21A1B93386200F4B744 /* m_fixbot.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1CC1B93376A00F4B744 /* m_fixbot.c */; };
+		8A62D21B1B93386200F4B744 /* m_flash.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1CE1B93376A00F4B744 /* m_flash.c */; };
+		8A62D21C1B93386200F4B744 /* m_flipper.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1CF1B93376A00F4B744 /* m_flipper.c */; };
+		8A62D21D1B93386200F4B744 /* m_float.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1D11B93376A00F4B744 /* m_float.c */; };
+		8A62D21E1B93386200F4B744 /* m_flyer.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1D31B93376A00F4B744 /* m_flyer.c */; };
+		8A62D21F1B93386200F4B744 /* m_gekk.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1D51B93376A00F4B744 /* m_gekk.c */; };
+		8A62D2201B93386200F4B744 /* m_gladb.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1D71B93376A00F4B744 /* m_gladb.c */; };
+		8A62D2211B93386200F4B744 /* m_gladiator.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1D81B93376A00F4B744 /* m_gladiator.c */; };
+		8A62D2221B93386200F4B744 /* m_gunner.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1DA1B93376A00F4B744 /* m_gunner.c */; };
+		8A62D2231B93386200F4B744 /* m_hover.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1DC1B93376A00F4B744 /* m_hover.c */; };
+		8A62D2241B93386200F4B744 /* m_infantry.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1DE1B93376A00F4B744 /* m_infantry.c */; };
+		8A62D2251B93386200F4B744 /* m_insane.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1E01B93376A00F4B744 /* m_insane.c */; };
+		8A62D2261B93386200F4B744 /* m_medic.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1E21B93376A00F4B744 /* m_medic.c */; };
+		8A62D2271B93386200F4B744 /* m_move.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1E41B93376A00F4B744 /* m_move.c */; };
+		8A62D2281B93386200F4B744 /* m_mutant.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1E51B93376A00F4B744 /* m_mutant.c */; };
+		8A62D2291B93386200F4B744 /* m_parasite.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1E71B93376A00F4B744 /* m_parasite.c */; };
+		8A62D22A1B93386200F4B744 /* m_soldier.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1EB1B93376A00F4B744 /* m_soldier.c */; };
+		8A62D22B1B93386200F4B744 /* m_supertank.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1EE1B93376A00F4B744 /* m_supertank.c */; };
+		8A62D22C1B93386200F4B744 /* m_tank.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F01B93376A00F4B744 /* m_tank.c */; };
+		8A62D22D1B93386800F4B744 /* q_shared.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F71B93376A00F4B744 /* q_shared.c */; };
+		8A62D22E1B93386E00F4B744 /* p_client.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F21B93376A00F4B744 /* p_client.c */; };
+		8A62D22F1B93386E00F4B744 /* p_hud.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F31B93376A00F4B744 /* p_hud.c */; };
+		8A62D2301B93386E00F4B744 /* p_trail.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F41B93376A00F4B744 /* p_trail.c */; };
+		8A62D2311B93386E00F4B744 /* p_view.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F51B93376A00F4B744 /* p_view.c */; };
+		8A62D2321B93386E00F4B744 /* p_weapon.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F61B93376A00F4B744 /* p_weapon.c */; };
 		D2075FEB1529646A00F14280 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2075FE91529646A00F14280 /* ServicesMenu.strings */; };
 		D2075FEE1529649700F14280 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2075FE91529646A00F14280 /* ServicesMenu.strings */; };
 		D2075FF0152964A800F14280 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2075FE91529646A00F14280 /* ServicesMenu.strings */; };
@@ -270,6 +322,88 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8A62D1A51B93372400F4B744 /* GameMac.q2plug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameMac.q2plug; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A62D1A81B93376A00F4B744 /* g_ai.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_ai.c; path = ../xatrix/g_ai.c; sourceTree = "<group>"; };
+		8A62D1A91B93376A00F4B744 /* g_chase.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_chase.c; path = ../xatrix/g_chase.c; sourceTree = "<group>"; };
+		8A62D1AA1B93376A00F4B744 /* g_cmds.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_cmds.c; path = ../xatrix/g_cmds.c; sourceTree = "<group>"; };
+		8A62D1AB1B93376A00F4B744 /* g_combat.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_combat.c; path = ../xatrix/g_combat.c; sourceTree = "<group>"; };
+		8A62D1AC1B93376A00F4B744 /* g_func.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_func.c; path = ../xatrix/g_func.c; sourceTree = "<group>"; };
+		8A62D1AD1B93376A00F4B744 /* g_items.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_items.c; path = ../xatrix/g_items.c; sourceTree = "<group>"; };
+		8A62D1AE1B93376A00F4B744 /* g_local.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = g_local.h; path = ../xatrix/g_local.h; sourceTree = "<group>"; };
+		8A62D1AF1B93376A00F4B744 /* g_main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_main.c; path = ../xatrix/g_main.c; sourceTree = "<group>"; };
+		8A62D1B01B93376A00F4B744 /* g_misc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_misc.c; path = ../xatrix/g_misc.c; sourceTree = "<group>"; };
+		8A62D1B11B93376A00F4B744 /* g_monster.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_monster.c; path = ../xatrix/g_monster.c; sourceTree = "<group>"; };
+		8A62D1B21B93376A00F4B744 /* g_phys.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_phys.c; path = ../xatrix/g_phys.c; sourceTree = "<group>"; };
+		8A62D1B31B93376A00F4B744 /* g_save.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_save.c; path = ../xatrix/g_save.c; sourceTree = "<group>"; };
+		8A62D1B41B93376A00F4B744 /* g_spawn.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_spawn.c; path = ../xatrix/g_spawn.c; sourceTree = "<group>"; };
+		8A62D1B51B93376A00F4B744 /* g_svcmds.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_svcmds.c; path = ../xatrix/g_svcmds.c; sourceTree = "<group>"; };
+		8A62D1B61B93376A00F4B744 /* g_target.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_target.c; path = ../xatrix/g_target.c; sourceTree = "<group>"; };
+		8A62D1B71B93376A00F4B744 /* g_trigger.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_trigger.c; path = ../xatrix/g_trigger.c; sourceTree = "<group>"; };
+		8A62D1B81B93376A00F4B744 /* g_turret.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_turret.c; path = ../xatrix/g_turret.c; sourceTree = "<group>"; };
+		8A62D1B91B93376A00F4B744 /* g_utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_utils.c; path = ../xatrix/g_utils.c; sourceTree = "<group>"; };
+		8A62D1BA1B93376A00F4B744 /* g_weapon.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_weapon.c; path = ../xatrix/g_weapon.c; sourceTree = "<group>"; };
+		8A62D1BB1B93376A00F4B744 /* game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = game.h; path = ../xatrix/game.h; sourceTree = "<group>"; };
+		8A62D1BC1B93376A00F4B744 /* m_actor.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_actor.c; path = ../xatrix/m_actor.c; sourceTree = "<group>"; };
+		8A62D1BD1B93376A00F4B744 /* m_actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_actor.h; path = ../xatrix/m_actor.h; sourceTree = "<group>"; };
+		8A62D1BE1B93376A00F4B744 /* m_berserk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_berserk.c; path = ../xatrix/m_berserk.c; sourceTree = "<group>"; };
+		8A62D1BF1B93376A00F4B744 /* m_berserk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_berserk.h; path = ../xatrix/m_berserk.h; sourceTree = "<group>"; };
+		8A62D1C01B93376A00F4B744 /* m_boss2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss2.c; path = ../xatrix/m_boss2.c; sourceTree = "<group>"; };
+		8A62D1C11B93376A00F4B744 /* m_boss2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_boss2.h; path = ../xatrix/m_boss2.h; sourceTree = "<group>"; };
+		8A62D1C21B93376A00F4B744 /* m_boss3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss3.c; path = ../xatrix/m_boss3.c; sourceTree = "<group>"; };
+		8A62D1C31B93376A00F4B744 /* m_boss5.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss5.c; path = ../xatrix/m_boss5.c; sourceTree = "<group>"; };
+		8A62D1C41B93376A00F4B744 /* m_boss31.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss31.c; path = ../xatrix/m_boss31.c; sourceTree = "<group>"; };
+		8A62D1C51B93376A00F4B744 /* m_boss31.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_boss31.h; path = ../xatrix/m_boss31.h; sourceTree = "<group>"; };
+		8A62D1C61B93376A00F4B744 /* m_boss32.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss32.c; path = ../xatrix/m_boss32.c; sourceTree = "<group>"; };
+		8A62D1C71B93376A00F4B744 /* m_boss32.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_boss32.h; path = ../xatrix/m_boss32.h; sourceTree = "<group>"; };
+		8A62D1C81B93376A00F4B744 /* m_brain.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_brain.c; path = ../xatrix/m_brain.c; sourceTree = "<group>"; };
+		8A62D1C91B93376A00F4B744 /* m_brain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_brain.h; path = ../xatrix/m_brain.h; sourceTree = "<group>"; };
+		8A62D1CA1B93376A00F4B744 /* m_chick.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_chick.c; path = ../xatrix/m_chick.c; sourceTree = "<group>"; };
+		8A62D1CB1B93376A00F4B744 /* m_chick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_chick.h; path = ../xatrix/m_chick.h; sourceTree = "<group>"; };
+		8A62D1CC1B93376A00F4B744 /* m_fixbot.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_fixbot.c; path = ../xatrix/m_fixbot.c; sourceTree = "<group>"; };
+		8A62D1CD1B93376A00F4B744 /* m_fixbot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_fixbot.h; path = ../xatrix/m_fixbot.h; sourceTree = "<group>"; };
+		8A62D1CE1B93376A00F4B744 /* m_flash.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_flash.c; path = ../xatrix/m_flash.c; sourceTree = "<group>"; };
+		8A62D1CF1B93376A00F4B744 /* m_flipper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_flipper.c; path = ../xatrix/m_flipper.c; sourceTree = "<group>"; };
+		8A62D1D01B93376A00F4B744 /* m_flipper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_flipper.h; path = ../xatrix/m_flipper.h; sourceTree = "<group>"; };
+		8A62D1D11B93376A00F4B744 /* m_float.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_float.c; path = ../xatrix/m_float.c; sourceTree = "<group>"; };
+		8A62D1D21B93376A00F4B744 /* m_float.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_float.h; path = ../xatrix/m_float.h; sourceTree = "<group>"; };
+		8A62D1D31B93376A00F4B744 /* m_flyer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_flyer.c; path = ../xatrix/m_flyer.c; sourceTree = "<group>"; };
+		8A62D1D41B93376A00F4B744 /* m_flyer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_flyer.h; path = ../xatrix/m_flyer.h; sourceTree = "<group>"; };
+		8A62D1D51B93376A00F4B744 /* m_gekk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_gekk.c; path = ../xatrix/m_gekk.c; sourceTree = "<group>"; };
+		8A62D1D61B93376A00F4B744 /* m_gekk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_gekk.h; path = ../xatrix/m_gekk.h; sourceTree = "<group>"; };
+		8A62D1D71B93376A00F4B744 /* m_gladb.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_gladb.c; path = ../xatrix/m_gladb.c; sourceTree = "<group>"; };
+		8A62D1D81B93376A00F4B744 /* m_gladiator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_gladiator.c; path = ../xatrix/m_gladiator.c; sourceTree = "<group>"; };
+		8A62D1D91B93376A00F4B744 /* m_gladiator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_gladiator.h; path = ../xatrix/m_gladiator.h; sourceTree = "<group>"; };
+		8A62D1DA1B93376A00F4B744 /* m_gunner.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_gunner.c; path = ../xatrix/m_gunner.c; sourceTree = "<group>"; };
+		8A62D1DB1B93376A00F4B744 /* m_gunner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_gunner.h; path = ../xatrix/m_gunner.h; sourceTree = "<group>"; };
+		8A62D1DC1B93376A00F4B744 /* m_hover.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_hover.c; path = ../xatrix/m_hover.c; sourceTree = "<group>"; };
+		8A62D1DD1B93376A00F4B744 /* m_hover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_hover.h; path = ../xatrix/m_hover.h; sourceTree = "<group>"; };
+		8A62D1DE1B93376A00F4B744 /* m_infantry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_infantry.c; path = ../xatrix/m_infantry.c; sourceTree = "<group>"; };
+		8A62D1DF1B93376A00F4B744 /* m_infantry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_infantry.h; path = ../xatrix/m_infantry.h; sourceTree = "<group>"; };
+		8A62D1E01B93376A00F4B744 /* m_insane.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_insane.c; path = ../xatrix/m_insane.c; sourceTree = "<group>"; };
+		8A62D1E11B93376A00F4B744 /* m_insane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_insane.h; path = ../xatrix/m_insane.h; sourceTree = "<group>"; };
+		8A62D1E21B93376A00F4B744 /* m_medic.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_medic.c; path = ../xatrix/m_medic.c; sourceTree = "<group>"; };
+		8A62D1E31B93376A00F4B744 /* m_medic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_medic.h; path = ../xatrix/m_medic.h; sourceTree = "<group>"; };
+		8A62D1E41B93376A00F4B744 /* m_move.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_move.c; path = ../xatrix/m_move.c; sourceTree = "<group>"; };
+		8A62D1E51B93376A00F4B744 /* m_mutant.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_mutant.c; path = ../xatrix/m_mutant.c; sourceTree = "<group>"; };
+		8A62D1E61B93376A00F4B744 /* m_mutant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_mutant.h; path = ../xatrix/m_mutant.h; sourceTree = "<group>"; };
+		8A62D1E71B93376A00F4B744 /* m_parasite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_parasite.c; path = ../xatrix/m_parasite.c; sourceTree = "<group>"; };
+		8A62D1E81B93376A00F4B744 /* m_parasite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_parasite.h; path = ../xatrix/m_parasite.h; sourceTree = "<group>"; };
+		8A62D1E91B93376A00F4B744 /* m_player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_player.h; path = ../xatrix/m_player.h; sourceTree = "<group>"; };
+		8A62D1EA1B93376A00F4B744 /* m_rider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_rider.h; path = ../xatrix/m_rider.h; sourceTree = "<group>"; };
+		8A62D1EB1B93376A00F4B744 /* m_soldier.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_soldier.c; path = ../xatrix/m_soldier.c; sourceTree = "<group>"; };
+		8A62D1EC1B93376A00F4B744 /* m_soldier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_soldier.h; path = ../xatrix/m_soldier.h; sourceTree = "<group>"; };
+		8A62D1ED1B93376A00F4B744 /* m_soldierh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_soldierh.h; path = ../xatrix/m_soldierh.h; sourceTree = "<group>"; };
+		8A62D1EE1B93376A00F4B744 /* m_supertank.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_supertank.c; path = ../xatrix/m_supertank.c; sourceTree = "<group>"; };
+		8A62D1EF1B93376A00F4B744 /* m_supertank.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_supertank.h; path = ../xatrix/m_supertank.h; sourceTree = "<group>"; };
+		8A62D1F01B93376A00F4B744 /* m_tank.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_tank.c; path = ../xatrix/m_tank.c; sourceTree = "<group>"; };
+		8A62D1F11B93376A00F4B744 /* m_tank.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_tank.h; path = ../xatrix/m_tank.h; sourceTree = "<group>"; };
+		8A62D1F21B93376A00F4B744 /* p_client.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_client.c; path = ../xatrix/p_client.c; sourceTree = "<group>"; };
+		8A62D1F31B93376A00F4B744 /* p_hud.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_hud.c; path = ../xatrix/p_hud.c; sourceTree = "<group>"; };
+		8A62D1F41B93376A00F4B744 /* p_trail.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_trail.c; path = ../xatrix/p_trail.c; sourceTree = "<group>"; };
+		8A62D1F51B93376A00F4B744 /* p_view.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_view.c; path = ../xatrix/p_view.c; sourceTree = "<group>"; };
+		8A62D1F61B93376A00F4B744 /* p_weapon.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_weapon.c; path = ../xatrix/p_weapon.c; sourceTree = "<group>"; };
+		8A62D1F71B93376A00F4B744 /* q_shared.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = q_shared.c; path = ../xatrix/q_shared.c; sourceTree = "<group>"; };
+		8A62D1F81B93376A00F4B744 /* q_shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = q_shared.h; path = ../xatrix/q_shared.h; sourceTree = "<group>"; };
 		D2075FEA1529646A00F14280 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = "Resources/Quake II/English.lproj/ServicesMenu.strings"; sourceTree = "<group>"; };
 		D2075FED1529649700F14280 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = "Resources/Quake II/Swedish.lproj/ServicesMenu.strings"; sourceTree = "<group>"; };
 		D2075FEF152964A800F14280 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = "Resources/Quake II/German.lproj/ServicesMenu.strings"; sourceTree = "<group>"; };
@@ -570,6 +704,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8A62D1A01B93372400F4B744 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2C835961529122500867DFC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -629,6 +770,142 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A62D1A71B93374500F4B744 /* Xatrix */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1F91B93377B00F4B744 /* Game */,
+				8A62D1FD1B93382000F4B744 /* Misc */,
+				8A62D1FA1B93379100F4B744 /* Monsters */,
+				8A62D1FE1B93383000F4B744 /* Player */,
+			);
+			name = Xatrix;
+			sourceTree = "<group>";
+		};
+		8A62D1F91B93377B00F4B744 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1FB1B9337C700F4B744 /* Headers */,
+				8A62D1A81B93376A00F4B744 /* g_ai.c */,
+				8A62D1A91B93376A00F4B744 /* g_chase.c */,
+				8A62D1AA1B93376A00F4B744 /* g_cmds.c */,
+				8A62D1AB1B93376A00F4B744 /* g_combat.c */,
+				8A62D1AC1B93376A00F4B744 /* g_func.c */,
+				8A62D1AD1B93376A00F4B744 /* g_items.c */,
+				8A62D1AE1B93376A00F4B744 /* g_local.h */,
+				8A62D1AF1B93376A00F4B744 /* g_main.c */,
+				8A62D1B01B93376A00F4B744 /* g_misc.c */,
+				8A62D1B11B93376A00F4B744 /* g_monster.c */,
+				8A62D1B21B93376A00F4B744 /* g_phys.c */,
+				8A62D1B31B93376A00F4B744 /* g_save.c */,
+				8A62D1B41B93376A00F4B744 /* g_spawn.c */,
+				8A62D1B51B93376A00F4B744 /* g_svcmds.c */,
+				8A62D1B61B93376A00F4B744 /* g_target.c */,
+				8A62D1B71B93376A00F4B744 /* g_trigger.c */,
+				8A62D1B81B93376A00F4B744 /* g_turret.c */,
+				8A62D1B91B93376A00F4B744 /* g_utils.c */,
+				8A62D1BA1B93376A00F4B744 /* g_weapon.c */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
+		8A62D1FA1B93379100F4B744 /* Monsters */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1FC1B93380600F4B744 /* Headers */,
+				8A62D1BC1B93376A00F4B744 /* m_actor.c */,
+				8A62D1BE1B93376A00F4B744 /* m_berserk.c */,
+				8A62D1C01B93376A00F4B744 /* m_boss2.c */,
+				8A62D1C21B93376A00F4B744 /* m_boss3.c */,
+				8A62D1C31B93376A00F4B744 /* m_boss5.c */,
+				8A62D1C41B93376A00F4B744 /* m_boss31.c */,
+				8A62D1C61B93376A00F4B744 /* m_boss32.c */,
+				8A62D1C81B93376A00F4B744 /* m_brain.c */,
+				8A62D1CA1B93376A00F4B744 /* m_chick.c */,
+				8A62D1CC1B93376A00F4B744 /* m_fixbot.c */,
+				8A62D1CE1B93376A00F4B744 /* m_flash.c */,
+				8A62D1CF1B93376A00F4B744 /* m_flipper.c */,
+				8A62D1D11B93376A00F4B744 /* m_float.c */,
+				8A62D1D31B93376A00F4B744 /* m_flyer.c */,
+				8A62D1D51B93376A00F4B744 /* m_gekk.c */,
+				8A62D1D71B93376A00F4B744 /* m_gladb.c */,
+				8A62D1D81B93376A00F4B744 /* m_gladiator.c */,
+				8A62D1DA1B93376A00F4B744 /* m_gunner.c */,
+				8A62D1DC1B93376A00F4B744 /* m_hover.c */,
+				8A62D1DE1B93376A00F4B744 /* m_infantry.c */,
+				8A62D1E01B93376A00F4B744 /* m_insane.c */,
+				8A62D1E21B93376A00F4B744 /* m_medic.c */,
+				8A62D1E41B93376A00F4B744 /* m_move.c */,
+				8A62D1E51B93376A00F4B744 /* m_mutant.c */,
+				8A62D1E71B93376A00F4B744 /* m_parasite.c */,
+				8A62D1EB1B93376A00F4B744 /* m_soldier.c */,
+				8A62D1EE1B93376A00F4B744 /* m_supertank.c */,
+				8A62D1F01B93376A00F4B744 /* m_tank.c */,
+			);
+			name = Monsters;
+			sourceTree = "<group>";
+		};
+		8A62D1FB1B9337C700F4B744 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1BB1B93376A00F4B744 /* game.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8A62D1FC1B93380600F4B744 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1BD1B93376A00F4B744 /* m_actor.h */,
+				8A62D1BF1B93376A00F4B744 /* m_berserk.h */,
+				8A62D1C11B93376A00F4B744 /* m_boss2.h */,
+				8A62D1C51B93376A00F4B744 /* m_boss31.h */,
+				8A62D1C71B93376A00F4B744 /* m_boss32.h */,
+				8A62D1C91B93376A00F4B744 /* m_brain.h */,
+				8A62D1CB1B93376A00F4B744 /* m_chick.h */,
+				8A62D1CD1B93376A00F4B744 /* m_fixbot.h */,
+				8A62D1D01B93376A00F4B744 /* m_flipper.h */,
+				8A62D1D21B93376A00F4B744 /* m_float.h */,
+				8A62D1D41B93376A00F4B744 /* m_flyer.h */,
+				8A62D1D61B93376A00F4B744 /* m_gekk.h */,
+				8A62D1D91B93376A00F4B744 /* m_gladiator.h */,
+				8A62D1DB1B93376A00F4B744 /* m_gunner.h */,
+				8A62D1DD1B93376A00F4B744 /* m_hover.h */,
+				8A62D1DF1B93376A00F4B744 /* m_infantry.h */,
+				8A62D1E11B93376A00F4B744 /* m_insane.h */,
+				8A62D1E31B93376A00F4B744 /* m_medic.h */,
+				8A62D1E61B93376A00F4B744 /* m_mutant.h */,
+				8A62D1E81B93376A00F4B744 /* m_parasite.h */,
+				8A62D1E91B93376A00F4B744 /* m_player.h */,
+				8A62D1EA1B93376A00F4B744 /* m_rider.h */,
+				8A62D1EC1B93376A00F4B744 /* m_soldier.h */,
+				8A62D1ED1B93376A00F4B744 /* m_soldierh.h */,
+				8A62D1EF1B93376A00F4B744 /* m_supertank.h */,
+				8A62D1F11B93376A00F4B744 /* m_tank.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8A62D1FD1B93382000F4B744 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1F71B93376A00F4B744 /* q_shared.c */,
+				8A62D1F81B93376A00F4B744 /* q_shared.h */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
+		8A62D1FE1B93383000F4B744 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1F21B93376A00F4B744 /* p_client.c */,
+				8A62D1F31B93376A00F4B744 /* p_hud.c */,
+				8A62D1F41B93376A00F4B744 /* p_trail.c */,
+				8A62D1F51B93376A00F4B744 /* p_view.c */,
+				8A62D1F61B93376A00F4B744 /* p_weapon.c */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
 		D2AD4EC117EFFDA100DA8777 /* FDFramework */ = {
 			isa = PBXGroup;
 			children = (
@@ -701,6 +978,7 @@
 				D2C8366F1529437000867DFC /* Dedicated Server */,
 				D2C8368E152943FB00867DFC /* GameMac.q2plug */,
 				D2C837371529517500867DFC /* GameMac.q2plug */,
+				8A62D1A51B93372400F4B744 /* GameMac.q2plug */,
 				D2DF6DCB1529551C00B80579 /* ref_gl.q2plug */,
 				D2DF6E08152958A400B80579 /* ref_soft.q2plug */,
 			);
@@ -948,6 +1226,7 @@
 			children = (
 				D2C83664152942FF00867DFC /* Capture The Flag */,
 				D2C836651529430900867DFC /* Standard */,
+				8A62D1A71B93374500F4B744 /* Xatrix */,
 			);
 			name = "Game Modules";
 			sourceTree = "<group>";
@@ -1309,6 +1588,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8A62D16E1B93372400F4B744 /* Xatrix Module */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A62D1A21B93372400F4B744 /* Build configuration list for PBXNativeTarget "Xatrix Module" */;
+			buildPhases = (
+				8A62D16F1B93372400F4B744 /* Sources */,
+				8A62D1A01B93372400F4B744 /* Frameworks */,
+				8A62D1A11B93372400F4B744 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Xatrix Module";
+			productName = "Game Module";
+			productReference = 8A62D1A51B93372400F4B744 /* GameMac.q2plug */;
+			productType = "com.apple.product-type.bundle";
+		};
 		D2C835981529122500867DFC /* Quake II */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D2C835B71529122600867DFC /* Build configuration list for PBXNativeTarget "Quake II" */;
@@ -1439,6 +1735,7 @@
 				D2C8366E1529437000867DFC /* Dedicated Server */,
 				D2C837361529517500867DFC /* CTF Module */,
 				D2C8368D152943FB00867DFC /* Game Module */,
+				8A62D16E1B93372400F4B744 /* Xatrix Module */,
 				D2DF6DCA1529551C00B80579 /* GL Renderer Module */,
 				D2DF6E07152958A400B80579 /* SW Renderer Module */,
 			);
@@ -1446,6 +1743,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8A62D1A11B93372400F4B744 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2C835971529122500867DFC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1501,6 +1805,65 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8A62D16F1B93372400F4B744 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A62D1FF1B93385500F4B744 /* g_ai.c in Sources */,
+				8A62D2001B93385500F4B744 /* g_chase.c in Sources */,
+				8A62D2011B93385500F4B744 /* g_cmds.c in Sources */,
+				8A62D2021B93385500F4B744 /* g_combat.c in Sources */,
+				8A62D2031B93385500F4B744 /* g_func.c in Sources */,
+				8A62D2041B93385500F4B744 /* g_items.c in Sources */,
+				8A62D2051B93385500F4B744 /* g_main.c in Sources */,
+				8A62D2061B93385500F4B744 /* g_misc.c in Sources */,
+				8A62D2071B93385500F4B744 /* g_monster.c in Sources */,
+				8A62D2081B93385500F4B744 /* g_phys.c in Sources */,
+				8A62D2091B93385500F4B744 /* g_save.c in Sources */,
+				8A62D20A1B93385500F4B744 /* g_spawn.c in Sources */,
+				8A62D20B1B93385500F4B744 /* g_svcmds.c in Sources */,
+				8A62D20C1B93385500F4B744 /* g_target.c in Sources */,
+				8A62D20D1B93385500F4B744 /* g_trigger.c in Sources */,
+				8A62D20E1B93385500F4B744 /* g_turret.c in Sources */,
+				8A62D20F1B93385500F4B744 /* g_utils.c in Sources */,
+				8A62D2101B93385500F4B744 /* g_weapon.c in Sources */,
+				8A62D2111B93386200F4B744 /* m_actor.c in Sources */,
+				8A62D2121B93386200F4B744 /* m_berserk.c in Sources */,
+				8A62D2131B93386200F4B744 /* m_boss2.c in Sources */,
+				8A62D2141B93386200F4B744 /* m_boss3.c in Sources */,
+				8A62D2151B93386200F4B744 /* m_boss5.c in Sources */,
+				8A62D2161B93386200F4B744 /* m_boss31.c in Sources */,
+				8A62D2171B93386200F4B744 /* m_boss32.c in Sources */,
+				8A62D2181B93386200F4B744 /* m_brain.c in Sources */,
+				8A62D2191B93386200F4B744 /* m_chick.c in Sources */,
+				8A62D21A1B93386200F4B744 /* m_fixbot.c in Sources */,
+				8A62D21B1B93386200F4B744 /* m_flash.c in Sources */,
+				8A62D21C1B93386200F4B744 /* m_flipper.c in Sources */,
+				8A62D21D1B93386200F4B744 /* m_float.c in Sources */,
+				8A62D21E1B93386200F4B744 /* m_flyer.c in Sources */,
+				8A62D21F1B93386200F4B744 /* m_gekk.c in Sources */,
+				8A62D2201B93386200F4B744 /* m_gladb.c in Sources */,
+				8A62D2211B93386200F4B744 /* m_gladiator.c in Sources */,
+				8A62D2221B93386200F4B744 /* m_gunner.c in Sources */,
+				8A62D2231B93386200F4B744 /* m_hover.c in Sources */,
+				8A62D2241B93386200F4B744 /* m_infantry.c in Sources */,
+				8A62D2251B93386200F4B744 /* m_insane.c in Sources */,
+				8A62D2261B93386200F4B744 /* m_medic.c in Sources */,
+				8A62D2271B93386200F4B744 /* m_move.c in Sources */,
+				8A62D2281B93386200F4B744 /* m_mutant.c in Sources */,
+				8A62D2291B93386200F4B744 /* m_parasite.c in Sources */,
+				8A62D22A1B93386200F4B744 /* m_soldier.c in Sources */,
+				8A62D22B1B93386200F4B744 /* m_supertank.c in Sources */,
+				8A62D22C1B93386200F4B744 /* m_tank.c in Sources */,
+				8A62D22D1B93386800F4B744 /* q_shared.c in Sources */,
+				8A62D22E1B93386E00F4B744 /* p_client.c in Sources */,
+				8A62D22F1B93386E00F4B744 /* p_hud.c in Sources */,
+				8A62D2301B93386E00F4B744 /* p_trail.c in Sources */,
+				8A62D2311B93386E00F4B744 /* p_view.c in Sources */,
+				8A62D2321B93386E00F4B744 /* p_weapon.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2C835951529122500867DFC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1795,6 +2158,43 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8A62D1A31B93372400F4B744 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = QPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CLASSIC_VER_COMPATIBILITY,
+					C_ONLY,
+					"stricmp=strcasecmp",
+				);
+				INFOPLIST_FILE = "Resources/Xatrix Module/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = GameMac;
+				WRAPPER_EXTENSION = q2plug;
+			};
+			name = Debug;
+		};
+		8A62D1A41B93372400F4B744 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = QPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CLASSIC_VER_COMPATIBILITY,
+					C_ONLY,
+					"stricmp=strcasecmp",
+				);
+				INFOPLIST_FILE = "Resources/Xatrix Module/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = GameMac;
+				WRAPPER_EXTENSION = q2plug;
+			};
+			name = Release;
+		};
 		D2C835B51529122600867DFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2051,6 +2451,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8A62D1A21B93372400F4B744 /* Build configuration list for PBXNativeTarget "Xatrix Module" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A62D1A31B93372400F4B744 /* Debug */,
+				8A62D1A41B93372400F4B744 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D2C835931529122500867DFC /* Build configuration list for PBXProject "Quake II" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
