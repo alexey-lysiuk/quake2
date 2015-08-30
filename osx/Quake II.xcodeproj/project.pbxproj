@@ -59,6 +59,68 @@
 		8A62D2301B93386E00F4B744 /* p_trail.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F41B93376A00F4B744 /* p_trail.c */; };
 		8A62D2311B93386E00F4B744 /* p_view.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F51B93376A00F4B744 /* p_view.c */; };
 		8A62D2321B93386E00F4B744 /* p_weapon.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A62D1F61B93376A00F4B744 /* p_weapon.c */; };
+		8ADBC5D21B933E6F00246A42 /* g_ai.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5691B933D3900246A42 /* g_ai.c */; };
+		8ADBC5D31B933E6F00246A42 /* g_chase.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC56A1B933D3900246A42 /* g_chase.c */; };
+		8ADBC5D41B933E6F00246A42 /* g_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC56B1B933D3900246A42 /* g_cmds.c */; };
+		8ADBC5D51B933E6F00246A42 /* g_combat.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC56C1B933D3900246A42 /* g_combat.c */; };
+		8ADBC5D61B933E6F00246A42 /* g_func.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC56D1B933D3900246A42 /* g_func.c */; };
+		8ADBC5D71B933E6F00246A42 /* g_items.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC56E1B933D3900246A42 /* g_items.c */; };
+		8ADBC5D81B933E6F00246A42 /* g_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5701B933D3900246A42 /* g_main.c */; };
+		8ADBC5D91B933E6F00246A42 /* g_misc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5711B933D3900246A42 /* g_misc.c */; };
+		8ADBC5DA1B933E6F00246A42 /* g_monster.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5721B933D3900246A42 /* g_monster.c */; };
+		8ADBC5DB1B933E6F00246A42 /* g_newai.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5731B933D3900246A42 /* g_newai.c */; };
+		8ADBC5DC1B933E6F00246A42 /* g_newdm.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5741B933D3900246A42 /* g_newdm.c */; };
+		8ADBC5DD1B933E6F00246A42 /* g_newfnc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5751B933D3900246A42 /* g_newfnc.c */; };
+		8ADBC5DE1B933E6F00246A42 /* g_newtarg.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5761B933D3900246A42 /* g_newtarg.c */; };
+		8ADBC5DF1B933E6F00246A42 /* g_newtrig.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5771B933D3900246A42 /* g_newtrig.c */; };
+		8ADBC5E01B933E6F00246A42 /* g_newweap.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5781B933D3900246A42 /* g_newweap.c */; };
+		8ADBC5E11B933E6F00246A42 /* g_phys.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5791B933D3900246A42 /* g_phys.c */; };
+		8ADBC5E21B933E6F00246A42 /* g_save.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC57A1B933D3900246A42 /* g_save.c */; };
+		8ADBC5E31B933E6F00246A42 /* g_spawn.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC57B1B933D3900246A42 /* g_spawn.c */; };
+		8ADBC5E41B933E6F00246A42 /* g_sphere.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC57C1B933D3900246A42 /* g_sphere.c */; };
+		8ADBC5E51B933E6F00246A42 /* g_svcmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC57D1B933D3900246A42 /* g_svcmds.c */; };
+		8ADBC5E61B933E6F00246A42 /* g_target.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC57E1B933D3900246A42 /* g_target.c */; };
+		8ADBC5E71B933E6F00246A42 /* g_trigger.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC57F1B933D3900246A42 /* g_trigger.c */; };
+		8ADBC5E81B933E6F00246A42 /* g_turret.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5801B933D3900246A42 /* g_turret.c */; };
+		8ADBC5E91B933E6F00246A42 /* g_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5811B933D3900246A42 /* g_utils.c */; };
+		8ADBC5EA1B933E6F00246A42 /* g_weapon.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5821B933D3900246A42 /* g_weapon.c */; };
+		8ADBC5EB1B933E7C00246A42 /* dm_ball.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5671B933D3900246A42 /* dm_ball.c */; };
+		8ADBC5EC1B933E7C00246A42 /* dm_tag.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5681B933D3900246A42 /* dm_tag.c */; };
+		8ADBC5ED1B933E8A00246A42 /* m_actor.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5861B933D3900246A42 /* m_actor.c */; };
+		8ADBC5EE1B933E8A00246A42 /* m_berserk.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5881B933D3900246A42 /* m_berserk.c */; };
+		8ADBC5EF1B933E8A00246A42 /* m_boss2.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC58A1B933D3900246A42 /* m_boss2.c */; };
+		8ADBC5F01B933E8A00246A42 /* m_boss3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC58C1B933D3900246A42 /* m_boss3.c */; };
+		8ADBC5F11B933E8A00246A42 /* m_boss31.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC58D1B933D3900246A42 /* m_boss31.c */; };
+		8ADBC5F21B933E8A00246A42 /* m_boss32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC58F1B933D3900246A42 /* m_boss32.c */; };
+		8ADBC5F31B933E8A00246A42 /* m_brain.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5911B933D3900246A42 /* m_brain.c */; };
+		8ADBC5F41B933E8A00246A42 /* m_carrier.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5931B933D3900246A42 /* m_carrier.c */; };
+		8ADBC5F51B933E8A00246A42 /* m_chick.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5951B933D3900246A42 /* m_chick.c */; };
+		8ADBC5F61B933E8A00246A42 /* m_flash.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5971B933D3900246A42 /* m_flash.c */; };
+		8ADBC5F71B933E8A00246A42 /* m_flipper.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5981B933D3900246A42 /* m_flipper.c */; };
+		8ADBC5F81B933E8A00246A42 /* m_float.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC59A1B933D3900246A42 /* m_float.c */; };
+		8ADBC5F91B933E8A00246A42 /* m_flyer.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC59C1B933D3900246A42 /* m_flyer.c */; };
+		8ADBC5FA1B933E8A00246A42 /* m_gladiator.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC59E1B933D3900246A42 /* m_gladiator.c */; };
+		8ADBC5FB1B933E8A00246A42 /* m_gunner.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5A01B933D3900246A42 /* m_gunner.c */; };
+		8ADBC5FC1B933E8A00246A42 /* m_hover.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5A21B933D3900246A42 /* m_hover.c */; };
+		8ADBC5FD1B933E8A00246A42 /* m_infantry.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5A41B933D3900246A42 /* m_infantry.c */; };
+		8ADBC5FE1B933E8A00246A42 /* m_insane.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5A61B933D3900246A42 /* m_insane.c */; };
+		8ADBC5FF1B933E8A00246A42 /* m_medic.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5A81B933D3900246A42 /* m_medic.c */; };
+		8ADBC6001B933E8A00246A42 /* m_move.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5AA1B933D3900246A42 /* m_move.c */; };
+		8ADBC6021B933E8A00246A42 /* m_mutant.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5AC1B933D3900246A42 /* m_mutant.c */; };
+		8ADBC6031B933E8A00246A42 /* m_parasite.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5AE1B933D3900246A42 /* m_parasite.c */; };
+		8ADBC6041B933E8A00246A42 /* m_soldier.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5B21B933D3900246A42 /* m_soldier.c */; };
+		8ADBC6051B933E8A00246A42 /* m_stalker.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5B41B933D3900246A42 /* m_stalker.c */; };
+		8ADBC6061B933E8A00246A42 /* m_supertank.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5B61B933D3900246A42 /* m_supertank.c */; };
+		8ADBC6071B933E8A00246A42 /* m_tank.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5B81B933D3900246A42 /* m_tank.c */; };
+		8ADBC6081B933E8A00246A42 /* m_turret.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5BA1B933D3900246A42 /* m_turret.c */; };
+		8ADBC6091B933E8A00246A42 /* m_widow.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5BC1B933D3900246A42 /* m_widow.c */; };
+		8ADBC60A1B933E8A00246A42 /* m_widow2.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5BE1B933D3900246A42 /* m_widow2.c */; };
+		8ADBC60B1B933E9700246A42 /* p_client.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5C11B933D3900246A42 /* p_client.c */; };
+		8ADBC60C1B933E9700246A42 /* p_hud.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5C21B933D3900246A42 /* p_hud.c */; };
+		8ADBC60D1B933E9700246A42 /* p_trail.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5C31B933D3900246A42 /* p_trail.c */; };
+		8ADBC60E1B933E9700246A42 /* p_view.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5C41B933D3900246A42 /* p_view.c */; };
+		8ADBC60F1B933E9700246A42 /* p_weapon.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5C51B933D3900246A42 /* p_weapon.c */; };
+		8ADBC6101B933EA100246A42 /* q_shared.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ADBC5C61B933D3900246A42 /* q_shared.c */; };
 		D2075FEB1529646A00F14280 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2075FE91529646A00F14280 /* ServicesMenu.strings */; };
 		D2075FEE1529649700F14280 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2075FE91529646A00F14280 /* ServicesMenu.strings */; };
 		D2075FF0152964A800F14280 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2075FE91529646A00F14280 /* ServicesMenu.strings */; };
@@ -404,6 +466,101 @@
 		8A62D1F61B93376A00F4B744 /* p_weapon.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_weapon.c; path = ../xatrix/p_weapon.c; sourceTree = "<group>"; };
 		8A62D1F71B93376A00F4B744 /* q_shared.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = q_shared.c; path = ../xatrix/q_shared.c; sourceTree = "<group>"; };
 		8A62D1F81B93376A00F4B744 /* q_shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = q_shared.h; path = ../xatrix/q_shared.h; sourceTree = "<group>"; };
+		8ADBC5641B933C8400246A42 /* GameMac.q2plug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameMac.q2plug; sourceTree = BUILT_PRODUCTS_DIR; };
+		8ADBC5671B933D3900246A42 /* dm_ball.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dm_ball.c; path = ../rogue/dm_ball.c; sourceTree = "<group>"; };
+		8ADBC5681B933D3900246A42 /* dm_tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dm_tag.c; path = ../rogue/dm_tag.c; sourceTree = "<group>"; };
+		8ADBC5691B933D3900246A42 /* g_ai.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_ai.c; path = ../rogue/g_ai.c; sourceTree = "<group>"; };
+		8ADBC56A1B933D3900246A42 /* g_chase.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_chase.c; path = ../rogue/g_chase.c; sourceTree = "<group>"; };
+		8ADBC56B1B933D3900246A42 /* g_cmds.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_cmds.c; path = ../rogue/g_cmds.c; sourceTree = "<group>"; };
+		8ADBC56C1B933D3900246A42 /* g_combat.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_combat.c; path = ../rogue/g_combat.c; sourceTree = "<group>"; };
+		8ADBC56D1B933D3900246A42 /* g_func.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_func.c; path = ../rogue/g_func.c; sourceTree = "<group>"; };
+		8ADBC56E1B933D3900246A42 /* g_items.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_items.c; path = ../rogue/g_items.c; sourceTree = "<group>"; };
+		8ADBC56F1B933D3900246A42 /* g_local.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = g_local.h; path = ../rogue/g_local.h; sourceTree = "<group>"; };
+		8ADBC5701B933D3900246A42 /* g_main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_main.c; path = ../rogue/g_main.c; sourceTree = "<group>"; };
+		8ADBC5711B933D3900246A42 /* g_misc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_misc.c; path = ../rogue/g_misc.c; sourceTree = "<group>"; };
+		8ADBC5721B933D3900246A42 /* g_monster.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_monster.c; path = ../rogue/g_monster.c; sourceTree = "<group>"; };
+		8ADBC5731B933D3900246A42 /* g_newai.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_newai.c; path = ../rogue/g_newai.c; sourceTree = "<group>"; };
+		8ADBC5741B933D3900246A42 /* g_newdm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_newdm.c; path = ../rogue/g_newdm.c; sourceTree = "<group>"; };
+		8ADBC5751B933D3900246A42 /* g_newfnc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_newfnc.c; path = ../rogue/g_newfnc.c; sourceTree = "<group>"; };
+		8ADBC5761B933D3900246A42 /* g_newtarg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_newtarg.c; path = ../rogue/g_newtarg.c; sourceTree = "<group>"; };
+		8ADBC5771B933D3900246A42 /* g_newtrig.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_newtrig.c; path = ../rogue/g_newtrig.c; sourceTree = "<group>"; };
+		8ADBC5781B933D3900246A42 /* g_newweap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_newweap.c; path = ../rogue/g_newweap.c; sourceTree = "<group>"; };
+		8ADBC5791B933D3900246A42 /* g_phys.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_phys.c; path = ../rogue/g_phys.c; sourceTree = "<group>"; };
+		8ADBC57A1B933D3900246A42 /* g_save.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_save.c; path = ../rogue/g_save.c; sourceTree = "<group>"; };
+		8ADBC57B1B933D3900246A42 /* g_spawn.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_spawn.c; path = ../rogue/g_spawn.c; sourceTree = "<group>"; };
+		8ADBC57C1B933D3900246A42 /* g_sphere.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_sphere.c; path = ../rogue/g_sphere.c; sourceTree = "<group>"; };
+		8ADBC57D1B933D3900246A42 /* g_svcmds.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_svcmds.c; path = ../rogue/g_svcmds.c; sourceTree = "<group>"; };
+		8ADBC57E1B933D3900246A42 /* g_target.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_target.c; path = ../rogue/g_target.c; sourceTree = "<group>"; };
+		8ADBC57F1B933D3900246A42 /* g_trigger.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_trigger.c; path = ../rogue/g_trigger.c; sourceTree = "<group>"; };
+		8ADBC5801B933D3900246A42 /* g_turret.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_turret.c; path = ../rogue/g_turret.c; sourceTree = "<group>"; };
+		8ADBC5811B933D3900246A42 /* g_utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_utils.c; path = ../rogue/g_utils.c; sourceTree = "<group>"; };
+		8ADBC5821B933D3900246A42 /* g_weapon.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = g_weapon.c; path = ../rogue/g_weapon.c; sourceTree = "<group>"; };
+		8ADBC5851B933D3900246A42 /* game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = game.h; path = ../rogue/game.h; sourceTree = "<group>"; };
+		8ADBC5861B933D3900246A42 /* m_actor.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_actor.c; path = ../rogue/m_actor.c; sourceTree = "<group>"; };
+		8ADBC5871B933D3900246A42 /* m_actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_actor.h; path = ../rogue/m_actor.h; sourceTree = "<group>"; };
+		8ADBC5881B933D3900246A42 /* m_berserk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_berserk.c; path = ../rogue/m_berserk.c; sourceTree = "<group>"; };
+		8ADBC5891B933D3900246A42 /* m_berserk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_berserk.h; path = ../rogue/m_berserk.h; sourceTree = "<group>"; };
+		8ADBC58A1B933D3900246A42 /* m_boss2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss2.c; path = ../rogue/m_boss2.c; sourceTree = "<group>"; };
+		8ADBC58B1B933D3900246A42 /* m_boss2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_boss2.h; path = ../rogue/m_boss2.h; sourceTree = "<group>"; };
+		8ADBC58C1B933D3900246A42 /* m_boss3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss3.c; path = ../rogue/m_boss3.c; sourceTree = "<group>"; };
+		8ADBC58D1B933D3900246A42 /* m_boss31.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss31.c; path = ../rogue/m_boss31.c; sourceTree = "<group>"; };
+		8ADBC58E1B933D3900246A42 /* m_boss31.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_boss31.h; path = ../rogue/m_boss31.h; sourceTree = "<group>"; };
+		8ADBC58F1B933D3900246A42 /* m_boss32.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_boss32.c; path = ../rogue/m_boss32.c; sourceTree = "<group>"; };
+		8ADBC5901B933D3900246A42 /* m_boss32.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_boss32.h; path = ../rogue/m_boss32.h; sourceTree = "<group>"; };
+		8ADBC5911B933D3900246A42 /* m_brain.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_brain.c; path = ../rogue/m_brain.c; sourceTree = "<group>"; };
+		8ADBC5921B933D3900246A42 /* m_brain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_brain.h; path = ../rogue/m_brain.h; sourceTree = "<group>"; };
+		8ADBC5931B933D3900246A42 /* m_carrier.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_carrier.c; path = ../rogue/m_carrier.c; sourceTree = "<group>"; };
+		8ADBC5941B933D3900246A42 /* m_carrier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_carrier.h; path = ../rogue/m_carrier.h; sourceTree = "<group>"; };
+		8ADBC5951B933D3900246A42 /* m_chick.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_chick.c; path = ../rogue/m_chick.c; sourceTree = "<group>"; };
+		8ADBC5961B933D3900246A42 /* m_chick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_chick.h; path = ../rogue/m_chick.h; sourceTree = "<group>"; };
+		8ADBC5971B933D3900246A42 /* m_flash.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_flash.c; path = ../rogue/m_flash.c; sourceTree = "<group>"; };
+		8ADBC5981B933D3900246A42 /* m_flipper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_flipper.c; path = ../rogue/m_flipper.c; sourceTree = "<group>"; };
+		8ADBC5991B933D3900246A42 /* m_flipper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_flipper.h; path = ../rogue/m_flipper.h; sourceTree = "<group>"; };
+		8ADBC59A1B933D3900246A42 /* m_float.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_float.c; path = ../rogue/m_float.c; sourceTree = "<group>"; };
+		8ADBC59B1B933D3900246A42 /* m_float.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_float.h; path = ../rogue/m_float.h; sourceTree = "<group>"; };
+		8ADBC59C1B933D3900246A42 /* m_flyer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_flyer.c; path = ../rogue/m_flyer.c; sourceTree = "<group>"; };
+		8ADBC59D1B933D3900246A42 /* m_flyer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_flyer.h; path = ../rogue/m_flyer.h; sourceTree = "<group>"; };
+		8ADBC59E1B933D3900246A42 /* m_gladiator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_gladiator.c; path = ../rogue/m_gladiator.c; sourceTree = "<group>"; };
+		8ADBC59F1B933D3900246A42 /* m_gladiator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_gladiator.h; path = ../rogue/m_gladiator.h; sourceTree = "<group>"; };
+		8ADBC5A01B933D3900246A42 /* m_gunner.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_gunner.c; path = ../rogue/m_gunner.c; sourceTree = "<group>"; };
+		8ADBC5A11B933D3900246A42 /* m_gunner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_gunner.h; path = ../rogue/m_gunner.h; sourceTree = "<group>"; };
+		8ADBC5A21B933D3900246A42 /* m_hover.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_hover.c; path = ../rogue/m_hover.c; sourceTree = "<group>"; };
+		8ADBC5A31B933D3900246A42 /* m_hover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_hover.h; path = ../rogue/m_hover.h; sourceTree = "<group>"; };
+		8ADBC5A41B933D3900246A42 /* m_infantry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_infantry.c; path = ../rogue/m_infantry.c; sourceTree = "<group>"; };
+		8ADBC5A51B933D3900246A42 /* m_infantry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_infantry.h; path = ../rogue/m_infantry.h; sourceTree = "<group>"; };
+		8ADBC5A61B933D3900246A42 /* m_insane.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_insane.c; path = ../rogue/m_insane.c; sourceTree = "<group>"; };
+		8ADBC5A71B933D3900246A42 /* m_insane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_insane.h; path = ../rogue/m_insane.h; sourceTree = "<group>"; };
+		8ADBC5A81B933D3900246A42 /* m_medic.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_medic.c; path = ../rogue/m_medic.c; sourceTree = "<group>"; };
+		8ADBC5A91B933D3900246A42 /* m_medic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_medic.h; path = ../rogue/m_medic.h; sourceTree = "<group>"; };
+		8ADBC5AA1B933D3900246A42 /* m_move.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_move.c; path = ../rogue/m_move.c; sourceTree = "<group>"; };
+		8ADBC5AB1B933D3900246A42 /* m_move2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_move2.c; path = ../rogue/m_move2.c; sourceTree = "<group>"; };
+		8ADBC5AC1B933D3900246A42 /* m_mutant.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_mutant.c; path = ../rogue/m_mutant.c; sourceTree = "<group>"; };
+		8ADBC5AD1B933D3900246A42 /* m_mutant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_mutant.h; path = ../rogue/m_mutant.h; sourceTree = "<group>"; };
+		8ADBC5AE1B933D3900246A42 /* m_parasite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_parasite.c; path = ../rogue/m_parasite.c; sourceTree = "<group>"; };
+		8ADBC5AF1B933D3900246A42 /* m_parasite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_parasite.h; path = ../rogue/m_parasite.h; sourceTree = "<group>"; };
+		8ADBC5B01B933D3900246A42 /* m_player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_player.h; path = ../rogue/m_player.h; sourceTree = "<group>"; };
+		8ADBC5B11B933D3900246A42 /* m_rider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_rider.h; path = ../rogue/m_rider.h; sourceTree = "<group>"; };
+		8ADBC5B21B933D3900246A42 /* m_soldier.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_soldier.c; path = ../rogue/m_soldier.c; sourceTree = "<group>"; };
+		8ADBC5B31B933D3900246A42 /* m_soldier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_soldier.h; path = ../rogue/m_soldier.h; sourceTree = "<group>"; };
+		8ADBC5B41B933D3900246A42 /* m_stalker.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_stalker.c; path = ../rogue/m_stalker.c; sourceTree = "<group>"; };
+		8ADBC5B51B933D3900246A42 /* m_stalker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_stalker.h; path = ../rogue/m_stalker.h; sourceTree = "<group>"; };
+		8ADBC5B61B933D3900246A42 /* m_supertank.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_supertank.c; path = ../rogue/m_supertank.c; sourceTree = "<group>"; };
+		8ADBC5B71B933D3900246A42 /* m_supertank.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_supertank.h; path = ../rogue/m_supertank.h; sourceTree = "<group>"; };
+		8ADBC5B81B933D3900246A42 /* m_tank.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_tank.c; path = ../rogue/m_tank.c; sourceTree = "<group>"; };
+		8ADBC5B91B933D3900246A42 /* m_tank.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_tank.h; path = ../rogue/m_tank.h; sourceTree = "<group>"; };
+		8ADBC5BA1B933D3900246A42 /* m_turret.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_turret.c; path = ../rogue/m_turret.c; sourceTree = "<group>"; };
+		8ADBC5BB1B933D3900246A42 /* m_turret.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_turret.h; path = ../rogue/m_turret.h; sourceTree = "<group>"; };
+		8ADBC5BC1B933D3900246A42 /* m_widow.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_widow.c; path = ../rogue/m_widow.c; sourceTree = "<group>"; };
+		8ADBC5BD1B933D3900246A42 /* m_widow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_widow.h; path = ../rogue/m_widow.h; sourceTree = "<group>"; };
+		8ADBC5BE1B933D3900246A42 /* m_widow2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = m_widow2.c; path = ../rogue/m_widow2.c; sourceTree = "<group>"; };
+		8ADBC5BF1B933D3900246A42 /* m_widow2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = m_widow2.h; path = ../rogue/m_widow2.h; sourceTree = "<group>"; };
+		8ADBC5C11B933D3900246A42 /* p_client.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_client.c; path = ../rogue/p_client.c; sourceTree = "<group>"; };
+		8ADBC5C21B933D3900246A42 /* p_hud.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_hud.c; path = ../rogue/p_hud.c; sourceTree = "<group>"; };
+		8ADBC5C31B933D3900246A42 /* p_trail.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_trail.c; path = ../rogue/p_trail.c; sourceTree = "<group>"; };
+		8ADBC5C41B933D3900246A42 /* p_view.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_view.c; path = ../rogue/p_view.c; sourceTree = "<group>"; };
+		8ADBC5C51B933D3900246A42 /* p_weapon.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_weapon.c; path = ../rogue/p_weapon.c; sourceTree = "<group>"; };
+		8ADBC5C61B933D3900246A42 /* q_shared.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = q_shared.c; path = ../rogue/q_shared.c; sourceTree = "<group>"; };
+		8ADBC5C71B933D3900246A42 /* q_shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = q_shared.h; path = ../rogue/q_shared.h; sourceTree = "<group>"; };
 		D2075FEA1529646A00F14280 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = "Resources/Quake II/English.lproj/ServicesMenu.strings"; sourceTree = "<group>"; };
 		D2075FED1529649700F14280 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = "Resources/Quake II/Swedish.lproj/ServicesMenu.strings"; sourceTree = "<group>"; };
 		D2075FEF152964A800F14280 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = "Resources/Quake II/German.lproj/ServicesMenu.strings"; sourceTree = "<group>"; };
@@ -711,6 +868,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8ADBC55F1B933C8400246A42 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2C835961529122500867DFC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -791,7 +955,6 @@
 				8A62D1AB1B93376A00F4B744 /* g_combat.c */,
 				8A62D1AC1B93376A00F4B744 /* g_func.c */,
 				8A62D1AD1B93376A00F4B744 /* g_items.c */,
-				8A62D1AE1B93376A00F4B744 /* g_local.h */,
 				8A62D1AF1B93376A00F4B744 /* g_main.c */,
 				8A62D1B01B93376A00F4B744 /* g_misc.c */,
 				8A62D1B11B93376A00F4B744 /* g_monster.c */,
@@ -847,6 +1010,7 @@
 		8A62D1FB1B9337C700F4B744 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				8A62D1AE1B93376A00F4B744 /* g_local.h */,
 				8A62D1BB1B93376A00F4B744 /* game.h */,
 			);
 			name = Headers;
@@ -888,8 +1052,8 @@
 		8A62D1FD1B93382000F4B744 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				8ADBC5CB1B933D8000246A42 /* Headers */,
 				8A62D1F71B93376A00F4B744 /* q_shared.c */,
-				8A62D1F81B93376A00F4B744 /* q_shared.h */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -902,6 +1066,171 @@
 				8A62D1F41B93376A00F4B744 /* p_trail.c */,
 				8A62D1F51B93376A00F4B744 /* p_view.c */,
 				8A62D1F61B93376A00F4B744 /* p_weapon.c */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
+		8ADBC5661B933D2600246A42 /* Rogue */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC5CA1B933D5200246A42 /* Game */,
+				8ADBC5CF1B933E1E00246A42 /* Misc */,
+				8ADBC5CD1B933DE300246A42 /* Monsters */,
+				8ADBC5D11B933E5600246A42 /* Player */,
+			);
+			name = Rogue;
+			sourceTree = "<group>";
+		};
+		8ADBC5CA1B933D5200246A42 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC5CC1B933D9F00246A42 /* Headers */,
+				8ADBC5691B933D3900246A42 /* g_ai.c */,
+				8ADBC56A1B933D3900246A42 /* g_chase.c */,
+				8ADBC56B1B933D3900246A42 /* g_cmds.c */,
+				8ADBC56C1B933D3900246A42 /* g_combat.c */,
+				8ADBC56D1B933D3900246A42 /* g_func.c */,
+				8ADBC56E1B933D3900246A42 /* g_items.c */,
+				8ADBC5701B933D3900246A42 /* g_main.c */,
+				8ADBC5711B933D3900246A42 /* g_misc.c */,
+				8ADBC5721B933D3900246A42 /* g_monster.c */,
+				8ADBC5731B933D3900246A42 /* g_newai.c */,
+				8ADBC5741B933D3900246A42 /* g_newdm.c */,
+				8ADBC5751B933D3900246A42 /* g_newfnc.c */,
+				8ADBC5761B933D3900246A42 /* g_newtarg.c */,
+				8ADBC5771B933D3900246A42 /* g_newtrig.c */,
+				8ADBC5781B933D3900246A42 /* g_newweap.c */,
+				8ADBC5791B933D3900246A42 /* g_phys.c */,
+				8ADBC57A1B933D3900246A42 /* g_save.c */,
+				8ADBC57B1B933D3900246A42 /* g_spawn.c */,
+				8ADBC57C1B933D3900246A42 /* g_sphere.c */,
+				8ADBC57D1B933D3900246A42 /* g_svcmds.c */,
+				8ADBC57E1B933D3900246A42 /* g_target.c */,
+				8ADBC57F1B933D3900246A42 /* g_trigger.c */,
+				8ADBC5801B933D3900246A42 /* g_turret.c */,
+				8ADBC5811B933D3900246A42 /* g_utils.c */,
+				8ADBC5821B933D3900246A42 /* g_weapon.c */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
+		8ADBC5CB1B933D8000246A42 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8A62D1F81B93376A00F4B744 /* q_shared.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8ADBC5CC1B933D9F00246A42 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC56F1B933D3900246A42 /* g_local.h */,
+				8ADBC5851B933D3900246A42 /* game.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8ADBC5CD1B933DE300246A42 /* Monsters */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC5CE1B933E0800246A42 /* Headers */,
+				8ADBC5861B933D3900246A42 /* m_actor.c */,
+				8ADBC5881B933D3900246A42 /* m_berserk.c */,
+				8ADBC58A1B933D3900246A42 /* m_boss2.c */,
+				8ADBC58C1B933D3900246A42 /* m_boss3.c */,
+				8ADBC58D1B933D3900246A42 /* m_boss31.c */,
+				8ADBC58F1B933D3900246A42 /* m_boss32.c */,
+				8ADBC5911B933D3900246A42 /* m_brain.c */,
+				8ADBC5931B933D3900246A42 /* m_carrier.c */,
+				8ADBC5951B933D3900246A42 /* m_chick.c */,
+				8ADBC5971B933D3900246A42 /* m_flash.c */,
+				8ADBC5981B933D3900246A42 /* m_flipper.c */,
+				8ADBC59A1B933D3900246A42 /* m_float.c */,
+				8ADBC59C1B933D3900246A42 /* m_flyer.c */,
+				8ADBC59E1B933D3900246A42 /* m_gladiator.c */,
+				8ADBC5A01B933D3900246A42 /* m_gunner.c */,
+				8ADBC5A21B933D3900246A42 /* m_hover.c */,
+				8ADBC5A41B933D3900246A42 /* m_infantry.c */,
+				8ADBC5A61B933D3900246A42 /* m_insane.c */,
+				8ADBC5A81B933D3900246A42 /* m_medic.c */,
+				8ADBC5AA1B933D3900246A42 /* m_move.c */,
+				8ADBC5AB1B933D3900246A42 /* m_move2.c */,
+				8ADBC5AC1B933D3900246A42 /* m_mutant.c */,
+				8ADBC5AE1B933D3900246A42 /* m_parasite.c */,
+				8ADBC5B21B933D3900246A42 /* m_soldier.c */,
+				8ADBC5B41B933D3900246A42 /* m_stalker.c */,
+				8ADBC5B61B933D3900246A42 /* m_supertank.c */,
+				8ADBC5B81B933D3900246A42 /* m_tank.c */,
+				8ADBC5BA1B933D3900246A42 /* m_turret.c */,
+				8ADBC5BC1B933D3900246A42 /* m_widow.c */,
+				8ADBC5BE1B933D3900246A42 /* m_widow2.c */,
+			);
+			name = Monsters;
+			sourceTree = "<group>";
+		};
+		8ADBC5CE1B933E0800246A42 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC5871B933D3900246A42 /* m_actor.h */,
+				8ADBC5891B933D3900246A42 /* m_berserk.h */,
+				8ADBC58B1B933D3900246A42 /* m_boss2.h */,
+				8ADBC58E1B933D3900246A42 /* m_boss31.h */,
+				8ADBC5901B933D3900246A42 /* m_boss32.h */,
+				8ADBC5921B933D3900246A42 /* m_brain.h */,
+				8ADBC5941B933D3900246A42 /* m_carrier.h */,
+				8ADBC5961B933D3900246A42 /* m_chick.h */,
+				8ADBC5991B933D3900246A42 /* m_flipper.h */,
+				8ADBC59B1B933D3900246A42 /* m_float.h */,
+				8ADBC59D1B933D3900246A42 /* m_flyer.h */,
+				8ADBC59F1B933D3900246A42 /* m_gladiator.h */,
+				8ADBC5A11B933D3900246A42 /* m_gunner.h */,
+				8ADBC5A31B933D3900246A42 /* m_hover.h */,
+				8ADBC5A51B933D3900246A42 /* m_infantry.h */,
+				8ADBC5A71B933D3900246A42 /* m_insane.h */,
+				8ADBC5A91B933D3900246A42 /* m_medic.h */,
+				8ADBC5AD1B933D3900246A42 /* m_mutant.h */,
+				8ADBC5AF1B933D3900246A42 /* m_parasite.h */,
+				8ADBC5B01B933D3900246A42 /* m_player.h */,
+				8ADBC5B11B933D3900246A42 /* m_rider.h */,
+				8ADBC5B31B933D3900246A42 /* m_soldier.h */,
+				8ADBC5B51B933D3900246A42 /* m_stalker.h */,
+				8ADBC5B71B933D3900246A42 /* m_supertank.h */,
+				8ADBC5B91B933D3900246A42 /* m_tank.h */,
+				8ADBC5BB1B933D3900246A42 /* m_turret.h */,
+				8ADBC5BD1B933D3900246A42 /* m_widow.h */,
+				8ADBC5BF1B933D3900246A42 /* m_widow2.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8ADBC5CF1B933E1E00246A42 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC5D01B933E2400246A42 /* Headers */,
+				8ADBC5671B933D3900246A42 /* dm_ball.c */,
+				8ADBC5681B933D3900246A42 /* dm_tag.c */,
+				8ADBC5C61B933D3900246A42 /* q_shared.c */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
+		8ADBC5D01B933E2400246A42 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC5C71B933D3900246A42 /* q_shared.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8ADBC5D11B933E5600246A42 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				8ADBC5C11B933D3900246A42 /* p_client.c */,
+				8ADBC5C21B933D3900246A42 /* p_hud.c */,
+				8ADBC5C31B933D3900246A42 /* p_trail.c */,
+				8ADBC5C41B933D3900246A42 /* p_view.c */,
+				8ADBC5C51B933D3900246A42 /* p_weapon.c */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -979,6 +1308,7 @@
 				D2C8368E152943FB00867DFC /* GameMac.q2plug */,
 				D2C837371529517500867DFC /* GameMac.q2plug */,
 				8A62D1A51B93372400F4B744 /* GameMac.q2plug */,
+				8ADBC5641B933C8400246A42 /* GameMac.q2plug */,
 				D2DF6DCB1529551C00B80579 /* ref_gl.q2plug */,
 				D2DF6E08152958A400B80579 /* ref_soft.q2plug */,
 			);
@@ -1227,6 +1557,7 @@
 				D2C83664152942FF00867DFC /* Capture The Flag */,
 				D2C836651529430900867DFC /* Standard */,
 				8A62D1A71B93374500F4B744 /* Xatrix */,
+				8ADBC5661B933D2600246A42 /* Rogue */,
 			);
 			name = "Game Modules";
 			sourceTree = "<group>";
@@ -1605,6 +1936,23 @@
 			productReference = 8A62D1A51B93372400F4B744 /* GameMac.q2plug */;
 			productType = "com.apple.product-type.bundle";
 		};
+		8ADBC52D1B933C8400246A42 /* Rogue Module */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8ADBC5611B933C8400246A42 /* Build configuration list for PBXNativeTarget "Rogue Module" */;
+			buildPhases = (
+				8ADBC52E1B933C8400246A42 /* Sources */,
+				8ADBC55F1B933C8400246A42 /* Frameworks */,
+				8ADBC5601B933C8400246A42 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Rogue Module";
+			productName = "Game Module";
+			productReference = 8ADBC5641B933C8400246A42 /* GameMac.q2plug */;
+			productType = "com.apple.product-type.bundle";
+		};
 		D2C835981529122500867DFC /* Quake II */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D2C835B71529122600867DFC /* Build configuration list for PBXNativeTarget "Quake II" */;
@@ -1736,6 +2084,7 @@
 				D2C837361529517500867DFC /* CTF Module */,
 				D2C8368D152943FB00867DFC /* Game Module */,
 				8A62D16E1B93372400F4B744 /* Xatrix Module */,
+				8ADBC52D1B933C8400246A42 /* Rogue Module */,
 				D2DF6DCA1529551C00B80579 /* GL Renderer Module */,
 				D2DF6E07152958A400B80579 /* SW Renderer Module */,
 			);
@@ -1744,6 +2093,13 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		8A62D1A11B93372400F4B744 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8ADBC5601B933C8400246A42 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1861,6 +2217,75 @@
 				8A62D2301B93386E00F4B744 /* p_trail.c in Sources */,
 				8A62D2311B93386E00F4B744 /* p_view.c in Sources */,
 				8A62D2321B93386E00F4B744 /* p_weapon.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8ADBC52E1B933C8400246A42 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ADBC5EB1B933E7C00246A42 /* dm_ball.c in Sources */,
+				8ADBC5EC1B933E7C00246A42 /* dm_tag.c in Sources */,
+				8ADBC5D21B933E6F00246A42 /* g_ai.c in Sources */,
+				8ADBC5D31B933E6F00246A42 /* g_chase.c in Sources */,
+				8ADBC5D41B933E6F00246A42 /* g_cmds.c in Sources */,
+				8ADBC5D51B933E6F00246A42 /* g_combat.c in Sources */,
+				8ADBC5D61B933E6F00246A42 /* g_func.c in Sources */,
+				8ADBC5D71B933E6F00246A42 /* g_items.c in Sources */,
+				8ADBC5D81B933E6F00246A42 /* g_main.c in Sources */,
+				8ADBC5D91B933E6F00246A42 /* g_misc.c in Sources */,
+				8ADBC5DA1B933E6F00246A42 /* g_monster.c in Sources */,
+				8ADBC5DB1B933E6F00246A42 /* g_newai.c in Sources */,
+				8ADBC5DC1B933E6F00246A42 /* g_newdm.c in Sources */,
+				8ADBC5DD1B933E6F00246A42 /* g_newfnc.c in Sources */,
+				8ADBC5DE1B933E6F00246A42 /* g_newtarg.c in Sources */,
+				8ADBC5DF1B933E6F00246A42 /* g_newtrig.c in Sources */,
+				8ADBC5E01B933E6F00246A42 /* g_newweap.c in Sources */,
+				8ADBC5E11B933E6F00246A42 /* g_phys.c in Sources */,
+				8ADBC5E21B933E6F00246A42 /* g_save.c in Sources */,
+				8ADBC5E31B933E6F00246A42 /* g_spawn.c in Sources */,
+				8ADBC5E41B933E6F00246A42 /* g_sphere.c in Sources */,
+				8ADBC5E51B933E6F00246A42 /* g_svcmds.c in Sources */,
+				8ADBC5E61B933E6F00246A42 /* g_target.c in Sources */,
+				8ADBC5E71B933E6F00246A42 /* g_trigger.c in Sources */,
+				8ADBC5E81B933E6F00246A42 /* g_turret.c in Sources */,
+				8ADBC5E91B933E6F00246A42 /* g_utils.c in Sources */,
+				8ADBC5EA1B933E6F00246A42 /* g_weapon.c in Sources */,
+				8ADBC5ED1B933E8A00246A42 /* m_actor.c in Sources */,
+				8ADBC5EE1B933E8A00246A42 /* m_berserk.c in Sources */,
+				8ADBC5EF1B933E8A00246A42 /* m_boss2.c in Sources */,
+				8ADBC5F01B933E8A00246A42 /* m_boss3.c in Sources */,
+				8ADBC5F11B933E8A00246A42 /* m_boss31.c in Sources */,
+				8ADBC5F21B933E8A00246A42 /* m_boss32.c in Sources */,
+				8ADBC5F31B933E8A00246A42 /* m_brain.c in Sources */,
+				8ADBC5F41B933E8A00246A42 /* m_carrier.c in Sources */,
+				8ADBC5F51B933E8A00246A42 /* m_chick.c in Sources */,
+				8ADBC5F61B933E8A00246A42 /* m_flash.c in Sources */,
+				8ADBC5F71B933E8A00246A42 /* m_flipper.c in Sources */,
+				8ADBC5F81B933E8A00246A42 /* m_float.c in Sources */,
+				8ADBC5F91B933E8A00246A42 /* m_flyer.c in Sources */,
+				8ADBC5FA1B933E8A00246A42 /* m_gladiator.c in Sources */,
+				8ADBC5FB1B933E8A00246A42 /* m_gunner.c in Sources */,
+				8ADBC5FC1B933E8A00246A42 /* m_hover.c in Sources */,
+				8ADBC5FD1B933E8A00246A42 /* m_infantry.c in Sources */,
+				8ADBC5FE1B933E8A00246A42 /* m_insane.c in Sources */,
+				8ADBC5FF1B933E8A00246A42 /* m_medic.c in Sources */,
+				8ADBC6001B933E8A00246A42 /* m_move.c in Sources */,
+				8ADBC6021B933E8A00246A42 /* m_mutant.c in Sources */,
+				8ADBC6031B933E8A00246A42 /* m_parasite.c in Sources */,
+				8ADBC6041B933E8A00246A42 /* m_soldier.c in Sources */,
+				8ADBC6051B933E8A00246A42 /* m_stalker.c in Sources */,
+				8ADBC6061B933E8A00246A42 /* m_supertank.c in Sources */,
+				8ADBC6071B933E8A00246A42 /* m_tank.c in Sources */,
+				8ADBC6081B933E8A00246A42 /* m_turret.c in Sources */,
+				8ADBC6091B933E8A00246A42 /* m_widow.c in Sources */,
+				8ADBC60A1B933E8A00246A42 /* m_widow2.c in Sources */,
+				8ADBC60B1B933E9700246A42 /* p_client.c in Sources */,
+				8ADBC60C1B933E9700246A42 /* p_hud.c in Sources */,
+				8ADBC60D1B933E9700246A42 /* p_trail.c in Sources */,
+				8ADBC60E1B933E9700246A42 /* p_view.c in Sources */,
+				8ADBC60F1B933E9700246A42 /* p_weapon.c in Sources */,
+				8ADBC6101B933EA100246A42 /* q_shared.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2195,6 +2620,41 @@
 			};
 			name = Release;
 		};
+		8ADBC5621B933C8400246A42 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = QPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CLASSIC_VER_COMPATIBILITY,
+					C_ONLY,
+				);
+				INFOPLIST_FILE = "Resources/Rogue Module/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = GameMac;
+				WRAPPER_EXTENSION = q2plug;
+			};
+			name = Debug;
+		};
+		8ADBC5631B933C8400246A42 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = QPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CLASSIC_VER_COMPATIBILITY,
+					C_ONLY,
+				);
+				INFOPLIST_FILE = "Resources/Rogue Module/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = GameMac;
+				WRAPPER_EXTENSION = q2plug;
+			};
+			name = Release;
+		};
 		D2C835B51529122600867DFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2456,6 +2916,15 @@
 			buildConfigurations = (
 				8A62D1A31B93372400F4B744 /* Debug */,
 				8A62D1A41B93372400F4B744 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8ADBC5611B933C8400246A42 /* Build configuration list for PBXNativeTarget "Rogue Module" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8ADBC5621B933C8400246A42 /* Debug */,
+				8ADBC5631B933C8400246A42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

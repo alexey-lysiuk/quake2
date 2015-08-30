@@ -22,11 +22,15 @@
 //==================================================================
 
 #ifndef _WIN32
+#ifndef __APPLE__
 #include <nan.h>
+#endif // __APPLE__
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #define max(a,b) ((a) > (b) ? (a) : (b))
 #ifdef __sun__
 #define _isnan(a) (NaN((a)))
+#elif defined __APPLE__
+#define _isnan(a) (isnan((a)))
 #else
 #define _isnan(a) ((a)==NAN)
 #endif
