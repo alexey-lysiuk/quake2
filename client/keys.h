@@ -91,9 +91,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // mouse buttons generate virtual keys
 //
+#ifndef __APPLE__
 #define	K_MOUSE1		200
 #define	K_MOUSE2		201
 #define	K_MOUSE3		202
+#endif // !__APPLE__
 
 //
 // joystick buttons
@@ -142,6 +144,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define K_MWHEELDOWN	239
 #define K_MWHEELUP		240
+
+#ifdef __APPLE__
+#define	K_MOUSE1		241
+#define	K_MOUSE2		242
+#define	K_MOUSE3		243
+#define	K_MOUSE4		244
+#define	K_MOUSE5		245
+#endif // __APPLE__
+
 
 extern char		*keybindings[256];
 extern	int		key_repeats[256];
