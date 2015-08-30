@@ -56,6 +56,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	K_HOME			151
 #define	K_END			152
 
+#ifdef __APPLE__
+#define	K_F13			153
+#define	K_F14			154
+#define	K_F15			155
+#define K_CAPSLOCK		156
+#define K_NUMLOCK		157
+#define K_COMMAND		158
+#endif // __APPLE__
+
 #define K_KP_HOME		160
 #define K_KP_UPARROW	161
 #define K_KP_PGUP		162
@@ -71,6 +80,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define K_KP_SLASH		172
 #define K_KP_MINUS		173
 #define K_KP_PLUS		174
+
+#ifdef __APPLE__
+#define K_KP_MULT		175
+#define K_KP_EQUAL		176
+#endif // __APPLE__
 
 #define K_PAUSE			255
 

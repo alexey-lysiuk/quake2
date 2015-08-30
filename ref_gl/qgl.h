@@ -28,7 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #  include <windows.h>
 #endif
 
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else // !__APPLE__
 #include <GL/gl.h>
+#endif // __APPLE__
 
 #ifdef __linux__
 //#include <GL/fxmesa.h>
@@ -480,6 +484,11 @@ void Fake_glColorTableEXT( GLenum target, GLenum internalformat,
 #define GL_TEXTURE1_SGIS					0x835F
 #define GL_TEXTURE0_ARB						0x84C0
 #define GL_TEXTURE1_ARB						0x84C1
+
+#ifdef __APPLE__
+#undef GL_TEXTURE0
+#undef GL_TEXTURE1
+#endif // __APPLE__
 
 extern int GL_TEXTURE0, GL_TEXTURE1;
 

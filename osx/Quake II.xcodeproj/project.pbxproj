@@ -244,7 +244,6 @@
 		D2DF6E5215295E3000B80579 /* ref_soft.q2plug in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2DF6E08152958A400B80579 /* ref_soft.q2plug */; };
 		D2DF6E6C1529635E00B80579 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D2DF6E641529635E00B80579 /* Credits.rtf */; };
 		D2DF6E6E1529635E00B80579 /* Quake II.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = D2DF6E681529635E00B80579 /* Quake II.scriptTerminology */; };
-		D2DF6E6F1529635E00B80579 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2DF6E6A1529635E00B80579 /* ServicesMenu.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1455,7 +1454,6 @@
 				D2DF6E4E15295BB800B80579 /* Controller.nib in Resources */,
 				D2DF6E6C1529635E00B80579 /* Credits.rtf in Resources */,
 				D2DF6E6E1529635E00B80579 /* Quake II.scriptTerminology in Resources */,
-				D2DF6E6F1529635E00B80579 /* ServicesMenu.strings in Resources */,
 				D2075FEB1529646A00F14280 /* ServicesMenu.strings in Resources */,
 				D2075FEE1529649700F14280 /* ServicesMenu.strings in Resources */,
 				D2075FF0152964A800F14280 /* ServicesMenu.strings in Resources */,
@@ -1794,14 +1792,6 @@
 			name = "Quake II.scriptTerminology";
 			sourceTree = "<group>";
 		};
-		D2DF6E6A1529635E00B80579 /* ServicesMenu.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-			);
-			name = ServicesMenu.strings;
-			path = "/Users/awe/Documents/Development/q2source/quake2-3.21/macosx";
-			sourceTree = "<absolute>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1956,6 +1946,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					CLASSIC_VER_COMPATIBILITY,
 					C_ONLY,
+					"stricmp=strcasecmp",
 					"$(inherited)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
@@ -1976,6 +1967,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					CLASSIC_VER_COMPATIBILITY,
 					C_ONLY,
+					"stricmp=strcasecmp",
+					"$(inherited)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				INFOPLIST_FILE = "Resources/CTF Module/Info.plist";

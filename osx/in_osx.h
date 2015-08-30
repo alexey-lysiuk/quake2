@@ -15,3 +15,7 @@ extern UInt8		gInSpecialKey[];
 extern UInt8		gInNumPadKey[];
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#ifdef MAC_OS_X_VERSION_10_9
+typedef int32_t CGMouseDelta;
+#endif // MAC_OS_X_VERSION_10_9

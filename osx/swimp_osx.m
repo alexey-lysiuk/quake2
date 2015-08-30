@@ -58,6 +58,10 @@
 
 #pragma mark Variables
 
+#ifdef MAC_OS_X_VERSION_10_9
+typedef struct _CGDirectPaletteRef *CGDirectPaletteRef;
+#endif // MAC_OS_X_VERSION_10_9
+
 static Boolean				gVidFullscreen		= NO;
 static Quake2View *			gVidView			= NULL;
 static CGDirectPaletteRef 	gVidPalette			= NULL;
