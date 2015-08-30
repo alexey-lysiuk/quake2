@@ -155,6 +155,7 @@ io_connect_t IN_GetIOHandle (void)
 
 void	IN_SetKeyboardRepeatEnabled (BOOL theState)
 {
+/*
     static BOOL		myKeyboardRepeatEnabled = YES;
     static double	myOriginalKeyboardRepeatInterval;
     static double	myOriginalKeyboardRepeatThreshold;
@@ -182,6 +183,7 @@ void	IN_SetKeyboardRepeatEnabled (BOOL theState)
     
     NXCloseEventStatus (myEventStatus);
     myKeyboardRepeatEnabled = theState;
+*/
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
