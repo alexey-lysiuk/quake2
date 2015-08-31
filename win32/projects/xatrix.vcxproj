@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E321578C-FE49-4961-A4C5-A9991FA07461}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>xatrix</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="common.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="common.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)_$(Platform)\xatrix</OutDir>
+    <TargetName>gamex86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)_$(Platform)\xatrix</OutDir>
+    <TargetName>gamex64</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)_$(Platform)\xatrix</OutDir>
+    <TargetName>gamex86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)_$(Platform)\xatrix</OutDir>
+    <TargetName>gamex64</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>..\..\xatrix\xatrix.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>..\..\xatrix\xatrix.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>..\..\xatrix\xatrix.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>..\..\xatrix\xatrix.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\xatrix\g_ai.c" />
+    <ClCompile Include="..\..\xatrix\g_chase.c" />
+    <ClCompile Include="..\..\xatrix\g_cmds.c" />
+    <ClCompile Include="..\..\xatrix\g_combat.c" />
+    <ClCompile Include="..\..\xatrix\g_func.c" />
+    <ClCompile Include="..\..\xatrix\g_items.c" />
+    <ClCompile Include="..\..\xatrix\g_main.c" />
+    <ClCompile Include="..\..\xatrix\g_misc.c" />
+    <ClCompile Include="..\..\xatrix\g_monster.c" />
+    <ClCompile Include="..\..\xatrix\g_phys.c" />
+    <ClCompile Include="..\..\xatrix\g_save.c" />
+    <ClCompile Include="..\..\xatrix\g_spawn.c" />
+    <ClCompile Include="..\..\xatrix\g_svcmds.c" />
+    <ClCompile Include="..\..\xatrix\g_target.c" />
+    <ClCompile Include="..\..\xatrix\g_trigger.c" />
+    <ClCompile Include="..\..\xatrix\g_turret.c" />
+    <ClCompile Include="..\..\xatrix\g_utils.c" />
+    <ClCompile Include="..\..\xatrix\g_weapon.c" />
+    <ClCompile Include="..\..\xatrix\m_actor.c" />
+    <ClCompile Include="..\..\xatrix\m_berserk.c" />
+    <ClCompile Include="..\..\xatrix\m_boss2.c" />
+    <ClCompile Include="..\..\xatrix\m_boss3.c" />
+    <ClCompile Include="..\..\xatrix\m_boss31.c" />
+    <ClCompile Include="..\..\xatrix\m_boss32.c" />
+    <ClCompile Include="..\..\xatrix\m_boss5.c" />
+    <ClCompile Include="..\..\xatrix\m_brain.c" />
+    <ClCompile Include="..\..\xatrix\m_chick.c" />
+    <ClCompile Include="..\..\xatrix\m_fixbot.c" />
+    <ClCompile Include="..\..\xatrix\m_flash.c" />
+    <ClCompile Include="..\..\xatrix\m_flipper.c" />
+    <ClCompile Include="..\..\xatrix\m_float.c" />
+    <ClCompile Include="..\..\xatrix\m_flyer.c" />
+    <ClCompile Include="..\..\xatrix\m_gekk.c" />
+    <ClCompile Include="..\..\xatrix\m_gladb.c" />
+    <ClCompile Include="..\..\xatrix\m_gladiator.c" />
+    <ClCompile Include="..\..\xatrix\m_gunner.c" />
+    <ClCompile Include="..\..\xatrix\m_hover.c" />
+    <ClCompile Include="..\..\xatrix\m_infantry.c" />
+    <ClCompile Include="..\..\xatrix\m_insane.c" />
+    <ClCompile Include="..\..\xatrix\m_medic.c" />
+    <ClCompile Include="..\..\xatrix\m_move.c" />
+    <ClCompile Include="..\..\xatrix\m_mutant.c" />
+    <ClCompile Include="..\..\xatrix\m_parasite.c" />
+    <ClCompile Include="..\..\xatrix\m_soldier.c" />
+    <ClCompile Include="..\..\xatrix\m_supertank.c" />
+    <ClCompile Include="..\..\xatrix\m_tank.c" />
+    <ClCompile Include="..\..\xatrix\p_client.c" />
+    <ClCompile Include="..\..\xatrix\p_hud.c" />
+    <ClCompile Include="..\..\xatrix\p_trail.c" />
+    <ClCompile Include="..\..\xatrix\p_view.c" />
+    <ClCompile Include="..\..\xatrix\p_weapon.c" />
+    <ClCompile Include="..\..\xatrix\q_shared.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\xatrix\game.h" />
+    <ClInclude Include="..\..\xatrix\g_local.h" />
+    <ClInclude Include="..\..\xatrix\m_actor.h" />
+    <ClInclude Include="..\..\xatrix\m_berserk.h" />
+    <ClInclude Include="..\..\xatrix\m_boss2.h" />
+    <ClInclude Include="..\..\xatrix\m_boss31.h" />
+    <ClInclude Include="..\..\xatrix\m_boss32.h" />
+    <ClInclude Include="..\..\xatrix\m_brain.h" />
+    <ClInclude Include="..\..\xatrix\m_chick.h" />
+    <ClInclude Include="..\..\xatrix\m_fixbot.h" />
+    <ClInclude Include="..\..\xatrix\m_flipper.h" />
+    <ClInclude Include="..\..\xatrix\m_float.h" />
+    <ClInclude Include="..\..\xatrix\m_flyer.h" />
+    <ClInclude Include="..\..\xatrix\m_gekk.h" />
+    <ClInclude Include="..\..\xatrix\m_gladiator.h" />
+    <ClInclude Include="..\..\xatrix\m_gunner.h" />
+    <ClInclude Include="..\..\xatrix\m_hover.h" />
+    <ClInclude Include="..\..\xatrix\m_infantry.h" />
+    <ClInclude Include="..\..\xatrix\m_insane.h" />
+    <ClInclude Include="..\..\xatrix\m_medic.h" />
+    <ClInclude Include="..\..\xatrix\m_mutant.h" />
+    <ClInclude Include="..\..\xatrix\m_parasite.h" />
+    <ClInclude Include="..\..\xatrix\m_player.h" />
+    <ClInclude Include="..\..\xatrix\m_rider.h" />
+    <ClInclude Include="..\..\xatrix\m_soldier.h" />
+    <ClInclude Include="..\..\xatrix\m_soldierh.h" />
+    <ClInclude Include="..\..\xatrix\m_supertank.h" />
+    <ClInclude Include="..\..\xatrix\m_tank.h" />
+    <ClInclude Include="..\..\xatrix\q_shared.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\xatrix\xatrix.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
