@@ -1,0 +1,10 @@
+build/
+output/
+*.suo
+*.vcxproj.user
+
+baseq2/
+ctf/
+rogue/
+xatrix/
+zaero/
