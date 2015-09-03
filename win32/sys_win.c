@@ -663,7 +663,10 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 //			Con_Printf ("time:%5.2f - %5.2f = %5.2f\n", newtime, oldtime, time);
 
 		//	_controlfp( ~( _EM_ZERODIVIDE /*| _EM_INVALID*/ ), _MCW_EM );
+#ifndef _M_X64
+        // Changing of the floating point precision is not supported on x64
 		_controlfp( _PC_24, _MCW_PC );
+#endif // !_M_X64
 		Qcommon_Frame (time);
 
 		oldtime = newtime;
