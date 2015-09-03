@@ -479,6 +479,8 @@ void CL_SendCmd (void)
 	if (cls.state == ca_disconnected || cls.state == ca_connecting)
 		return;
 
+	SZ_Init (&buf, data, sizeof(data));
+
 	if ( cls.state == ca_connected)
 	{
 		if (cls.netchan.message.cursize	|| curtime - cls.netchan.last_sent > 1000 )
@@ -494,8 +496,6 @@ void CL_SendCmd (void)
 		MSG_WriteByte (&cls.netchan.message, clc_userinfo);
 		MSG_WriteString (&cls.netchan.message, Cvar_Userinfo() );
 	}
-
-	SZ_Init (&buf, data, sizeof(data));
 
 	if (cmd->buttons && cl.cinematictime > 0 && !cl.attractloop 
 		&& cls.realtime - cl.cinematictime > 1000)
