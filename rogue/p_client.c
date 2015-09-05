@@ -1377,6 +1377,8 @@ void PutClientInServer (edict_t *ent)
 	int		i;
 	client_persistant_t	saved;
 	client_respawn_t	resp;
+	// Knightmare- added fix to keep same player model
+    char				userinfo[MAX_INFO_STRING];
 
 	// find a spawn point
 	// do it before setting health back up, so farthest
@@ -1423,6 +1425,9 @@ void PutClientInServer (edict_t *ent)
 	{
 		memset (&resp, 0, sizeof(resp));
 	}
+	// Knightmare- added fix to keep same player model
+	memcpy (userinfo, client->pers.userinfo, sizeof(userinfo));
+	ClientUserinfoChanged (ent, userinfo);
 
 	// clear everything but the persistant data
 	saved = client->pers;
@@ -1554,6 +1559,10 @@ void PutClientInServer (edict_t *ent)
 	// force the current weapon up
 	client->newweapon = client->pers.weapon;
 	ChangeWeapon (ent);
+
+	// Knightmare- added Paril's fix for this getting reset after map changes
+	if (!ent->client->pers.connected)
+		ent->client->pers.connected = true;
 }
 
 /*

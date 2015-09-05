@@ -312,9 +312,9 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 	{
 		gi.WriteByte (svc_temp_entity);
 		// RAFAEL
-		//if (self->s.effects & TE_BLUEHYPERBLASTER)
-		//	gi.WriteByte (TE_BLUEHYPERBLASTER);
-		//else
+		if (self->s.effects & EF_BLUEHYPERBLASTER)	// Knightmare- this was checking bit TE_BLUEHYPERBLASTER
+			gi.WriteByte (TE_FLECHETTE);			// Knightmare- TE_BLUEHYPERBLASTER is broken (parse error) in most Q2 engines
+		else
 			gi.WriteByte (TE_BLASTER);
 		gi.WritePosition (self->s.origin);
 		if (!plane)
@@ -688,7 +688,7 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 	vec3_t		end;
 	trace_t		tr;
 	edict_t		*ignore;
-	int			mask;
+	int			mask, i=0;
 	qboolean	water;
 
 	VectorMA (start, 8192, aimdir, end);
@@ -696,7 +696,7 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 	ignore = self;
 	water = false;
 	mask = MASK_SHOT|CONTENTS_SLIME|CONTENTS_LAVA;
-	while (ignore)
+	while (ignore && i<256)	// Knightmare- fix infinite loop bug
 	{
 		tr = gi.trace (from, NULL, NULL, end, ignore, mask);
 
@@ -719,6 +719,7 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 		}
 
 		VectorCopy (tr.endpos, from);
+		i++;	// Knightmare added
 	}
 
 	// send gun puff / flash

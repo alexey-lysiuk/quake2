@@ -513,6 +513,8 @@ qboolean parasite_blocked (edict_t *self, float dist)
 
 	if(blocked_checkplat (self, dist))
 		return true;
+
+	return false;	// Knightmare- warning fix
 }
 //ROGUE
 //================
@@ -557,6 +559,7 @@ qboolean parasite_checkattack (edict_t *self)
 		self->monsterinfo.aiflags &= ~AI_BLOCKED;
 		return true;
 	}
+	return true;	// Knightmare- warning fix
 }
 
 
