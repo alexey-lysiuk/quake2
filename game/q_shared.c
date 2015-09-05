@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "q_shared.h"
 
-#define DEG2RAD( a ) ( a * M_PI ) / 180.0F
+//#define DEG2RAD( a ) ( a * M_PI ) / 180.0F
 
 vec3_t vec3_origin = {0,0,0};
 
@@ -1053,7 +1053,8 @@ char	*va(char *format, ...)
 	static char		string[1024];
 	
 	va_start (argptr, format);
-	vsprintf (string, format,argptr);
+//	vsprintf (string, format, argptr);
+	Q_vsnprintf (string, sizeof(string), format, argptr);
 	va_end (argptr);
 
 	return string;	
@@ -1226,8 +1227,9 @@ void Com_sprintf (char *dest, int size, char *fmt, ...)
 	va_list		argptr;
 	char	bigbuffer[0x10000];
 
-	va_start (argptr,fmt);
-	len = vsprintf (bigbuffer,fmt,argptr);
+	va_start (argptr, fmt);
+//	len = vsprintf (bigbuffer, fmt, argptr);
+	len = Q_vsnprintf (bigbuffer, sizeof(bigbuffer), fmt, argptr);
 	va_end (argptr);
 	if (len >= size)
 		Com_Printf ("Com_sprintf: overflow of %i in %i\n", len, size);

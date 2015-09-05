@@ -295,7 +295,6 @@ void GL_DrawAliasFrameLerp (dmdl_t *paliashdr, float backlerp)
 }
 
 
-#if 1
 /*
 =============
 GL_DrawAliasShadow
@@ -303,7 +302,7 @@ GL_DrawAliasShadow
 */
 extern	vec3_t			lightspot;
 
-void GL_DrawAliasShadow (dmdl_t *paliashdr, int posenum)
+void GL_DrawAliasShadow (entity_t *e, dmdl_t *paliashdr, int posenum)
 {
 	dtrivertx_t	*verts;
 	int		*order;
@@ -318,11 +317,32 @@ void GL_DrawAliasShadow (dmdl_t *paliashdr, int posenum)
 		+ currententity->frame * paliashdr->framesize);
 	verts = frame->verts;
 
-	height = 0;
-
+//	height = 0;
 	order = (int *)((byte *)paliashdr + paliashdr->ofs_glcmds);
+	height = -lheight + 0.1f; // was 1.0f, lowered shadows to ground more - MrG
 
-	height = -lheight + 1.0;
+	// Knightmare- don't draw shadow above entity
+	if ((currententity->origin[2]+height) > currententity->origin[2])
+		return;
+
+	// Knightmare- don't draw shadows above view origin
+	if (r_newrefdef.vieworg[2] < (currententity->origin[2] + height))
+		return;
+
+	qglPushMatrix ();
+	R_RotateForEntity (e, false);
+	qglDisable (GL_TEXTURE_2D);
+	qglEnable (GL_BLEND);
+	qglColor4f (0, 0, 0, gl_shadowalpha->value); // was 0.5
+
+	// Knightmare- Stencil shadows by MrG
+	if (gl_config.have_stencil)
+	{
+		qglEnable(GL_STENCIL_TEST);
+		qglStencilFunc(GL_EQUAL, 1, 2);
+		qglStencilOp(GL_KEEP,GL_KEEP,GL_INCR);
+	}
+	// End Stencil shadows - MrG
 
 	while (1)
 	{
@@ -362,10 +382,18 @@ void GL_DrawAliasShadow (dmdl_t *paliashdr, int posenum)
 		} while (--count);
 
 		qglEnd ();
-	}	
+	}
+
+	// Knightmare- disable Stencil shadows
+	if (gl_config.have_stencil)
+		qglDisable(GL_STENCIL_TEST);
+	
+	qglColor4f (1,1,1,1);
+	qglEnable (GL_TEXTURE_2D);
+	qglDisable (GL_BLEND);
+	qglPopMatrix ();
 }
 
-#endif
 
 /*
 ** R_CullAliasModel
@@ -750,9 +778,11 @@ void R_DrawAliasModel (entity_t *e)
 	}
 
     qglPushMatrix ();
-	e->angles[PITCH] = -e->angles[PITCH];	// sigh.
-	R_RotateForEntity (e);
-	e->angles[PITCH] = -e->angles[PITCH];	// sigh.
+	e->angles[PITCH] = -e->angles[PITCH];				// sigh.
+	e->angles[ROLL] = e->angles[ROLL] * R_RollMult();	// Knightmare- roll is backwards
+	R_RotateForEntity (e, true);
+	e->angles[PITCH] = -e->angles[PITCH];				// sigh.
+	e->angles[ROLL] = e->angles[ROLL] * R_RollMult();	// Knightmare- roll is backwards
 
 	// select skin
 	if (currententity->skin)
@@ -841,20 +871,20 @@ void R_DrawAliasModel (entity_t *e)
 	if (currententity->flags & RF_DEPTHHACK)
 		qglDepthRange (gldepthmin, gldepthmax);
 
-#if 1
 	if (gl_shadows->value && !(currententity->flags & (RF_TRANSLUCENT | RF_WEAPONMODEL)))
 	{
-		qglPushMatrix ();
-		R_RotateForEntity (e);
-		qglDisable (GL_TEXTURE_2D);
-		qglEnable (GL_BLEND);
-		qglColor4f (0,0,0,0.5);
-		GL_DrawAliasShadow (paliashdr, currententity->frame );
-		qglEnable (GL_TEXTURE_2D);
-		qglDisable (GL_BLEND);
-		qglPopMatrix ();
+	//	qglPushMatrix ();
+	//	R_RotateForEntity (e, false);
+	//	qglDisable (GL_TEXTURE_2D);
+	//	qglEnable (GL_BLEND);
+	//	qglColor4f (0, 0, 0, gl_shadowalpha->value); // was 0.5
+
+		GL_DrawAliasShadow (e, paliashdr, currententity->frame );
+
+	//	qglEnable (GL_TEXTURE_2D);
+	//	qglDisable (GL_BLEND);
+	//	qglPopMatrix ();
 	}
-#endif
 	qglColor4f (1,1,1,1);
 }
 

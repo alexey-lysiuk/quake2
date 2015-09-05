@@ -59,6 +59,20 @@ typedef enum {false, true}	qboolean;
 #define NULL ((void *)0)
 #endif
 
+#ifndef min
+#define min(a,b)        (((a) < (b)) ? (a) : (b))
+#endif
+#ifndef max
+#define max(a,b)        (((a) > (b)) ? (a) : (b))
+#endif
+
+// from Quake3 source
+#ifdef WIN32
+#define Q_vsnprintf _vsnprintf
+#else
+// TODO: do we need Mac define?
+#define Q_vsnprintf vsnprintf
+#endif
 
 // angle indexes
 #define	PITCH				0		// up / down
@@ -70,7 +84,7 @@ typedef enum {false, true}	qboolean;
 #define	MAX_TOKEN_CHARS		128		// max length of an individual token
 
 #define	MAX_QPATH			64		// max length of a quake game pathname
-#define	MAX_OSPATH			128		// max length of a filesystem pathname
+#define	MAX_OSPATH			256		// max length of a filesystem pathname
 
 //
 // per-level limits

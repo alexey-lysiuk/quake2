@@ -687,11 +687,14 @@ void ReadLevel (char *filename)
 
 	// check function pointer base address
 	fread (&base, sizeof(base), 1, f);
+
+/*	The __DATE__ check is sufficent for a version check.  This can fail sometimes.
 	if (base != (void *)InitGame)
 	{
 		fclose (f);
 		gi.error ("ReadLevel: function pointers have moved");
 	}
+*/
 
 	// load the level locals
 	ReadLevelLocals (f);

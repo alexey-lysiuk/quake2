@@ -123,7 +123,7 @@ SV_Configstrings_f
 */
 void SV_Configstrings_f (void)
 {
-	int			start;
+	int			startPos, start;
 
 	Com_DPrintf ("Configstrings() from %s\n", sv_client->name);
 
@@ -141,7 +141,15 @@ void SV_Configstrings_f (void)
 		return;
 	}
 	
-	start = atoi(Cmd_Argv(2));
+//	start = atoi(Cmd_Argv(2));
+	startPos = atoi(Cmd_Argv(2));
+	if (startPos < 0) // r1ch's fix for negative index
+	{
+		Com_Printf ("Illegal configstrings request (negative index) from %s[%s], dropping client\n", sv_client->name, NET_AdrToString(sv_client->netchan.remote_address));
+		SV_DropClient (sv_client);
+		return;
+	}
+	start = startPos;
 
 	// write a packet full of data
 
@@ -178,7 +186,7 @@ SV_Baselines_f
 */
 void SV_Baselines_f (void)
 {
-	int		start;
+	int				startPos, start;
 	entity_state_t	nullstate;
 	entity_state_t	*base;
 
@@ -198,7 +206,15 @@ void SV_Baselines_f (void)
 		return;
 	}
 	
-	start = atoi(Cmd_Argv(2));
+//	start = atoi(Cmd_Argv(2));
+	startPos = atoi(Cmd_Argv(2));
+	if (startPos < 0) // r1ch's fix for negative index
+	{
+		Com_Printf ("Illegal baselines request (negative index) from %s[%s], dropping client\n", sv_client->name, NET_AdrToString(sv_client->netchan.remote_address));
+		SV_DropClient (sv_client);
+		return;
+	}
+	start = startPos;
 
 	memset (&nullstate, 0, sizeof(nullstate));
 
@@ -299,14 +315,16 @@ void SV_NextDownload_f (void)
 SV_BeginDownload_f
 ==================
 */
-void SV_BeginDownload_f(void)
+void SV_BeginDownload_f (void)
 {
-	char	*name;
+	char	*name, *p;
 	extern	cvar_t *allow_download;
 	extern	cvar_t *allow_download_players;
 	extern	cvar_t *allow_download_models;
 	extern	cvar_t *allow_download_sounds;
 	extern	cvar_t *allow_download_maps;
+	size_t		length;
+	qboolean	valid;
 	extern	int		file_from_pak; // ZOID did file come from pak?
 	int offset = 0;
 
@@ -315,9 +333,51 @@ void SV_BeginDownload_f(void)
 	if (Cmd_Argc() > 2)
 		offset = atoi(Cmd_Argv(2)); // downloaded offset
 
+	// r1ch fix: name is always filtered for security reasons
+	StripHighBits (name, 1);
+
 	// hacked by zoid to allow more conrol over download
 	// first off, no .. or global allow check
-	if (strstr (name, "..") || !allow_download->value
+
+	// r1ch fix: for  some ./ references in maps, eg ./textures/map/file
+	length = strlen(name);
+	p = name;
+	while ((p = strstr (p, "./")))
+	{
+		memmove (p, p+2, length - (p - name) - 1);
+		length -= 2;
+	}
+
+	// r1ch fix: block the really nasty ones - \server.cfg will download from mod root on win32, .. is obvious
+	if (name[0] == '\\' || strstr (name, ".."))
+	{
+		Com_Printf ("Refusing illegal download path %s to %s\n", name, sv_client->name);
+		MSG_WriteByte (&sv_client->netchan.message, svc_download);
+		MSG_WriteShort (&sv_client->netchan.message, -1);
+		MSG_WriteByte (&sv_client->netchan.message, 0);
+		Com_Printf ("Client %s[%s] tried to download illegal path: %s\n", sv_client->name, NET_AdrToString (sv_client->netchan.remote_address), name);
+		SV_DropClient (sv_client);
+		return;
+	}
+	else if (offset < 0) // r1ch fix: negative offset will crash on read
+	{
+		Com_Printf ("Refusing illegal download offset %d to %s\n", offset, sv_client->name);
+		MSG_WriteByte (&sv_client->netchan.message, svc_download);
+		MSG_WriteShort (&sv_client->netchan.message, -1);
+		MSG_WriteByte (&sv_client->netchan.message, 0);
+		Com_Printf ("Client %s[%s] supplied illegal download offset for %s: %d\n", sv_client->name, NET_AdrToString (sv_client->netchan.remote_address), name, offset);
+		SV_DropClient (sv_client);
+		return;
+	}
+	else if ( !length || name[0] == 0 // empty name, maybe as result of ./ normalize
+			|| !IsValidChar(name[0])
+			// r1ch: \ is bad in general, client won't even write properly if we do sent it
+			|| strchr (name, '\\')
+			// MUST be in a subdirectory, unless a pk3	
+			|| (!strstr (name, "/") )
+			// r1ch: another bug, maps/. will fopen(".") -> crash
+			|| !IsValidChar(name[length-1]) )
+/*	if (strstr (name, "..") || !allow_download->value
 		// leading dot is no good
 		|| *name == '.' 
 		// leading slash bad as well, must be in subdir
@@ -331,7 +391,7 @@ void SV_BeginDownload_f(void)
 		// now maps (note special case for maps, must not be in pak)
 		|| (strncmp(name, "maps/", 6) == 0 && !allow_download_maps->value)
 		// MUST be in a subdirectory	
-		|| !strstr (name, "/") )	
+		|| !strstr (name, "/") )	*/
 	{	// don't allow anything with .. path
 		MSG_WriteByte (&sv_client->netchan.message, svc_download);
 		MSG_WriteShort (&sv_client->netchan.message, -1);
@@ -339,6 +399,22 @@ void SV_BeginDownload_f(void)
 		return;
 	}
 
+	valid = true;
+
+	if ( !allow_download->value
+		|| (strncmp(name, "players/", 8) == 0 && !allow_download_players->value)
+		|| (strncmp(name, "models/", 7) == 0 && !allow_download_models->value)
+		|| (strncmp(name, "sound/", 6) == 0 && !allow_download_sounds->value)
+		|| (strncmp(name, "maps/", 5) == 0 && !allow_download_maps->value) )
+		valid = false;
+
+	if (!valid)
+	{
+		MSG_WriteByte (&sv_client->netchan.message, svc_download);
+		MSG_WriteShort (&sv_client->netchan.message, -1);
+		MSG_WriteByte (&sv_client->netchan.message, 0);
+		return;
+	}
 
 	if (sv_client->download)
 		FS_FreeFile (sv_client->download);
@@ -478,7 +554,8 @@ void SV_ExecuteUserCommand (char *s)
 {
 	ucmd_t	*u;
 	
-	Cmd_TokenizeString (s, true);
+	Cmd_TokenizeString (s, false);	// Knightmare- password security fix, was true
+									// prevents players from reading rcon_password
 	sv_player = sv_client->edict;
 
 //	SV_BeginRedirect (RD_CLIENT);

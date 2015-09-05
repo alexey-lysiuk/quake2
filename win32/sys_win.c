@@ -73,7 +73,8 @@ void Sys_Error (char *error, ...)
 	Qcommon_Shutdown ();
 
 	va_start (argptr, error);
-	vsprintf (text, error, argptr);
+//	vsprintf (text, error, argptr);
+	Q_vsnprintf (text, sizeof(text), error, argptr);
 	va_end (argptr);
 
 	MessageBox(NULL, text, "Error", 0 /* MB_OK */ );
@@ -142,6 +143,8 @@ char *Sys_ScanForCD (void)
 	char		drive[4];
 	FILE		*f;
 	char		test[MAX_QPATH];
+	qboolean	missionpack = false; // Knightmare added
+	int			i; // Knightmare added
 
 	if (done)		// don't re-check
 		return cddir;
@@ -156,12 +159,29 @@ char *Sys_ScanForCD (void)
 
 	done = true;
 
+	// Knightmare- check if mission pack gamedir is set
+	for (i=0; i<argc; i++)
+		if (!strcmp(argv[i], "game") && (i+1<argc))
+		{
+			if (!strcmp(argv[i+1], "rogue") || !strcmp(argv[i+1], "xatrix"))
+				missionpack = true;
+			break; // game parameter only appears once in command line
+		}
+
 	// scan the drives
 	for (drive[0] = 'c' ; drive[0] <= 'z' ; drive[0]++)
 	{
 		// where activision put the stuff...
-		sprintf (cddir, "%sinstall\\data", drive);
-		sprintf (test, "%sinstall\\data\\quake2.exe", drive);
+		if (missionpack) // Knightmare- mission packs have cinematics in different path
+		{
+			Com_sprintf (cddir, sizeof(cddir), "%sdata\\max", drive);
+			Com_sprintf (test, sizeof(test), "%sdata\\patch\\quake2.exe", drive);
+		}
+		else
+		{
+			Com_sprintf (cddir, sizeof(cddir), "%sinstall\\data", drive);
+			Com_sprintf (test, sizeof(test), "%sinstall\\data\\quake2.exe", drive);
+		}
 		f = fopen(test, "r");
 		if (f)
 		{
@@ -363,6 +383,19 @@ void Sys_ConsoleOutput (char *string)
 
 	if (console_textlen)
 		WriteFile(houtput, console_text, console_textlen, &dummy, NULL);
+}
+
+
+/*
+================
+Sys_Sleep
+
+Knightmare- added this to fix CPU usage
+================
+*/
+void Sys_Sleep (int msec)
+{
+	Sleep (msec);
 }
 
 
@@ -598,6 +631,8 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     MSG				msg;
 	int				time, oldtime, newtime;
 	char			*cddir;
+	int				i; // Knightmare added
+	qboolean		nocdscan = false; // Knightmare added
 
     /* previous instances do not exist in Win32 */
     if (hPrevInstance)
@@ -607,21 +642,31 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	ParseCommandLine (lpCmdLine);
 
-	// if we find the CD, add a +set cddir xxx command line
-	cddir = Sys_ScanForCD ();
-	if (cddir && argc < MAX_NUM_ARGVS - 3)
-	{
-		int		i;
+	// Knightmare- scan for cd command line option
+	for (i=0; i<argc; i++)
+		if (!strcmp(argv[i], "noscanforcd")) {
+			nocdscan = true;
+			break;
+		}
 
-		// don't override a cddir on the command line
-		for (i=0 ; i<argc ; i++)
-			if (!strcmp(argv[i], "cddir"))
-				break;
-		if (i == argc)
+	// if we find the CD, add a +set cddir xxx command line
+	if (!nocdscan)
+	{
+		cddir = Sys_ScanForCD ();
+		if (cddir && argc < MAX_NUM_ARGVS - 3)
 		{
-			argv[argc++] = "+set";
-			argv[argc++] = "cddir";
-			argv[argc++] = cddir;
+			int		i;
+
+			// don't override a cddir on the command line
+			for (i=0 ; i<argc ; i++)
+				if (!strcmp(argv[i], "cddir"))
+					break;
+			if (i == argc)
+			{
+				argv[argc++] = "+set";
+				argv[argc++] = "cddir";
+				argv[argc++] = cddir;
+			}
 		}
 	}
 

@@ -170,7 +170,22 @@ void CompleteCommand (void)
 		s++;
 
 	cmd = Cmd_CompleteCommand (s);
-	if (!cmd)
+	// Knightmare - added command auto-complete
+	if (cmd)
+	{
+		key_lines[edit_line][1] = '/';
+		strcpy (key_lines[edit_line]+2, cmd);
+		key_linepos = strlen(cmd)+2;
+		if (Cmd_IsComplete(cmd)) {
+			key_lines[edit_line][key_linepos] = ' ';
+			key_linepos++;
+			key_lines[edit_line][key_linepos] = 0;
+		} else {
+			key_lines[edit_line][key_linepos] = 0;
+		}
+		return;
+	}
+/*	if (!cmd)
 		cmd = Cvar_CompleteVariable (s);
 	if (cmd)
 	{
@@ -181,7 +196,7 @@ void CompleteCommand (void)
 		key_linepos++;
 		key_lines[edit_line][key_linepos] = 0;
 		return;
-	}
+	}*/
 }
 
 /*
@@ -346,13 +361,13 @@ void Key_Console (int key)
 		return;
 	}
 
-	if (key == K_PGUP || key == K_KP_PGUP )
+	if (key == K_PGUP || key == K_KP_PGUP|| key == K_MWHEELUP)
 	{
 		con.display -= 2;
 		return;
 	}
 
-	if (key == K_PGDN || key == K_KP_PGDN ) 
+	if (key == K_PGDN || key == K_KP_PGDN || key == K_MWHEELDOWN) 
 	{
 		con.display += 2;
 		if (con.display > con.current)
@@ -686,6 +701,9 @@ void Key_Init (void)
 	consolekeys[K_KP_PLUS] = true;
 	consolekeys[K_KP_MINUS] = true;
 	consolekeys[K_KP_5] = true;
+
+	consolekeys[K_MWHEELUP] = true;
+	consolekeys[K_MWHEELDOWN] = true;
 
 	consolekeys['`'] = false;
 	consolekeys['~'] = false;

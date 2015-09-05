@@ -826,6 +826,7 @@ void S_AddLoopSounds (void)
 	sfx_t		*sfx;
 	sfxcache_t	*sc;
 	int			num;
+	vec3_t		origin_v;	// Knightmare added
 	entity_state_t	*ent;
 
 	if (cl_paused->value)
@@ -859,8 +860,32 @@ void S_AddLoopSounds (void)
 		num = (cl.frame.parse_entities + i)&(MAX_PARSE_ENTITIES-1);
 		ent = &cl_parse_entities[num];
 
+		// Knightmare- find correct origin for bmodels without origin brushes
+		if (ent->solid == 31) // special value for bmodels
+		{
+			cmodel_t	*cmodel;
+			qboolean	outofbounds = false;
+			int			k;
+
+			cmodel = cl.model_clip[ent->modelindex];
+			if (cmodel)
+			{
+				for (k=0; k<3; k++)
+					if (ent->origin[k] < cmodel->mins[k] || ent->origin[k] > cmodel->maxs[k])
+						outofbounds = true;
+			}
+			if (cmodel && outofbounds) {
+				for (k=0; k<3; k++)
+					origin_v[k] = ent->origin[k]+0.5*(cmodel->mins[k]+cmodel->maxs[k]);
+			}
+			else
+				VectorCopy (ent->origin, origin_v);
+		}
+		else
+			VectorCopy (ent->origin, origin_v);
+
 		// find the total contribution of all sounds of this type
-		S_SpatializeOrigin (ent->origin, 255.0, SOUND_LOOPATTENUATE,
+		S_SpatializeOrigin (origin_v, 255.0, SOUND_LOOPATTENUATE, // Knightmare changed, was ent->origin
 			&left_total, &right_total);
 		for (j=i+1 ; j<cl.frame.num_entities ; j++)
 		{
@@ -871,7 +896,7 @@ void S_AddLoopSounds (void)
 			num = (cl.frame.parse_entities + j)&(MAX_PARSE_ENTITIES-1);
 			ent = &cl_parse_entities[num];
 
-			S_SpatializeOrigin (ent->origin, 255.0, SOUND_LOOPATTENUATE, 
+			S_SpatializeOrigin (origin_v, 255.0, SOUND_LOOPATTENUATE,  // Knightmare changed, was ent->origin
 				&left, &right);
 			left_total += left;
 			right_total += right;

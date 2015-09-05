@@ -530,7 +530,7 @@ void FS_AddGameDirectory (char *dir)
 	//
 	// add any pak files in the format pak0.pak pak1.pak, ...
 	//
-	for (i=0; i<10; i++)
+	for (i=0; i<100; i++) // Knightmare- go up to pak99
 	{
 		Com_sprintf (pakfile, sizeof(pakfile), "%s/pak%i.pak", dir, i);
 		pak = FS_LoadPackFile (pakfile);
@@ -648,11 +648,23 @@ Creates a filelink_t
 void FS_Link_f (void)
 {
 	filelink_t	*l, **prev;
+	char		*to;
 
 	if (Cmd_Argc() != 3)
 	{
 		Com_Printf ("USAGE: link <from> <to>\n");
 		return;
+	}
+
+	// r1ch's fix to prevent filesystem browsing
+	to = Cmd_Argv(2);
+	if (to[0])
+	{
+		if (strstr(to, "..") || strchr(to, '\\') || *to != '.')
+		{
+			Com_Printf ("Illegal destination path.\n");
+			return;
+		}
 	}
 
 	// see if the link already exists

@@ -122,6 +122,8 @@ typedef struct msurface_s
 	byte		styles[MAXLIGHTMAPS];
 	float		cached_light[MAXLIGHTMAPS];	// values currently used in lightmap
 	byte		*samples;		// [numstyles*surfsize]
+
+	entity_t	*entity;		// Knightmare- added entity pointer
 } msurface_t;
 
 typedef struct mnode_s

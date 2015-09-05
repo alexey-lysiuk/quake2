@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "glext.h" // Knightmare- include new extension header
 #include <math.h>
 
 #ifndef __linux__
@@ -38,7 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "qgl.h"
 
-#define	REF_VERSION	"GL 0.01"
+#define	REF_VERSION	"GL 0.02" // Knightmare changed, was 0.01
 
 // up / down
 #define	PITCH	0
@@ -149,6 +150,7 @@ extern	int			numgltextures;
 extern	image_t		*r_notexture;
 extern	image_t		*r_particletexture;
 extern	entity_t	*currententity;
+extern	int			r_worldframe;	// Knightmare- added for trans animations
 extern	model_t		*currentmodel;
 extern	int			r_visframecount;
 extern	int			r_framecount;
@@ -181,6 +183,9 @@ extern	cvar_t	*r_fullbright;
 extern	cvar_t	*r_novis;
 extern	cvar_t	*r_nocull;
 extern	cvar_t	*r_lerpmodels;
+extern	cvar_t	*r_ignorehwgamma; // Knightmare- hardware gamma
+
+extern	cvar_t	*r_dlights_normal; // Knightmare- lerped dlights on models
 
 extern	cvar_t	*r_lightlevel;	// FIXME: This is a HACK to get the client's light level
 
@@ -191,6 +196,8 @@ extern cvar_t	*gl_ext_palettedtexture;
 extern cvar_t	*gl_ext_multitexture;
 extern cvar_t	*gl_ext_pointparameters;
 extern cvar_t	*gl_ext_compiled_vertex_array;
+extern cvar_t	*gl_arb_texturenonpoweroftwo;
+
 
 extern cvar_t	*gl_particle_min_size;
 extern cvar_t	*gl_particle_max_size;
@@ -199,12 +206,16 @@ extern cvar_t	*gl_particle_att_a;
 extern cvar_t	*gl_particle_att_b;
 extern cvar_t	*gl_particle_att_c;
 
+extern	cvar_t	*r_entity_fliproll;		// Knightmare- allow disabling of backwards alias model roll
+extern	cvar_t	*r_lightcutoff;	//** DMP - allow dynamic light cutoff to be user-settable
+
 extern	cvar_t	*gl_nosubimage;
 extern	cvar_t	*gl_bitdepth;
 extern	cvar_t	*gl_mode;
 extern	cvar_t	*gl_log;
 extern	cvar_t	*gl_lightmap;
 extern	cvar_t	*gl_shadows;
+extern	cvar_t	*gl_shadowalpha; // Knightmare- added shadow alpha
 extern	cvar_t	*gl_dynamic;
 extern  cvar_t  *gl_monolightmap;
 extern	cvar_t	*gl_nobind;
@@ -227,6 +238,8 @@ extern	cvar_t	*gl_drawbuffer;
 extern	cvar_t	*gl_3dlabs_broken;
 extern  cvar_t  *gl_driver;
 extern	cvar_t	*gl_swapinterval;
+extern	cvar_t	*gl_anisotropic;		// Knightmare- added anisotropic filtering
+extern	cvar_t	*gl_anisotropic_avail;	// Knightmare- added anisotropic filtering
 extern	cvar_t	*gl_texturemode;
 extern	cvar_t	*gl_texturealphamode;
 extern	cvar_t	*gl_texturesolidmode;
@@ -236,7 +249,9 @@ extern  cvar_t  *gl_lockpvs;
 extern	cvar_t	*vid_fullscreen;
 extern	cvar_t	*vid_gamma;
 
-extern	cvar_t		*intensity;
+extern	cvar_t	*intensity;
+
+extern	cvar_t	*r_skydistance; // Knightmare- variable sky range
 
 extern	int		gl_lightmap_format;
 extern	int		gl_solid_format;
@@ -287,7 +302,8 @@ void R_InitParticleTexture (void);
 void Draw_InitLocal (void);
 void GL_SubdivideSurface (msurface_t *fa);
 qboolean R_CullBox (vec3_t mins, vec3_t maxs);
-void R_RotateForEntity (entity_t *e);
+void R_RotateForEntity (entity_t *e, qboolean full);
+int R_RollMult (void);
 void R_MarkLeaves (void);
 
 glpoly_t *WaterWarpPolyVerts (glpoly_t *p);
@@ -324,7 +340,8 @@ void	R_SetPalette ( const unsigned char *palette);
 
 int		Draw_GetPalette (void);
 
-void GL_ResampleTexture (unsigned *in, int inwidth, int inheight, unsigned *out,  int outwidth, int outheight);
+//void GL_ResampleTexture (unsigned *in, int inwidth, int inheight, unsigned *out,  int outwidth, int outheight);
+void GL_ResampleTexture (void *indata, int inwidth, int inheight, void *outdata,  int outwidth, int outheight);
 
 struct image_s *R_RegisterSkin (char *name);
 
@@ -333,6 +350,7 @@ image_t *GL_LoadPic (char *name, byte *pic, int width, int height, imagetype_t t
 image_t	*GL_FindImage (char *name, imagetype_t type);
 void	GL_TextureMode( char *string );
 void	GL_ImageList_f (void);
+int nearest_power_of_2 (int size);
 
 void	GL_SetTexturePalette( unsigned palette[256] );
 
@@ -352,26 +370,27 @@ void GL_DrawParticles( int n, const particle_t particles[], const unsigned color
 /*
 ** GL config stuff
 */
+/*
 #define GL_RENDERER_VOODOO		0x00000001
 #define GL_RENDERER_VOODOO2   	0x00000002
 #define GL_RENDERER_VOODOO_RUSH	0x00000004
 #define GL_RENDERER_BANSHEE		0x00000008
-#define		GL_RENDERER_3DFX		0x0000000F
+#define	GL_RENDERER_3DFX		0x0000000F
 
 #define GL_RENDERER_PCX1		0x00000010
 #define GL_RENDERER_PCX2		0x00000020
 #define GL_RENDERER_PMX			0x00000040
-#define		GL_RENDERER_POWERVR		0x00000070
+#define	GL_RENDERER_POWERVR		0x00000070
 
 #define GL_RENDERER_PERMEDIA2	0x00000100
 #define GL_RENDERER_GLINT_MX	0x00000200
 #define GL_RENDERER_GLINT_TX	0x00000400
 #define GL_RENDERER_3DLABS_MISC	0x00000800
-#define		GL_RENDERER_3DLABS	0x00000F00
+#define	GL_RENDERER_3DLABS	0x00000F00
 
 #define GL_RENDERER_REALIZM		0x00001000
 #define GL_RENDERER_REALIZM2	0x00002000
-#define		GL_RENDERER_INTERGRAPH	0x00003000
+#define	GL_RENDERER_INTERGRAPH	0x00003000
 
 #define GL_RENDERER_3DPRO		0x00004000
 #define GL_RENDERER_REAL3D		0x00008000
@@ -381,16 +400,44 @@ void GL_DrawParticles( int n, const particle_t particles[], const unsigned color
 #define GL_RENDERER_V1000		0x00040000
 #define GL_RENDERER_V2100		0x00080000
 #define GL_RENDERER_V2200		0x00100000
-#define		GL_RENDERER_RENDITION	0x001C0000
+#define	GL_RENDERER_RENDITION	0x001C0000
 
 #define GL_RENDERER_O2          0x00100000
 #define GL_RENDERER_IMPACT      0x00200000
 #define GL_RENDERER_RE			0x00400000
 #define GL_RENDERER_IR			0x00800000
-#define		GL_RENDERER_SGI			0x00F00000
+#define	GL_RENDERER_SGI			0x00F00000
 
 #define GL_RENDERER_MCD			0x01000000
 #define GL_RENDERER_OTHER		0x80000000
+*/
+// Knightmare- new vendor list
+enum {
+	GL_RENDERER_DEFAULT		= 1 << 0,
+
+	GL_RENDERER_MCD			= 1 << 1,
+	GL_RENDERER_3DLABS		= 1 << 2,
+	GL_RENDERER_GLINT_MX	= 1 << 3,
+	GL_RENDERER_PCX1		= 1 << 4,
+	GL_RENDERER_PCX2		= 1 << 5,
+	GL_RENDERER_PERMEDIA2	= 1 << 6,
+	GL_RENDERER_PMX			= 1 << 7,
+	GL_RENDERER_POWERVR		= 1 << 8,
+	GL_RENDERER_REALIZM		= 1 << 9,
+	GL_RENDERER_RENDITION	= 1 << 10,
+	GL_RENDERER_SGI			= 1 << 11,
+	GL_RENDERER_SIS			= 1 << 12,
+	GL_RENDERER_VOODOO		= 1 << 13,
+
+	GL_RENDERER_NVIDIA		= 1 << 14,
+	GL_RENDERER_GEFORCE		= 1 << 15,
+
+	GL_RENDERER_ATI			= 1 << 16,
+	GL_RENDERER_RADEON		= 1 << 17,
+
+	GL_RENDERER_MATROX		= 1 << 18,
+	GL_RENDERER_INTEL		= 1 << 19
+};
 
 typedef struct
 {
@@ -401,6 +448,18 @@ typedef struct
 	const char *extensions_string;
 
 	qboolean	allow_cds;
+
+	// Knightmare added
+	qboolean	multitexture;				// multitexture is enabled
+	int			max_texsize;				// max texture size
+	int			max_texunits;				// texunits available
+
+	qboolean	arbTextureNonPowerOfTwo; 	// non-power-of-two texture support
+	qboolean	have_stencil;				// stencil buffer
+
+	qboolean	anisotropic;				// anisotropic filtering
+	float		max_anisotropy;
+
 } glconfig_t;
 
 typedef struct
@@ -417,8 +476,10 @@ typedef struct
 	int	currenttextures[2];
 	int currenttmu;
 
-	float camera_separation;
-	qboolean stereo_enabled;
+	float		camera_separation;
+	qboolean	stereo_enabled;
+
+	qboolean	gammaRamp;
 
 	unsigned char originalRedGammaTable[256];
 	unsigned char originalGreenGammaTable[256];

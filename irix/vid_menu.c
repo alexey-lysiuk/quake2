@@ -186,6 +186,10 @@ void VID_MenuInit( void )
 {
 	static const char *resolutions[] = 
 	{
+#include "../qcommon/vid_resolutions.h"
+	};
+/*	static const char *resolutions[] = 
+	{
 		"[320 240  ]",
 		"[400 300  ]",
 		"[512 384  ]",
@@ -198,7 +202,7 @@ void VID_MenuInit( void )
 		"[1600 1200]",
 		"[2048 1536]",
 		0
-	};
+	};*/
 	static const char *refs[] =
 	{
 		"[software      ]",
@@ -230,8 +234,8 @@ void VID_MenuInit( void )
 	if ( !_windowed_mouse)
         _windowed_mouse = Cvar_Get( "_windowed_mouse", "0", CVAR_ARCHIVE );
 
-	s_mode_list[SOFTWARE_MENU].curvalue = sw_mode->value;
-	s_mode_list[OPENGL_MENU].curvalue = gl_mode->value;
+	s_mode_list[SOFTWARE_MENU].curvalue = max(sw_mode->value, 0);
+	s_mode_list[OPENGL_MENU].curvalue = max(gl_mode->value, 0);
 
 	if ( !scr_viewsize )
 		scr_viewsize = Cvar_Get ("viewsize", "100", CVAR_ARCHIVE);

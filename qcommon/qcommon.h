@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../game/q_shared.h"
 
 
-#define	VERSION		3.21
+#define	VERSION		3.23
 
 #define	BASEDIRNAME	"baseq2"
 
@@ -152,6 +152,14 @@ void COM_Init (void);
 void COM_InitArgv (int argc, char **argv);
 
 char *CopyString (char *in);
+
+void StripHighBits (char *string, int highbits);
+void ExpandNewLines (char *string);
+
+qboolean IsValidChar (int c);
+void ExpandNewLines (char *string);
+char *StripQuotes (char *string);
+const char *MakePrintable (const void *subject, size_t numchars);
 
 //============================================================================
 
@@ -417,6 +425,7 @@ qboolean Cmd_Exists (char *cmd_name);
 char 	*Cmd_CompleteCommand (char *partial);
 // attempts to match a partial command for automatic command line completion
 // returns NULL if nothing fits
+qboolean Cmd_IsComplete (char *cmd);
 
 int		Cmd_Argc (void);
 char	*Cmd_Argv (int arg);

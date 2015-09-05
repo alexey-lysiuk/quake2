@@ -258,6 +258,9 @@ extern	cvar_t	*cl_footsteps;
 extern	cvar_t	*cl_noskins;
 extern	cvar_t	*cl_autoskins;
 
+// Knightmare- whether to adjust fov for wide aspect rattio
+extern	cvar_t	*cl_widescreen_fov;
+
 extern	cvar_t	*cl_upspeed;
 extern	cvar_t	*cl_forwardspeed;
 extern	cvar_t	*cl_sidespeed;
@@ -378,7 +381,9 @@ typedef struct particle_s
 
 void CL_ClearEffects (void);
 void CL_ClearTEnts (void);
-void CL_BlasterTrail (vec3_t start, vec3_t end);
+void CL_BlasterParticles (vec3_t org, vec3_t dir, unsigned int color);
+//void CL_BlasterTrail (vec3_t start, vec3_t end);
+void CL_BlasterTrail (vec3_t start, vec3_t end, float color);
 void CL_QuadTrail (vec3_t start, vec3_t end);
 void CL_RailTrail (vec3_t start, vec3_t end);
 void CL_BubbleTrail (vec3_t start, vec3_t end);
@@ -389,8 +394,8 @@ void CL_IonripperTrail (vec3_t start, vec3_t end);
 
 // ========
 // PGM
-void CL_BlasterParticles2 (vec3_t org, vec3_t dir, unsigned int color);
-void CL_BlasterTrail2 (vec3_t start, vec3_t end);
+//void CL_BlasterParticles2 (vec3_t org, vec3_t dir, unsigned int color);
+//void CL_BlasterTrail2 (vec3_t start, vec3_t end);
 void CL_DebugTrail (vec3_t start, vec3_t end);
 void CL_SmokeTrail (vec3_t start, vec3_t end, int colorStart, int colorRun, int spacing);
 void CL_Flashlight (int ent, vec3_t pos);
@@ -451,6 +456,8 @@ void CL_ParseLayout (void);
 // cl_main
 //
 extern	refexport_t	re;		// interface to refresh .dll
+
+float ClampCvar (float min, float max, float value);
 
 void CL_Init (void);
 
