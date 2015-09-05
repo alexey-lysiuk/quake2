@@ -37,6 +37,10 @@ void Draw_InitLocal (void)
 {
 	// load console characters (don't bilerp characters)
 	draw_chars = GL_FindImage ("pics/conchars.pcx", it_pic);
+	// Knightmare- error out instead of crashing if we can't load this
+	if (!draw_chars)
+		ri.Sys_Error (ERR_FATAL, "Couldn't load pics/conchars.pcx");
+	// end Knightmare
 	GL_Bind( draw_chars->texnum );
 	qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -145,6 +149,11 @@ void Draw_StretchPic (int x, int y, int w, int h, char *pic)
 
 	if (scrap_dirty)
 		Scrap_Upload ();
+
+	// Knightmare added- fix text/console corruption on drop errors
+	if (gl_config.multitexture && gl_state.multitextureEnabled)
+		GL_EnableMultitexture(false);
+	// end Knightmare
 
 	if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( gl_config.renderer & GL_RENDERER_RENDITION ) ) && !gl->has_alpha)
 		qglDisable (GL_ALPHA_TEST);
@@ -379,7 +388,8 @@ void Draw_StretchRaw (int x, int y, int w, int h, int cols, int rows, byte *data
 				frac += fracstep;
 			}
 		}	
-		qglTexImage2D (GL_TEXTURE_2D, 0, gl_tex_solid_format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image32);
+	//	qglTexImage2D (GL_TEXTURE_2D, 0, gl_tex_solid_format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image32);
+		qglTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image32);
 	}
 	else
 	{
@@ -481,7 +491,8 @@ void Draw_StretchRaw (int x, int y, int w, int h, int cols, int rows, byte *data
 			}
 		}
 
-		qglTexImage2D (GL_TEXTURE_2D, 0, gl_tex_solid_format, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, image32);
+	//	qglTexImage2D (GL_TEXTURE_2D, 0, gl_tex_solid_format, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, image32);
+		qglTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, image32);
 	}
 	else
 	{

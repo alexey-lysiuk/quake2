@@ -1015,11 +1015,13 @@ CONTROLS MENU
 */
 static cvar_t *win_noalttab;
 extern cvar_t *in_joystick;
+extern cvar_t *cl_ogg_music;	// Knightmare- added ogg music option
 
 static menuframework_s	s_options_menu;
 static menuaction_s		s_options_defaults_action;
 static menuaction_s		s_options_customize_options_action;
 static menuslider_s		s_options_sensitivity_slider;
+static menulist_s		s_options_mousaccel_box;	// Knightmare- disable mouse acceleration option
 static menulist_s		s_options_freelook_box;
 static menulist_s		s_options_noalttab_box;
 static menulist_s		s_options_alwaysrun_box;
@@ -1028,8 +1030,11 @@ static menulist_s		s_options_lookspring_box;
 static menulist_s		s_options_lookstrafe_box;
 static menulist_s		s_options_crosshair_box;
 static menuslider_s		s_options_sfxvolume_slider;
+static menuslider_s		s_options_musicvolume_slider;	// Knightmare- added music volume
+
 static menulist_s		s_options_joystick_box;
-static menulist_s		s_options_cdvolume_box;
+static menulist_s		s_options_oggmusic_box;	// Knightmare- added ogg music option
+static menulist_s		s_options_cdmusic_box;
 static menulist_s		s_options_quality_list;
 static menulist_s		s_options_compatibility_list;
 static menulist_s		s_options_console_action;
@@ -1064,6 +1069,12 @@ static void MouseSpeedFunc( void *unused )
 	Cvar_SetValue( "sensitivity", s_options_sensitivity_slider.curvalue / 2.0F );
 }
 
+// Knightmare- disable mouse acceleration option
+static void MouseAccelFunc ( void *unused )
+{
+	Cvar_SetValue( "m_noaccel", !s_options_mousaccel_box.curvalue);
+}
+
 static void NoAltTabFunc( void *unused )
 {
 	Cvar_SetValue( "win_noalttab", s_options_noalttab_box.curvalue );
@@ -1078,10 +1089,31 @@ static float ClampCvar( float min, float max, float value )
 
 static void ControlsSetMenuItemValues( void )
 {
+	int snd_khz = (int)Cvar_VariableValue("s_khz");	// Knightmare added
+
 	s_options_sfxvolume_slider.curvalue		= Cvar_VariableValue( "s_volume" ) * 10;
-	s_options_cdvolume_box.curvalue 		= !Cvar_VariableValue("cd_nocd");
-	s_options_quality_list.curvalue			= !Cvar_VariableValue( "s_loadas8bit" );
+	s_options_musicvolume_slider.curvalue	= Cvar_VariableValue( "s_musicvolume" ) * 10;	// Knightmare- added music volume
+
+	// Knightmare- added ogg music option
+	Cvar_SetValue( "cl_ogg_music", ClampCvar( 0, 1, cl_ogg_music->value ) );
+	s_options_oggmusic_box.curvalue			= Cvar_VariableValue("cl_ogg_music");
+
+	s_options_cdmusic_box.curvalue 			= !Cvar_VariableValue("cd_nocd");
+//	s_options_quality_list.curvalue			= !Cvar_VariableValue( "s_loadas8bit" );
+	// Knightmare- support more sound quality options
+	if (snd_khz == 48)
+		s_options_quality_list.curvalue			= 3;
+	else if (snd_khz == 44)
+		s_options_quality_list.curvalue			= 2;
+	else if (snd_khz == 22)
+		s_options_quality_list.curvalue			= 1;
+	else	// (snd_khz == 11)
+		s_options_quality_list.curvalue			= 0;
+
 	s_options_sensitivity_slider.curvalue	= ( sensitivity->value ) * 2;
+
+	// Knightmare- disable mouse acceleration option
+	s_options_mousaccel_box.curvalue		= !Cvar_VariableValue("m_noaccel");
 
 	Cvar_SetValue( "cl_run", ClampCvar( 0, 1, cl_run->value ) );
 	s_options_alwaysrun_box.curvalue		= cl_run->value;
@@ -1134,9 +1166,21 @@ static void UpdateVolumeFunc( void *unused )
 	Cvar_SetValue( "s_volume", s_options_sfxvolume_slider.curvalue / 10 );
 }
 
-static void UpdateCDVolumeFunc( void *unused )
+// Knightmare- added music volume
+static void UpdateMusicVolumeFunc( void *unused )
 {
-	Cvar_SetValue( "cd_nocd", !s_options_cdvolume_box.curvalue );
+	Cvar_SetValue( "s_musicvolume", s_options_musicvolume_slider.curvalue / 10 );
+}
+
+// Knightmare- added ogg music option
+static void UpdateOggMusicFunc( void *unused )
+{
+	Cvar_SetValue( "cl_ogg_music", s_options_oggmusic_box.curvalue );
+}
+
+static void UpdateCDMusicFunc( void *unused )
+{
+	Cvar_SetValue( "cd_nocd", !s_options_cdmusic_box.curvalue );
 }
 
 static void ConsoleFunc( void *unused )
@@ -1161,7 +1205,18 @@ static void ConsoleFunc( void *unused )
 
 static void UpdateSoundQualityFunc( void *unused )
 {
-	if ( s_options_quality_list.curvalue )
+	// Knightmare- added more sound quality options
+	if ( s_options_quality_list.curvalue == 3 )
+	{
+		Cvar_SetValue( "s_khz", 48 );
+		Cvar_SetValue( "s_loadas8bit", false );
+	}
+	else if ( s_options_quality_list.curvalue == 2 )
+	{
+		Cvar_SetValue( "s_khz", 44 );
+		Cvar_SetValue( "s_loadas8bit", false );
+	}
+	else if ( s_options_quality_list.curvalue == 1 )
 	{
 		Cvar_SetValue( "s_khz", 22 );
 		Cvar_SetValue( "s_loadas8bit", false );
@@ -1193,9 +1248,15 @@ void Options_MenuInit( void )
 		"enabled",
 		0
 	};
+
+	// Knightmare- added more quality values here
 	static const char *quality_items[] =
 	{
-		"low", "high", 0
+		"low (11KHz / 8-bit)",
+		"medium (22KHz / 16-bit)",
+		"high (44KHz / 16-bit)",
+		"highest (48KHz / 16-bit)",
+		0
 	};
 
 	static const char *compatibility_items[] =
@@ -1228,26 +1289,45 @@ void Options_MenuInit( void )
 	s_options_menu.y = viddef.height / 2 - 58;
 	s_options_menu.nitems = 0;
 
-	s_options_sfxvolume_slider.generic.type	= MTYPE_SLIDER;
-	s_options_sfxvolume_slider.generic.x	= 0;
-	s_options_sfxvolume_slider.generic.y	= 0;
-	s_options_sfxvolume_slider.generic.name	= "effects volume";
-	s_options_sfxvolume_slider.generic.callback	= UpdateVolumeFunc;
-	s_options_sfxvolume_slider.minvalue		= 0;
-	s_options_sfxvolume_slider.maxvalue		= 10;
-	s_options_sfxvolume_slider.curvalue		= Cvar_VariableValue( "s_volume" ) * 10;
+	s_options_sfxvolume_slider.generic.type			= MTYPE_SLIDER;
+	s_options_sfxvolume_slider.generic.x			= 0;
+	s_options_sfxvolume_slider.generic.y			= 0;
+	s_options_sfxvolume_slider.generic.name			= "effects volume";
+	s_options_sfxvolume_slider.generic.callback		= UpdateVolumeFunc;
+	s_options_sfxvolume_slider.minvalue				= 0;
+	s_options_sfxvolume_slider.maxvalue				= 10;
+	s_options_sfxvolume_slider.curvalue				= Cvar_VariableValue( "s_volume" ) * 10;
 
-	s_options_cdvolume_box.generic.type	= MTYPE_SPINCONTROL;
-	s_options_cdvolume_box.generic.x		= 0;
-	s_options_cdvolume_box.generic.y		= 10;
-	s_options_cdvolume_box.generic.name	= "CD music";
-	s_options_cdvolume_box.generic.callback	= UpdateCDVolumeFunc;
-	s_options_cdvolume_box.itemnames		= cd_music_items;
-	s_options_cdvolume_box.curvalue 		= !Cvar_VariableValue("cd_nocd");
+	// Knightmare- added music volume
+	s_options_musicvolume_slider.generic.type		= MTYPE_SLIDER;
+	s_options_musicvolume_slider.generic.x			= 0;
+	s_options_musicvolume_slider.generic.y			= 10;
+	s_options_musicvolume_slider.generic.name		= "music volume";
+	s_options_musicvolume_slider.generic.callback	= UpdateMusicVolumeFunc;
+	s_options_musicvolume_slider.minvalue			= 0;
+	s_options_musicvolume_slider.maxvalue			= 10;
+	s_options_musicvolume_slider.curvalue			= Cvar_VariableValue( "s_musicvolume" ) * 10;
+
+	// Knightmare- added ogg music option
+	s_options_oggmusic_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_oggmusic_box.generic.x		= 0;
+	s_options_oggmusic_box.generic.y		= 20;
+	s_options_oggmusic_box.generic.name		= "ogg vorbis music";
+	s_options_oggmusic_box.generic.callback	= UpdateOggMusicFunc;
+	s_options_oggmusic_box.itemnames		= cd_music_items;
+	s_options_oggmusic_box.curvalue 		= Cvar_VariableValue("cl_ogg_music");
+
+	s_options_cdmusic_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_cdmusic_box.generic.x			= 0;
+	s_options_cdmusic_box.generic.y			= 30;
+	s_options_cdmusic_box.generic.name		= "CD music";
+	s_options_cdmusic_box.generic.callback	= UpdateCDMusicFunc;
+	s_options_cdmusic_box.itemnames			= cd_music_items;
+	s_options_cdmusic_box.curvalue 			= !Cvar_VariableValue("cd_nocd");
 
 	s_options_quality_list.generic.type	= MTYPE_SPINCONTROL;
 	s_options_quality_list.generic.x		= 0;
-	s_options_quality_list.generic.y		= 20;;
+	s_options_quality_list.generic.y		= 40;
 	s_options_quality_list.generic.name		= "sound quality";
 	s_options_quality_list.generic.callback = UpdateSoundQualityFunc;
 	s_options_quality_list.itemnames		= quality_items;
@@ -1255,7 +1335,7 @@ void Options_MenuInit( void )
 
 	s_options_compatibility_list.generic.type	= MTYPE_SPINCONTROL;
 	s_options_compatibility_list.generic.x		= 0;
-	s_options_compatibility_list.generic.y		= 30;
+	s_options_compatibility_list.generic.y		= 50;
 	s_options_compatibility_list.generic.name	= "sound compatibility";
 	s_options_compatibility_list.generic.callback = UpdateSoundQualityFunc;
 	s_options_compatibility_list.itemnames		= compatibility_items;
@@ -1263,99 +1343,115 @@ void Options_MenuInit( void )
 
 	s_options_sensitivity_slider.generic.type	= MTYPE_SLIDER;
 	s_options_sensitivity_slider.generic.x		= 0;
-	s_options_sensitivity_slider.generic.y		= 50;
+	s_options_sensitivity_slider.generic.y		= 70;
 	s_options_sensitivity_slider.generic.name	= "mouse speed";
 	s_options_sensitivity_slider.generic.callback = MouseSpeedFunc;
 	s_options_sensitivity_slider.minvalue		= 2;
 	s_options_sensitivity_slider.maxvalue		= 22;
 
-	s_options_alwaysrun_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_alwaysrun_box.generic.x	= 0;
-	s_options_alwaysrun_box.generic.y	= 60;
-	s_options_alwaysrun_box.generic.name	= "always run";
-	s_options_alwaysrun_box.generic.callback = AlwaysRunFunc;
-	s_options_alwaysrun_box.itemnames = yesno_names;
+	// Knightmare- disable mouse acceleration option
+	s_options_mousaccel_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_mousaccel_box.generic.x			= 0;
+	s_options_mousaccel_box.generic.y			= 80;
+	s_options_mousaccel_box.generic.name		= "mouse acceleration";
+	s_options_mousaccel_box.generic.callback	= MouseAccelFunc;
+	s_options_mousaccel_box.itemnames			= yesno_names;
 
-	s_options_invertmouse_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_invertmouse_box.generic.x	= 0;
-	s_options_invertmouse_box.generic.y	= 70;
-	s_options_invertmouse_box.generic.name	= "invert mouse";
-	s_options_invertmouse_box.generic.callback = InvertMouseFunc;
-	s_options_invertmouse_box.itemnames = yesno_names;
+	s_options_alwaysrun_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_alwaysrun_box.generic.x			= 0;
+	s_options_alwaysrun_box.generic.y			= 90;
+	s_options_alwaysrun_box.generic.name		= "always run";
+	s_options_alwaysrun_box.generic.callback	= AlwaysRunFunc;
+	s_options_alwaysrun_box.itemnames			= yesno_names;
 
-	s_options_lookspring_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_lookspring_box.generic.x	= 0;
-	s_options_lookspring_box.generic.y	= 80;
-	s_options_lookspring_box.generic.name	= "lookspring";
-	s_options_lookspring_box.generic.callback = LookspringFunc;
-	s_options_lookspring_box.itemnames = yesno_names;
+	s_options_invertmouse_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_invertmouse_box.generic.x			= 0;
+	s_options_invertmouse_box.generic.y			= 100;
+	s_options_invertmouse_box.generic.name		= "invert mouse";
+	s_options_invertmouse_box.generic.callback	= InvertMouseFunc;
+	s_options_invertmouse_box.itemnames			= yesno_names;
 
-	s_options_lookstrafe_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_lookstrafe_box.generic.x	= 0;
-	s_options_lookstrafe_box.generic.y	= 90;
-	s_options_lookstrafe_box.generic.name	= "lookstrafe";
-	s_options_lookstrafe_box.generic.callback = LookstrafeFunc;
-	s_options_lookstrafe_box.itemnames = yesno_names;
+	s_options_lookspring_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_lookspring_box.generic.x			= 0;
+	s_options_lookspring_box.generic.y			= 110;
+	s_options_lookspring_box.generic.name		= "lookspring";
+	s_options_lookspring_box.generic.callback	= LookspringFunc;
+	s_options_lookspring_box.itemnames			= yesno_names;
 
-	s_options_freelook_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_freelook_box.generic.x	= 0;
-	s_options_freelook_box.generic.y	= 100;
-	s_options_freelook_box.generic.name	= "free look";
-	s_options_freelook_box.generic.callback = FreeLookFunc;
-	s_options_freelook_box.itemnames = yesno_names;
+	s_options_lookstrafe_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_lookstrafe_box.generic.x			= 0;
+	s_options_lookstrafe_box.generic.y			= 120;
+	s_options_lookstrafe_box.generic.name		= "lookstrafe";
+	s_options_lookstrafe_box.generic.callback	= LookstrafeFunc;
+	s_options_lookstrafe_box.itemnames			= yesno_names;
 
-	s_options_crosshair_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_crosshair_box.generic.x	= 0;
-	s_options_crosshair_box.generic.y	= 110;
-	s_options_crosshair_box.generic.name	= "crosshair";
-	s_options_crosshair_box.generic.callback = CrosshairFunc;
-	s_options_crosshair_box.itemnames = crosshair_names;
-/*
-	s_options_noalttab_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_noalttab_box.generic.x	= 0;
-	s_options_noalttab_box.generic.y	= 110;
-	s_options_noalttab_box.generic.name	= "disable alt-tab";
-	s_options_noalttab_box.generic.callback = NoAltTabFunc;
-	s_options_noalttab_box.itemnames = yesno_names;
-*/
-	s_options_joystick_box.generic.type = MTYPE_SPINCONTROL;
-	s_options_joystick_box.generic.x	= 0;
-	s_options_joystick_box.generic.y	= 120;
-	s_options_joystick_box.generic.name	= "use joystick";
-	s_options_joystick_box.generic.callback = JoystickFunc;
-	s_options_joystick_box.itemnames = yesno_names;
+	s_options_freelook_box.generic.type			= MTYPE_SPINCONTROL;
+	s_options_freelook_box.generic.x			= 0;
+	s_options_freelook_box.generic.y			= 130;
+	s_options_freelook_box.generic.name			= "free look";
+	s_options_freelook_box.generic.callback		= FreeLookFunc;
+	s_options_freelook_box.itemnames			= yesno_names;
 
-	s_options_customize_options_action.generic.type	= MTYPE_ACTION;
+	s_options_crosshair_box.generic.type		= MTYPE_SPINCONTROL;
+	s_options_crosshair_box.generic.x			= 0;
+	s_options_crosshair_box.generic.y			= 140;
+	s_options_crosshair_box.generic.name		= "crosshair";
+	s_options_crosshair_box.generic.callback	= CrosshairFunc;
+	s_options_crosshair_box.itemnames			= crosshair_names;
+
+#ifdef _WIN32
+	s_options_noalttab_box.generic.type			= MTYPE_SPINCONTROL;
+	s_options_noalttab_box.generic.x			= 0;
+	s_options_noalttab_box.generic.y			= 150;
+	s_options_noalttab_box.generic.name			= "disable alt-tab";
+	s_options_noalttab_box.generic.callback		= NoAltTabFunc;
+	s_options_noalttab_box.itemnames			= yesno_names;
+#endif
+
+	s_options_joystick_box.generic.type			= MTYPE_SPINCONTROL;
+	s_options_joystick_box.generic.x			= 0;
+	s_options_joystick_box.generic.y			= 160;
+	s_options_joystick_box.generic.name			= "use joystick";
+	s_options_joystick_box.generic.callback		= JoystickFunc;
+	s_options_joystick_box.itemnames			= yesno_names;
+
+	s_options_customize_options_action.generic.type		= MTYPE_ACTION;
 	s_options_customize_options_action.generic.x		= 0;
-	s_options_customize_options_action.generic.y		= 140;
-	s_options_customize_options_action.generic.name	= "customize controls";
-	s_options_customize_options_action.generic.callback = CustomizeControlsFunc;
+	s_options_customize_options_action.generic.y		= 180;
+	s_options_customize_options_action.generic.name		= "customize controls";
+	s_options_customize_options_action.generic.callback	= CustomizeControlsFunc;
 
-	s_options_defaults_action.generic.type	= MTYPE_ACTION;
-	s_options_defaults_action.generic.x		= 0;
-	s_options_defaults_action.generic.y		= 150;
-	s_options_defaults_action.generic.name	= "reset defaults";
-	s_options_defaults_action.generic.callback = ControlsResetDefaultsFunc;
+	s_options_defaults_action.generic.type		= MTYPE_ACTION;
+	s_options_defaults_action.generic.x			= 0;
+	s_options_defaults_action.generic.y			= 190;
+	s_options_defaults_action.generic.name		= "reset defaults";
+	s_options_defaults_action.generic.callback	= ControlsResetDefaultsFunc;
 
-	s_options_console_action.generic.type	= MTYPE_ACTION;
-	s_options_console_action.generic.x		= 0;
-	s_options_console_action.generic.y		= 160;
-	s_options_console_action.generic.name	= "go to console";
-	s_options_console_action.generic.callback = ConsoleFunc;
+	s_options_console_action.generic.type		= MTYPE_ACTION;
+	s_options_console_action.generic.x			= 0;
+	s_options_console_action.generic.y			= 200;
+	s_options_console_action.generic.name		= "go to console";
+	s_options_console_action.generic.callback	= ConsoleFunc;
 
 	ControlsSetMenuItemValues();
 
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_sfxvolume_slider );
-	Menu_AddItem( &s_options_menu, ( void * ) &s_options_cdvolume_box );
+	Menu_AddItem( &s_options_menu, ( void * ) &s_options_musicvolume_slider );	// Knightmare- added music volume
+	Menu_AddItem( &s_options_menu, ( void * ) &s_options_oggmusic_box );		// Knightmare- added ogg music option
+	Menu_AddItem( &s_options_menu, ( void * ) &s_options_cdmusic_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_quality_list );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_compatibility_list );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_sensitivity_slider );
+	Menu_AddItem( &s_options_menu, ( void * ) &s_options_mousaccel_box );		// Knightmare- disable mouse acceleration option
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_alwaysrun_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_invertmouse_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_lookspring_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_lookstrafe_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_freelook_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_crosshair_box );
+#ifdef _WIN32
+	Menu_AddItem( &s_options_menu, ( void * ) &s_options_noalttab_box );		// Knightmare- disable alt-tab
+#endif
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_joystick_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_customize_options_action );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_defaults_action );

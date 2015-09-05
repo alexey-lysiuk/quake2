@@ -935,12 +935,13 @@ qboolean	bigendien;
 
 // can't just use function pointers, or dll linkage can
 // mess up when qcommon is included in multiple places
-short	(*_BigShort) (short l);
-short	(*_LittleShort) (short l);
-int		(*_BigLong) (int l);
-int		(*_LittleLong) (int l);
-float	(*_BigFloat) (float l);
-float	(*_LittleFloat) (float l);
+// Knightmare- made these static
+static short	(*_BigShort) (short l);
+static short	(*_LittleShort) (short l);
+static int		(*_BigLong) (int l);
+static int		(*_LittleLong) (int l);
+static float	(*_BigFloat) (float l);
+static float	(*_LittleFloat) (float l);
 
 short	BigShort(short l){return _BigShort(l);}
 short	LittleShort(short l) {return _LittleShort(l);}
@@ -1037,7 +1038,6 @@ void Swap_Init (void)
 }
 
 
-
 /*
 ============
 va
@@ -1054,7 +1054,7 @@ char	*va(char *format, ...)
 	
 	va_start (argptr, format);
 //	vsprintf (string, format, argptr);
-	Q_vsnprintf (string, sizeof(string), format, argptr);
+	Q_vsnprintf (string, sizeof(string), format, argptr);	// Knightmare- buffer overflow fix
 	va_end (argptr);
 
 	return string;	
@@ -1224,16 +1224,94 @@ int Q_strcasecmp (char *s1, char *s2)
 void Com_sprintf (char *dest, int size, char *fmt, ...)
 {
 	int		len;
-	va_list		argptr;
+	va_list	argptr;
 	char	bigbuffer[0x10000];
 
 	va_start (argptr, fmt);
 //	len = vsprintf (bigbuffer, fmt, argptr);
-	len = Q_vsnprintf (bigbuffer, sizeof(bigbuffer), fmt, argptr);
+	len = Q_vsnprintf (bigbuffer, sizeof(bigbuffer), fmt, argptr);	// Knightmare- buffer overflow fix
 	va_end (argptr);
-	if (len >= size)
+	if (len < 0)
+		Com_Printf ("Com_sprintf: overflow in temp buffer of size %i\n", sizeof(bigbuffer));
+	else if (len >= size)
 		Com_Printf ("Com_sprintf: overflow of %i in %i\n", len, size);
 	strncpy (dest, bigbuffer, size-1);
+	dest[size-1] = 0;	// Knightmare- null terminate
+}
+
+// Knightmare added
+void Com_strcpy (char *dest, int destSize, const char *src)
+{
+	if (!dest) {
+		Com_Printf ("Com_strcpy: NULL dst\n");
+		return;
+	}
+	if (!src) {
+		Com_Printf ("Com_strcpy: NULL src\n");
+		return;
+	}
+	if (destSize < 1) {
+		Com_Printf ("Com_strcpy: dstSize < 1\n");
+		return;
+	}
+
+	strncpy(dest, src, destSize-1);
+	dest[destSize-1] = 0;
+}
+
+// Knightmare added
+void Com_strcat (char *dest, int destSize, const char *src)
+{
+	if (!dest) {
+		Com_Printf ("Com_strcat: NULL dst\n");
+		return;
+	}
+	if (!src) {
+		Com_Printf ("Com_strcat: NULL src\n");
+		return;
+	}
+	if (destSize < 1) {
+		Com_Printf ("Com_strcat: dstSize < 1\n");
+		return;
+	}
+
+	while (--destSize && *dest)
+		dest++;
+
+	if (destSize > 0) {
+		while (--destSize && *src)
+			*dest++ = *src++;
+
+		*dest = 0;
+	}
+}
+
+// Knightmare added
+/*
+=============
+Com_HashFileName
+=============
+*/
+long Com_HashFileName (const char *fname, int hashSize, qboolean sized)
+{
+	int		i = 0;
+	long	hash = 0;
+	char	letter;
+
+	if (fname[0] == '/' || fname[0] == '\\') i++;	// skip leading slash
+	while (fname[i] != '\0')
+	{
+		letter = tolower(fname[i]);
+	//	if (letter == '.') break;
+		if (letter == '\\') letter = '/';	// fix filepaths
+		hash += (long)(letter)*(i+119);
+		i++;
+	}
+	hash = (hash ^ (hash >> 10) ^ (hash >> 20));
+	if (sized) {
+		hash &= (hashSize-1);
+	}
+	return hash;
 }
 
 /*

@@ -34,7 +34,7 @@ static cvar_t *gl_driver;
 //static cvar_t *gl_mode;
 //static cvar_t *gl_picmip;
 //static cvar_t *gl_ext_palettedtexture;
-//static cvar_t *gl_finish;
+//static cvar_t *gl_swapinterval;
 
 static cvar_t *sw_mode;
 static cvar_t *sw_stipplealpha;
@@ -65,9 +65,11 @@ static menuslider_s		s_brightness_slider[2];
 static menulist_s  		s_stipple_box;
 static menuslider_s		s_tq_slider;
 static menulist_s  		s_paletted_texture_box;
+static menulist_s  		s_npot_mipmap_box;	// Knightmare- non-power-of-2 texture option
 static menulist_s		s_texfilter_box;
 static menulist_s		s_aniso_box;
 static menulist_s  		s_vsync_box;
+static menulist_s		s_refresh_box;	// Knightmare- refresh rate option
 //static menuaction_s	s_cancel_action[2];
 static menuaction_s		s_apply_action[2];
 static menuaction_s		s_defaults_action[2];
@@ -111,6 +113,35 @@ static void BrightnessCallback( void *s )
 	Cvar_SetValue( "vid_gamma", gamma );
 }
 
+// Knightmare- callback for texture mode
+static void TexFilterCallback( void *s )
+{
+	if (s_texfilter_box.curvalue == 1)
+		Cvar_Set ("r_texturemode", "GL_LINEAR_MIPMAP_LINEAR");
+	else // (s_texfilter_box.curvalue == 0)
+		Cvar_Set ("r_texturemode", "GL_LINEAR_MIPMAP_NEAREST");
+}
+
+// Knightmare- anisotropic filtering
+static void AnisoCallback( void *s )
+{
+	switch ((int)s_aniso_box.curvalue)
+	{
+		case 1: Cvar_SetValue ("gl_anisotropic", 2.0); break;
+		case 2: Cvar_SetValue ("gl_anisotropic", 4.0); break;
+		case 3: Cvar_SetValue ("gl_anisotropic", 8.0); break;
+		case 4: Cvar_SetValue ("gl_anisotropic", 16.0); break;
+		default:
+		case 0: Cvar_SetValue ("gl_anisotropic", 0.0); break;
+	}
+}
+
+// Knightmare- added callback for this
+static void VSyncCallback( void *s )
+{
+	Cvar_SetValue ("gl_swapinterval", s_vsync_box.curvalue);
+}
+
 static void ResetDefaults( void *unused )
 {
 	VID_MenuInit();
@@ -118,7 +149,8 @@ static void ResetDefaults( void *unused )
 
 static void ApplyChanges( void *unused )
 {
-	float gamma;
+	float	gamma;
+	int		temp;
 
 	/*
 	** make values consistent
@@ -138,15 +170,56 @@ static void ApplyChanges( void *unused )
 	Cvar_SetValue ("vid_fullscreen", s_fs_box[s_current_menu_index].curvalue);
 	Cvar_SetValue ("gl_picmip", 3 - s_tq_slider.curvalue);
 	Cvar_SetValue ("gl_ext_palettedtexture", s_paletted_texture_box.curvalue);
-	Cvar_SetValue ("gl_finish", s_vsync_box.curvalue);
-	Cvar_SetValue ("sw_mode", s_mode_list[SOFTWARE_MENU].curvalue);
-	Cvar_SetValue ("gl_mode", s_mode_list[OPENGL_MENU].curvalue);
+	Cvar_SetValue ("gl_nonpoweroftwo_mipmaps", s_npot_mipmap_box.curvalue);	// Knightmare- non-power-of-2 texture option
+
+	Cvar_SetValue ("gl_swapinterval", s_vsync_box.curvalue);
+
+	temp = s_mode_list[SOFTWARE_MENU].curvalue;
+	Cvar_SetValue ("sw_mode", (temp == 0) ? -1 : temp + 2);	// Knightmare- use offset of 2 because of hidden modes
+	temp = s_mode_list[OPENGL_MENU].curvalue;
+	Cvar_SetValue ("gl_mode", (temp == 0) ? -1 : temp + 2);	// Knightmare- use offset of 2 because of hidden modes
+
+	// Knightmare- refesh rate option
+	switch (s_refresh_box.curvalue)
+	{
+	case 9:
+		Cvar_SetValue ("r_displayrefresh", 150);
+		break;
+	case 8:
+		Cvar_SetValue ("r_displayrefresh", 120);
+		break;
+	case 7:
+		Cvar_SetValue ("r_displayrefresh", 110);
+		break;
+	case 6:
+		Cvar_SetValue ("r_displayrefresh", 100);
+		break;
+	case 5:
+		Cvar_SetValue ("r_displayrefresh", 85);
+		break;
+	case 4:
+		Cvar_SetValue ("r_displayrefresh", 75);
+		break;
+	case 3:
+		Cvar_SetValue ("r_displayrefresh", 72);
+		break;
+	case 2:
+		Cvar_SetValue ("r_displayrefresh", 70);
+		break;
+	case 1:
+		Cvar_SetValue ("r_displayrefresh", 60);
+		break;
+	case 0:
+	default:
+		Cvar_SetValue ("r_displayrefresh", 0);
+		break;
+	}
 
 	// Knightmare- texture filter mode
-	if (s_texfilter_box.curvalue == 0)
-		Cvar_Set ("r_texturemode", "GL_LINEAR_MIPMAP_NEAREST");
-	else if (s_texfilter_box.curvalue == 1)
+	if (s_texfilter_box.curvalue == 1)
 		Cvar_Set ("r_texturemode", "GL_LINEAR_MIPMAP_LINEAR");
+	else // (s_texfilter_box.curvalue == 0)
+		Cvar_Set ("r_texturemode", "GL_LINEAR_MIPMAP_NEAREST");
 
 	// Knightmare- anisotropic filtering
 	switch ((int)s_aniso_box.curvalue)
@@ -225,6 +298,33 @@ int texfilter_box_setval (void)
 		return 1;
 }
 
+// Knightmare- refresh rate option
+int refresh_box_setval (void)
+{
+	int refreshVar = (int)Cvar_VariableValue ("r_displayrefresh");
+
+	if (refreshVar == 150)
+		return 9;
+	else if (refreshVar == 120)
+		return 8;
+	else if (refreshVar == 110)
+		return 7;
+	else if (refreshVar == 100)
+		return 6;
+	else if (refreshVar == 85)
+		return 5;
+	else if (refreshVar == 75)
+		return 4;
+	else if (refreshVar == 72)
+		return 3;
+	else if (refreshVar == 70)
+		return 2;
+	else if (refreshVar == 60)
+		return 1;
+	else
+		return 0;
+}
+
 // Knightmare- anisotropic filtering
 static const char *aniso0_names[] =
 {
@@ -265,6 +365,7 @@ static const char *aniso16_names[] =
 	"16x",
 	0
 };
+
 static const char **GetAnisoNames ()
 {
 	float aniso_avail = Cvar_VariableValue("gl_anisotropic_avail");
@@ -279,7 +380,6 @@ static const char **GetAnisoNames ()
 	else // >= 16.0
 		return aniso16_names;
 }
-
 
 float GetAnisoCurValue ()
 {
@@ -324,6 +424,20 @@ void VID_MenuInit( void )
 	{
 #include "../qcommon/vid_resolutions.h"
 	};
+	static const char *refreshrate_names[] = 
+	{
+		"[default]",
+		"[60Hz   ]",
+		"[70Hz   ]",
+		"[72Hz   ]",
+		"[75Hz   ]",
+		"[85Hz   ]",
+		"[100Hz  ]",
+		"[110Hz  ]",
+		"[120Hz  ]",
+		"[150Hz  ]",
+		0
+	};
 	static const char *filter_names[] =
 	{
 		"bilinear",
@@ -331,7 +445,8 @@ void VID_MenuInit( void )
 		0
 	};
 
-	int i;
+	int		i;
+	float	temp;
 
 	if ( !gl_driver )
 		gl_driver = Cvar_Get( "gl_driver", "opengl32", 0 );
@@ -340,17 +455,18 @@ void VID_MenuInit( void )
 //	if ( !gl_mode )
 //		gl_mode = Cvar_Get( "gl_mode", "3", 0 );
 //	if ( !sw_mode )
-//		sw_mode = Cvar_Get( "sw_mode", "0", 0 );
+//		sw_mode = Cvar_Get( "sw_mode", "3", 0 );
 //	if ( !gl_ext_palettedtexture )
 //		gl_ext_palettedtexture = Cvar_Get( "gl_ext_palettedtexture", "1", CVAR_ARCHIVE );
-//	if ( !gl_finish )
-//		gl_finish = Cvar_Get( "gl_finish", "0", CVAR_ARCHIVE );
-
+//	if ( !gl_swapinterval )
+//		gl_swapinterval = Cvar_Get( "gl_swapinterval", "0", CVAR_ARCHIVE );
 //	if ( !sw_stipplealpha )
 //		sw_stipplealpha = Cvar_Get( "sw_stipplealpha", "0", CVAR_ARCHIVE );
 
-	s_mode_list[SOFTWARE_MENU].curvalue = max(Cvar_VariableValue("sw_mode"), 0);
-	s_mode_list[OPENGL_MENU].curvalue = max(Cvar_VariableValue("gl_mode"), 0);
+	temp = Cvar_VariableValue("sw_mode");
+	s_mode_list[SOFTWARE_MENU].curvalue = (temp == -1) ? 0 : max(temp - 2, 1);	// Knightmare- use offset of 2 because of hidden modes
+	temp = Cvar_VariableValue("gl_mode");
+	s_mode_list[OPENGL_MENU].curvalue = (temp == -1) ? 0 : max(temp - 2, 1);	// Knightmare- use offset of 2 because of hidden modes
 
 	if ( !scr_viewsize )
 		scr_viewsize = Cvar_Get ("viewsize", "100", CVAR_ARCHIVE);
@@ -432,14 +548,14 @@ void VID_MenuInit( void )
 		s_defaults_action[i].generic.type		= MTYPE_ACTION;
 		s_defaults_action[i].generic.name		= "reset to defaults";
 		s_defaults_action[i].generic.x			= 0;
-		s_defaults_action[i].generic.y			= 120;
+		s_defaults_action[i].generic.y			= 140;
 		s_defaults_action[i].generic.callback	= ResetDefaults;
 		s_defaults_action[i].generic.statusbar	= "resets all video settings to internal defaults";
 
 		s_apply_action[i].generic.type		= MTYPE_ACTION;
 		s_apply_action[i].generic.name		= "apply changes";
 		s_apply_action[i].generic.x			= 0;
-		s_apply_action[i].generic.y			= 130;
+		s_apply_action[i].generic.y			= 150;
 		s_apply_action[i].generic.callback	= ApplyChanges;
 	}
 
@@ -451,14 +567,14 @@ void VID_MenuInit( void )
 	s_stipple_box.itemnames		= yesno_names;
 	s_stipple_box.generic.statusbar	= "enables stipple drawing of trans surfaces";
 
-	s_tq_slider.generic.type		= MTYPE_SLIDER;
-	s_tq_slider.generic.x			= 0;
-	s_tq_slider.generic.y			= 60;
-	s_tq_slider.generic.name		= "texture quality";
-	s_tq_slider.minvalue			= 0;
-	s_tq_slider.maxvalue			= 3;
-	s_tq_slider.curvalue			= 3-Cvar_VariableValue("gl_picmip");
-	s_tq_slider.generic.statusbar	= "changes detail level of textures";
+	s_tq_slider.generic.type			= MTYPE_SLIDER;
+	s_tq_slider.generic.x				= 0;
+	s_tq_slider.generic.y				= 60;
+	s_tq_slider.generic.name			= "texture quality";
+	s_tq_slider.minvalue				= 0;
+	s_tq_slider.maxvalue				= 3;
+	s_tq_slider.curvalue				= 3-Cvar_VariableValue("gl_picmip");
+	s_tq_slider.generic.statusbar		= "changes detail level of textures";
 
 	s_paletted_texture_box.generic.type			= MTYPE_SPINCONTROL;
 	s_paletted_texture_box.generic.x			= 0;
@@ -468,29 +584,50 @@ void VID_MenuInit( void )
 	s_paletted_texture_box.curvalue				= Cvar_VariableValue("gl_ext_palettedtexture");
 	s_paletted_texture_box.generic.statusbar	= "enables rendering of textures in 8-bit form";
 
+	// Knightmare- non-power-of-2 texture option
+	s_npot_mipmap_box.generic.type		= MTYPE_SPINCONTROL;
+	s_npot_mipmap_box.generic.x			= 0;
+	s_npot_mipmap_box.generic.y			= 80;
+	s_npot_mipmap_box.generic.name		= "non-power-of-2 mipmaps";
+	s_npot_mipmap_box.itemnames			= yesno_names;
+	s_npot_mipmap_box.curvalue			= Cvar_VariableValue("gl_nonpoweroftwo_mipmaps");
+	s_npot_mipmap_box.generic.statusbar	= "enables non-power-of-2 mipmapped textures (requires driver support)";
+
 	s_texfilter_box.generic.type		= MTYPE_SPINCONTROL;
 	s_texfilter_box.generic.x			= 0;
-	s_texfilter_box.generic.y			= 80;
+	s_texfilter_box.generic.y			= 90;
 	s_texfilter_box.generic.name		= "texture filter";
 	s_texfilter_box.curvalue			= texfilter_box_setval();
 	s_texfilter_box.itemnames			= filter_names;
 	s_texfilter_box.generic.statusbar	= "changes texture filtering mode";
+	s_texfilter_box.generic.callback	= TexFilterCallback;
 
 	s_aniso_box.generic.type		= MTYPE_SPINCONTROL;
 	s_aniso_box.generic.x			= 0;
-	s_aniso_box.generic.y			= 90;
+	s_aniso_box.generic.y			= 100;
 	s_aniso_box.generic.name		= "anisotropic filter";
 	s_aniso_box.curvalue			= GetAnisoCurValue();
 	s_aniso_box.itemnames			= GetAnisoNames();
 	s_aniso_box.generic.statusbar	= "changes level of anisotropic mipmap filtering";
+	s_aniso_box.generic.callback	= AnisoCallback;
 
 	s_vsync_box.generic.type		= MTYPE_SPINCONTROL;
 	s_vsync_box.generic.x			= 0;
-	s_vsync_box.generic.y			= 100;
+	s_vsync_box.generic.y			= 110;
 	s_vsync_box.generic.name		= "video sync";
-	s_vsync_box.curvalue			= Cvar_VariableValue("gl_finish");
+	s_vsync_box.curvalue			= Cvar_VariableValue("gl_swapinterval");
 	s_vsync_box.itemnames			= yesno_names;
 	s_vsync_box.generic.statusbar	= "sync framerate with monitor refresh";
+	s_vsync_box.generic.callback	= VSyncCallback;
+
+	// Knightmare- refresh rate option
+	s_refresh_box.generic.type			= MTYPE_SPINCONTROL;
+	s_refresh_box.generic.x				= 0;
+	s_refresh_box.generic.y				= 120;
+	s_refresh_box.generic.name			= "refresh rate";
+	s_refresh_box.curvalue				= refresh_box_setval();
+	s_refresh_box.itemnames				= refreshrate_names;
+	s_refresh_box.generic.statusbar		= "sets refresh rate for fullscreen modes";
 
 	Menu_AddItem( &s_software_menu, ( void * ) &s_ref_list[SOFTWARE_MENU] );
 	Menu_AddItem( &s_software_menu, ( void * ) &s_mode_list[SOFTWARE_MENU] );
@@ -506,9 +643,11 @@ void VID_MenuInit( void )
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_brightness_slider[OPENGL_MENU] );
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_tq_slider );
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_paletted_texture_box );
+	Menu_AddItem( &s_opengl_menu, ( void * ) &s_npot_mipmap_box );	// Knightmare- non-power-of-2 texture option
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_texfilter_box );
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_aniso_box );
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_vsync_box );
+	Menu_AddItem( &s_opengl_menu, ( void * ) &s_refresh_box );
 
 	Menu_AddItem( &s_software_menu, ( void * ) &s_defaults_action[SOFTWARE_MENU] );
 	Menu_AddItem( &s_software_menu, ( void * ) &s_apply_action[SOFTWARE_MENU] );

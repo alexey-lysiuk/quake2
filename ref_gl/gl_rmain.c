@@ -80,6 +80,7 @@ cvar_t	*r_novis;
 cvar_t	*r_nocull;
 cvar_t	*r_lerpmodels;
 cvar_t	*r_ignorehwgamma; // Knightmare- hardware gamma
+cvar_t	*r_displayrefresh; // Knightmare- refresh rate control
 cvar_t	*r_lefthand;
 
 cvar_t	*r_dlights_normal; // Knightmare- lerped dlights on models
@@ -101,10 +102,12 @@ cvar_t	*gl_particle_att_c;
 cvar_t	*gl_ext_swapinterval;
 cvar_t	*gl_ext_palettedtexture;
 cvar_t	*gl_ext_multitexture;
-cvar_t	*gl_intel_allow_multitexture;
+//cvar_t	*gl_intel_allow_multitexture;
 cvar_t	*gl_ext_pointparameters;
 cvar_t	*gl_ext_compiled_vertex_array;
-cvar_t	*gl_arb_texturenonpoweroftwo; // Knightmare- non-power-of-two texture support
+cvar_t	*gl_arb_texturenonpoweroftwo;	// Knightmare- non-power-of-two texture support
+cvar_t	*gl_nonpoweroftwo_mipmaps;		// Knightmare- non-power-of-two texture support
+cvar_t	*gl_newtextureformat;			// Knightmare- whether to use RGBA textures / BGRA lightmaps
 
 cvar_t	*r_entity_fliproll;		// Knightmare- allow disabling of backwards alias model roll
 cvar_t	*r_lightcutoff;	//** DMP - allow dynamic light cutoff to be user-settable
@@ -125,6 +128,7 @@ cvar_t	*gl_round_down;
 cvar_t	*gl_picmip;
 cvar_t	*gl_skymip;
 cvar_t	*gl_showtris;
+cvar_t	*gl_showbbox;	// Knightmare- show model bounding box
 cvar_t	*gl_ztrick;
 cvar_t	*gl_finish;
 cvar_t	*gl_clear;
@@ -148,6 +152,7 @@ cvar_t	*vid_gamma;
 cvar_t	*vid_ref;
 
 cvar_t	*r_skydistance; // Knightmare- variable sky range
+cvar_t	*developer;		// Knightmare added
 
 /*
 =================
@@ -814,12 +819,15 @@ R_Clear
 */
 void R_Clear (void)
 {
+	GLbitfield	clearbits;	// Knightmare added
+
 	if (gl_ztrick->value)
 	{
 		static int trickframe;
 
 		if (gl_clear->value)
-			qglClear (GL_COLOR_BUFFER_BIT);
+		//	qglClear (GL_COLOR_BUFFER_BIT);
+			clearbits |=  GL_COLOR_BUFFER_BIT;
 
 		trickframe++;
 		if (trickframe & 1)
@@ -838,9 +846,11 @@ void R_Clear (void)
 	else
 	{
 		if (gl_clear->value)
-			qglClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//	qglClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			clearbits |=  (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Knightmare changed
 		else
-			qglClear (GL_DEPTH_BUFFER_BIT);
+		//	qglClear (GL_DEPTH_BUFFER_BIT);
+			clearbits |=  GL_DEPTH_BUFFER_BIT;	// Knightmare changed
 		gldepthmin = 0;
 		gldepthmax = 1;
 		qglDepthFunc (GL_LEQUAL);
@@ -852,10 +862,14 @@ void R_Clear (void)
 	if (gl_config.have_stencil)
 	{
 		qglClearStencil(1);
-		qglClear(GL_STENCIL_BUFFER_BIT);
+	//	qglClear(GL_STENCIL_BUFFER_BIT);
+		clearbits |=  GL_STENCIL_BUFFER_BIT;	// Knightmare changed
 	}
 
-	qglDepthRange (gldepthmin, gldepthmax);
+//	qglDepthRange (gldepthmin, gldepthmax);
+
+	if (clearbits)
+		qglClear(clearbits);
 	// end Knightmare
 }
 
@@ -1043,6 +1057,7 @@ void R_Register ( void )
 	r_nocull = ri.Cvar_Get ("r_nocull", "0", 0);
 	r_lerpmodels = ri.Cvar_Get ("r_lerpmodels", "1", 0);
 	r_ignorehwgamma = ri.Cvar_Get ("r_ignorehwgamma", "0", CVAR_ARCHIVE);	// Knightmare- hardware gamma
+	r_displayrefresh = ri.Cvar_Get ("r_displayrefresh", "0", CVAR_ARCHIVE); // Knightmare- refresh rate control
 	r_speeds = ri.Cvar_Get ("r_speeds", "0", 0);
 
 	// lerped dlights on models
@@ -1073,6 +1088,7 @@ void R_Register ( void )
 	gl_picmip = ri.Cvar_Get ("gl_picmip", "0", 0);
 	gl_skymip = ri.Cvar_Get ("gl_skymip", "0", 0);
 	gl_showtris = ri.Cvar_Get ("gl_showtris", "0", 0);
+	gl_showbbox = ri.Cvar_Get ("gl_showbbox", "0", 0); // Knightmare- show model bounding box
 	gl_ztrick = ri.Cvar_Get ("gl_ztrick", "0", 0);
 	gl_finish = ri.Cvar_Get ("gl_finish", "0", CVAR_ARCHIVE);
 	gl_clear = ri.Cvar_Get ("gl_clear", "0", 0);
@@ -1096,11 +1112,14 @@ void R_Register ( void )
 	gl_ext_palettedtexture = ri.Cvar_Get( "gl_ext_palettedtexture", "1", CVAR_ARCHIVE );
 	gl_ext_multitexture = ri.Cvar_Get( "gl_ext_multitexture", "1", CVAR_ARCHIVE );
 	// Knightmare- intel disable mulittexture option
-	gl_intel_allow_multitexture = ri.Cvar_Get( "gl_intel_allow_multitexture", "0", CVAR_ARCHIVE );
+//	gl_intel_allow_multitexture = ri.Cvar_Get( "gl_intel_allow_multitexture", "0", CVAR_ARCHIVE );
 	gl_ext_pointparameters = ri.Cvar_Get( "gl_ext_pointparameters", "1", CVAR_ARCHIVE );
 	gl_ext_compiled_vertex_array = ri.Cvar_Get( "gl_ext_compiled_vertex_array", "1", CVAR_ARCHIVE );
 	// Knightmare- non-power-of-two texture support
 	gl_arb_texturenonpoweroftwo = ri.Cvar_Get( "gl_arb_texturenonpoweroftwo", "1", CVAR_ARCHIVE );
+	gl_nonpoweroftwo_mipmaps = ri.Cvar_Get( "gl_nonpoweroftwo_mipmaps", "1", CVAR_ARCHIVE );
+
+	gl_newtextureformat = ri.Cvar_Get("gl_newtextureformat", "1", CVAR_ARCHIVE);	// Knightmare- whether to use RGBA textures / BGRA lightmaps
 
 	gl_drawbuffer = ri.Cvar_Get( "gl_drawbuffer", "GL_BACK", 0 );
 	gl_swapinterval = ri.Cvar_Get( "gl_swapinterval", "1", CVAR_ARCHIVE );
@@ -1116,9 +1135,11 @@ void R_Register ( void )
 	r_skydistance = ri.Cvar_Get("r_skydistance", "4600", 0); // Knightmare- variable sky range
 	r_entity_fliproll = ri.Cvar_Get( "r_entity_fliproll", "0", 0);	// Knightmare- allow disabling of backwards alias model roll
 	r_lightcutoff = ri.Cvar_Get("r_lightcutoff", "64", 0);	// DMP: dynamic light cutoff now variable
+	developer = ri.Cvar_Get ("developer", "0", 0);	// Knightmare added
 
 	ri.Cmd_AddCommand( "imagelist", GL_ImageList_f );
 	ri.Cmd_AddCommand( "screenshot", GL_ScreenShot_f );
+	ri.Cmd_AddCommand( "screenshot_silent", GL_ScreenShot_Silent_f );
 	ri.Cmd_AddCommand( "modellist", Mod_Modellist_f );
 	ri.Cmd_AddCommand( "gl_strings", GL_Strings_f );
 }
@@ -1176,6 +1197,49 @@ qboolean R_SetMode (void)
 	}
 	return true;
 }
+
+// Knightmare added
+/*
+===============
+StringContainsToken
+
+A non-ambiguous alternative to strstr.
+Useful for parsing the GL extension string.
+Similar to code in Fruitz of Dojo Quake2 MacOSX Port.
+===============
+*/
+qboolean StringContainsToken (const char *string, const char *findToken)
+{
+	int			tokenLen;
+	const char	*strPos;
+	char		*tokPos, *terminatorPos;
+
+	if ( !string || !findToken ) 
+		return false;
+	if ( (strchr(findToken, ' ') != NULL) || (findToken[0] == 0) )
+		return false;
+
+	strPos = string;
+	tokenLen = strlen(findToken);
+	
+	while (1)
+	{
+		tokPos = strstr (strPos, findToken);
+
+		if ( !tokPos )
+			break;
+
+		terminatorPos = tokPos + tokenLen;
+
+		if ( (tokPos == strPos || *(tokPos - 1) == ' ') && (*terminatorPos == ' ' || *terminatorPos == 0) )
+			return true;
+
+		strPos = terminatorPos;
+	}
+
+	return false;
+}
+// end Knightmare
 
 /*
 ===============
@@ -1237,14 +1301,39 @@ int R_Init ( void *hinstance, void *hWnd )
 	gl_config.renderer_string = qglGetString (GL_RENDERER);
 	ri.Con_Printf (PRINT_ALL, "GL_RENDERER: %s\n", gl_config.renderer_string );
 	gl_config.version_string = qglGetString (GL_VERSION);
+	sscanf(gl_config.version_string, "%d.%d.%d", &gl_config.version_major, &gl_config.version_minor, &gl_config.version_release);
 	ri.Con_Printf (PRINT_ALL, "GL_VERSION: %s\n", gl_config.version_string );
 
 	// Knighmare- added max texture size
 	qglGetIntegerv(GL_MAX_TEXTURE_SIZE,&gl_config.max_texsize);
-	ri.Con_Printf (PRINT_DEVELOPER, "GL_MAX_TEXTURE_SIZE: %i\n", gl_config.max_texsize );
+	ri.Con_Printf (PRINT_DEVELOPER, "GL_MAX_TEXTURE_SIZE: %i\n", gl_config.max_texsize ); // Knightmare- changed to PRINT_DEVELOPER
+	if (gl_config.max_texsize <= 0)	// catch if driver doesn't have this
+		gl_config.max_texsize = 256;
+	// end Knightmare
 
 	gl_config.extensions_string = qglGetString (GL_EXTENSIONS);
-	ri.Con_Printf (PRINT_DEVELOPER, "GL_EXTENSIONS: %s\n", gl_config.extensions_string ); // Knightmare- was PRINT_ALL
+//	ri.Con_Printf (PRINT_DEVELOPER, "GL_EXTENSIONS: %s\n", gl_config.extensions_string ); // Knightmare- changed to PRINT_DEVELOPER
+	if (developer->value > 0)	// Knightmare- print extensions 2 to a line
+	{
+		char		*extString, *extTok;
+		unsigned	line = 0;
+		ri.Con_Printf (PRINT_DEVELOPER, "GL_EXTENSIONS: " );
+		extString = (char *)gl_config.extensions_string;
+		while (1)
+		{
+			extTok = COM_Parse(&extString);
+			if (!extTok[0])
+				break;
+			line++;
+			if ((line % 2) == 0)
+				ri.Con_Printf (PRINT_DEVELOPER, "%s\n", extTok );
+			else
+				ri.Con_Printf (PRINT_DEVELOPER, "%s ", extTok );
+		}
+		if ((line % 2) != 0)
+			ri.Con_Printf (PRINT_DEVELOPER, "\n" );
+	}
+	// end Knightmare
 
 	strcpy( renderer_buffer, gl_config.renderer_string );
 	strlwr( renderer_buffer );
@@ -1355,12 +1444,29 @@ int R_Init ( void *hinstance, void *hWnd )
 	else
 		ri.Con_Printf( PRINT_ALL, "...disabling CDS\n" );
 
+	// Knightmare- whether to use GL_RGBA textures & GL_BGRA lightmaps
+	// If using one of the mini-drivers, a Voodoo w/ WickedGL, or pre-1.2 driver,
+	// use the texture formats determined by gl_texturesolidmode and gl_texturealphamode.
+	if ( Q_stricmp(gl_driver->string, "opengl32") || gl_config.renderer == GL_RENDERER_VOODOO
+		|| (gl_config.version_major < 2 && gl_config.version_minor < 2) 
+		|| (!gl_newtextureformat || !gl_newtextureformat->value) )
+	{
+		ri.Con_Printf( PRINT_ALL, "...using legacy texture format\n" );
+		gl_config.newTexFormat = false;
+	}
+	else
+	{
+		ri.Con_Printf( PRINT_ALL, "...using new texture format\n" );
+		gl_config.newTexFormat = true;
+	}
+	// end Knightmare
+
 	/*
 	** grab extensions
 	*/
 	// GL_EXT_compiled_vertex_array
-	if ( strstr( gl_config.extensions_string, "GL_EXT_compiled_vertex_array" ) || 
-		 strstr( gl_config.extensions_string, "GL_SGI_compiled_vertex_array" ) )
+	if ( StringContainsToken( gl_config.extensions_string, "GL_EXT_compiled_vertex_array" ) || 
+		 StringContainsToken( gl_config.extensions_string, "GL_SGI_compiled_vertex_array" ) )
 	{
 		ri.Con_Printf( PRINT_ALL, "...enabling GL_EXT_compiled_vertex_array\n" );
 		qglLockArraysEXT = ( void * ) qwglGetProcAddress( "glLockArraysEXT" );
@@ -1373,7 +1479,7 @@ int R_Init ( void *hinstance, void *hWnd )
 
 #ifdef _WIN32
 	// WGL_EXT_swap_control
-	if ( strstr( gl_config.extensions_string, "WGL_EXT_swap_control" ) )
+	if ( StringContainsToken( gl_config.extensions_string, "WGL_EXT_swap_control" ) )
 	{
 		qwglSwapIntervalEXT = ( BOOL (WINAPI *)(int)) qwglGetProcAddress( "wglSwapIntervalEXT" );
 		ri.Con_Printf( PRINT_ALL, "...enabling WGL_EXT_swap_control\n" );
@@ -1385,7 +1491,7 @@ int R_Init ( void *hinstance, void *hWnd )
 #endif
 
 	// GL_EXT_point_parameters
-	if ( strstr( gl_config.extensions_string, "GL_EXT_point_parameters" ) )
+	if ( StringContainsToken( gl_config.extensions_string, "GL_EXT_point_parameters" ) )
 	{
 		if ( gl_ext_pointparameters->value )
 		{
@@ -1405,7 +1511,7 @@ int R_Init ( void *hinstance, void *hWnd )
 
 #ifdef __linux__
 	// 3DFX_set_global_palette
-	if ( strstr( gl_config.extensions_string, "3DFX_set_global_palette" ))
+	if ( StringContainsToken( gl_config.extensions_string, "3DFX_set_global_palette" ))
 	{
 		if ( gl_ext_palettedtexture->value )
 		{
@@ -1426,8 +1532,8 @@ int R_Init ( void *hinstance, void *hWnd )
 
 	// GL_EXT_paletted_texture / GL_EXT_shared_texture_palette
 	if ( !qglColorTableEXT &&
-		strstr( gl_config.extensions_string, "GL_EXT_paletted_texture" ) && 
-		strstr( gl_config.extensions_string, "GL_EXT_shared_texture_palette" ) )
+		StringContainsToken( gl_config.extensions_string, "GL_EXT_paletted_texture" ) && 
+		StringContainsToken( gl_config.extensions_string, "GL_EXT_shared_texture_palette" ) )
 	{
 		if ( gl_ext_palettedtexture->value )
 		{
@@ -1446,13 +1552,13 @@ int R_Init ( void *hinstance, void *hWnd )
 
 	// GL_ARB_multitexture
 	gl_config.multitexture = false;
-	if ( strstr( gl_config.extensions_string, "GL_ARB_multitexture" ) )
+	if ( StringContainsToken( gl_config.extensions_string, "GL_ARB_multitexture" ) )
 	{
-		if ( gl_config.renderer == GL_RENDERER_INTEL && !gl_intel_allow_multitexture->value )
+		/*if ( gl_config.renderer == GL_RENDERER_INTEL && !gl_intel_allow_multitexture->value )
 		{
 			ri.Con_Printf( PRINT_ALL, "...ignoring GL_ARB_multitexture due to Intel graphics\nSet gl_intel_allow_multitexture to 1 and vid_restart to enable.\n" );
 		}
-		else if ( gl_ext_multitexture->value )
+		else*/ if ( gl_ext_multitexture->value )
 		{
 			qglMultiTexCoord2f = ( void * ) qwglGetProcAddress( "glMultiTexCoord2fARB" );
 			qglActiveTextureARB = ( void * ) qwglGetProcAddress( "glActiveTextureARB" );
@@ -1460,6 +1566,7 @@ int R_Init ( void *hinstance, void *hWnd )
 			gl_texture0 = GL_TEXTURE0_ARB;
 			gl_texture1 = GL_TEXTURE1_ARB;
 			gl_config.multitexture = true;
+			gl_state.multitextureEnabled = false;	// Knightmare added
 			ri.Con_Printf( PRINT_ALL, "...using GL_ARB_multitexture\n" );
 			qglGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &gl_config.max_texunits);
 			ri.Con_Printf (PRINT_ALL, "...GL_MAX_TEXTURE_UNITS_ARB: %i\n", gl_config.max_texunits);
@@ -1475,7 +1582,7 @@ int R_Init ( void *hinstance, void *hWnd )
 	}
 
 	// GL_SGIS_multitexture
-	if ( strstr( gl_config.extensions_string, "GL_SGIS_multitexture" ) )
+	if ( StringContainsToken( gl_config.extensions_string, "GL_SGIS_multitexture" ) )
 	{
 		if ( qglActiveTextureARB )
 		{
@@ -1504,7 +1611,7 @@ int R_Init ( void *hinstance, void *hWnd )
 	// GL_ARB_texture_non_power_of_two
 	// Knightmare- non-power-of-two texture support
 	gl_config.arbTextureNonPowerOfTwo = false;
-	if ( strstr( gl_config.extensions_string, "GL_ARB_texture_non_power_of_two" ) )
+	if ( StringContainsToken( gl_config.extensions_string, "GL_ARB_texture_non_power_of_two" ) )
 	{
 		if (gl_arb_texturenonpoweroftwo->value) {
 			ri.Con_Printf (PRINT_ALL, "...using GL_ARB_texture_non_power_of_two\n");
@@ -1519,7 +1626,7 @@ int R_Init ( void *hinstance, void *hWnd )
 
 	// GL_EXT_texture_filter_anisotropic- NeVo
 	gl_config.anisotropic = false;
-	if ( strstr(gl_config.extensions_string,"GL_EXT_texture_filter_anisotropic") )
+	if ( StringContainsToken(gl_config.extensions_string,"GL_EXT_texture_filter_anisotropic") )
 	{
 		ri.Con_Printf (PRINT_ALL,"...using GL_EXT_texture_filter_anisotropic\n" );
 		gl_config.anisotropic = true;
@@ -1559,13 +1666,25 @@ R_Shutdown
 ===============
 */
 void R_Shutdown (void)
-{	
+{
+	int		i;	// Knightmare added
+
 	ri.Cmd_RemoveCommand ("modellist");
 	ri.Cmd_RemoveCommand ("screenshot");
+	ri.Cmd_RemoveCommand ("screenshot_silent");	// Knightmare added
 	ri.Cmd_RemoveCommand ("imagelist");
 	ri.Cmd_RemoveCommand ("gl_strings");
 
 	Mod_FreeAll ();
+
+	// Knightmare- free lightmap update buffers
+	for (i=0; i<MAX_LIGHTMAPS; i++)
+	{
+		if (gl_lms.lightmap_update[i])
+		//	Z_Free(gl_lms.lightmap_update[i]);
+			free(gl_lms.lightmap_update[i]);
+	}
+	// end Knightmare
 
 	GL_ShutdownImages ();
 
@@ -1689,6 +1808,12 @@ void R_BeginFrame( float camera_separation )
 	{
 		GL_TextureSolidMode( gl_texturesolidmode->string );
 		gl_texturesolidmode->modified = false;
+	}
+
+	if ( gl_anisotropic->modified ) // Knightmare- added anisotropic filter update
+	{
+		GL_UpdateAnisoMode ();
+		gl_anisotropic->modified = false;
 	}
 
 	/*

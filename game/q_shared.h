@@ -59,6 +59,7 @@ typedef enum {false, true}	qboolean;
 #define NULL ((void *)0)
 #endif
 
+// Knightmare added
 #ifndef min
 #define min(a,b)        (((a) < (b)) ? (a) : (b))
 #endif
@@ -68,11 +69,19 @@ typedef enum {false, true}	qboolean;
 
 // from Quake3 source
 #ifdef WIN32
-#define Q_vsnprintf _vsnprintf
+//#define Q_vsnprintf _vsnprintf
+__inline int Q_vsnprintf (char *Dest, size_t Count, const char *Format, va_list Args) {
+	int ret = _vsnprintf(Dest, Count, Format, Args);
+	Dest[Count-1] = 0;	// null terminate
+	return ret;
+}
 #else
 // TODO: do we need Mac define?
 #define Q_vsnprintf vsnprintf
 #endif
+// end Knightmare
+
+#define OGG_SUPPORT // Knightmare- whether to use Ogg Vorbis soundtrack
 
 // angle indexes
 #define	PITCH				0		// up / down
@@ -242,6 +251,10 @@ char *COM_Parse (char **data_p);
 // data is an in/out parm, returns a parsed out token
 
 void Com_sprintf (char *dest, int size, char *fmt, ...);
+// Knightmare added
+void Com_strcpy (char *dest, int destSize, const char *src);
+void Com_strcat (char *dest, int destSize, const char *src);
+long Com_HashFileName (const char *fname, int hashSize, qboolean sized);
 
 void Com_PageInMemory (byte *buffer, int size);
 
@@ -404,6 +417,7 @@ COLLISION DETECTION
 #define	SURF_FLOWING	0x40	// scroll towards angle
 #define	SURF_NODRAW		0x80	// don't bother referencing the texture
 
+#define SURF_ALPHATEST	0x02000000	// Knightmare- alpha test flag
 
 
 // content masks

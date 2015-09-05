@@ -105,6 +105,8 @@ field_t fields[] = {
 //need for item field in edict struct, FFL_SPAWNTEMP item will be skipped on saves
 	{"item", FOFS(item), F_ITEM},
 
+	{"musictrack", FOFS(musictrack), F_LSTRING},	// Knightmare- for specifying OGG or CD track
+
 	{"gravity", STOFS(gravity), F_LSTRING, FFL_SPAWNTEMP},
 	{"sky", STOFS(sky), F_LSTRING, FFL_SPAWNTEMP},
 	{"skyrotate", STOFS(skyrotate), F_FLOAT, FFL_SPAWNTEMP},

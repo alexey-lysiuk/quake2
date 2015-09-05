@@ -255,6 +255,14 @@ void SV_Begin_f (void)
 {
 	Com_DPrintf ("Begin() from %s\n", sv_client->name);
 
+	// r1ch: could be abused to respawn or cause spam/other mod specific problems
+	if (sv_client->state != cs_connected)
+	{
+		Com_Printf ("EXPLOIT: Illegal 'begin' from %s[%s] (already spawned), client dropped.\n", sv_client->name, NET_AdrToString (sv_client->netchan.remote_address));
+		SV_DropClient (sv_client);
+		return;
+	}
+
 	// handle the case of a level changing while a client was connecting
 	if ( atoi(Cmd_Argv(1)) != svs.spawncount )
 	{
@@ -474,7 +482,36 @@ Dumps the serverinfo info string
 */
 void SV_ShowServerinfo_f (void)
 {
-	Info_Print (Cvar_Serverinfo());
+//	Info_Print (Cvar_Serverinfo());
+	// r1ch: this is a client issued command !
+	char *s;
+	char *p;
+	int flip;
+
+	s = Cvar_Serverinfo();
+
+	// skip beginning \\ char
+	s++;
+
+	flip = 0;
+	p = s;
+
+	// make it more readable
+	while (p[0])
+	{
+		if (p[0] == '\\')
+		{
+			if (flip)
+				p[0] = '\n';
+			else
+				p[0] = '=';
+			flip ^= 1;
+		}
+		p++;
+	}
+
+	SV_ClientPrintf (sv_client, PRINT_HIGH, "%s\n", s);
+	// end r1ch fix
 }
 
 
@@ -566,6 +603,13 @@ void SV_ExecuteUserCommand (char *s)
 			u->func ();
 			break;
 		}
+
+	// r1ch: do we really want to be passing commands from unconnected players
+	// to the game dll at this point? doesn't sound like a good idea to me
+	// especially if the game dll does its own banning functions after connect
+	// as banned players could spam game commands (eg say) whilst connecting
+	if (sv_client->state < cs_spawned)
+		return;
 
 	if (!u->name && sv.state == ss_game)
 		ge->ClientCommand (sv_player);

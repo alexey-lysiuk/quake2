@@ -56,7 +56,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib /nologo /subsystem:windows /machine:I386 /out:".\quake2_323.exe"
+# ADD LINK32 winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib ogg_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /out:".\quake2_324.exe" /libpath:"win32\lib"
 # SUBTRACT LINK32 /incremental:yes /debug /nodefaultlib
 
 !ELSEIF  "$(CFG)" == "quake2 - Win32 Debug"
@@ -86,7 +86,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386
-# ADD LINK32 winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib /nologo /subsystem:windows /incremental:no /map /debug /machine:I386 /out:".\quake2_323.exe"
+# ADD LINK32 winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib ogg_static.lib vorbisfile_static.lib /nologo /subsystem:windows /incremental:no /map /debug /machine:I386 /out:".\quake2_324.exe" /libpath:"win32\lib"
 # SUBTRACT LINK32 /nodefaultlib
 
 !ELSEIF  "$(CFG)" == "quake2 - Win32 Debug Alpha"
@@ -1484,6 +1484,21 @@ DEP_CPP_SND_MI=\
 # End Source File
 # Begin Source File
 
+SOURCE=.\client\snd_stream.c
+
+!IF  "$(CFG)" == "quake2 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "quake2 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "quake2 - Win32 Debug Alpha"
+
+!ELSEIF  "$(CFG)" == "quake2 - Win32 Release Alpha"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\win32\snd_win.c
 
 !IF  "$(CFG)" == "quake2 - Win32 Release"
@@ -2035,6 +2050,10 @@ SOURCE=.\server\server.h
 # Begin Source File
 
 SOURCE=.\client\snd_loc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\client\snd_ogg.h
 # End Source File
 # Begin Source File
 

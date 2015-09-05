@@ -36,7 +36,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //#define DEMO
 
-qboolean s_win95;
+qboolean s_win9X;
+qboolean s_winnt;	// Knightmare added
 
 int			starttime;
 int			ActiveApp;
@@ -249,6 +250,10 @@ void Sys_Init (void)
 
 	timeBeginPeriod( 1 );
 
+	// Knightmare added
+	s_winnt = false;
+	s_win9X = false;
+
 	vinfo.dwOSVersionInfoSize = sizeof(vinfo);
 
 	if (!GetVersionEx (&vinfo))
@@ -258,8 +263,10 @@ void Sys_Init (void)
 		Sys_Error ("Quake2 requires windows version 4 or greater");
 	if (vinfo.dwPlatformId == VER_PLATFORM_WIN32s)
 		Sys_Error ("Quake2 doesn't run on Win32s");
+	else if ( vinfo.dwPlatformId == VER_PLATFORM_WIN32_NT )	// Knightmare added
+		s_winnt = true;
 	else if ( vinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS )
-		s_win95 = true;
+		s_win9X = true;
 
 	if (dedicated->value)
 	{

@@ -485,6 +485,11 @@ void R_SetCacheState( msurface_t *surf )
 	{
 		surf->cached_light[maps] = r_newrefdef.lightstyles[surf->styles[maps]].white;
 	}
+// Knightmare- added for lightmap update batching
+#ifdef BATCH_LM_UPDATES
+	// mark if dynamicly lit
+	surf->cached_dlight = (surf->dlightframe == r_framecount);
+#endif
 }
 
 /*
@@ -671,11 +676,23 @@ store:
 					b = b*t;
 					a = a*t;
 				}
+				a = 255; // Knightmare- fix for alpha test
 
-				dest[0] = r;
-				dest[1] = g;
-				dest[2] = b;
-				dest[3] = a;
+				// Knightmare- changed to BGRA
+				if (gl_lms.external_format == GL_BGRA)
+				{
+					dest[0] = b;
+					dest[1] = g;
+					dest[2] = r;
+					dest[3] = a;
+				}
+				else
+				{
+					dest[0] = r;
+					dest[1] = g;
+					dest[2] = b;
+					dest[3] = a;
+				}
 
 				bl += 3;
 				dest += 4;
@@ -742,6 +759,7 @@ store:
 				case 'I':
 					r = a;
 					g = b = 0;
+					a = 255; // Knightmare- fix for alpha test
 					break;
 				case 'C':
 					// try faking colored lighting
@@ -749,18 +767,33 @@ store:
 					r *= a/255.0;
 					g *= a/255.0;
 					b *= a/255.0;
+					a = 255; // Knightmare- fix for alpha test
 					break;
 				case 'A':
-				default:
-					r = g = b = 0;
+				//	r = g = b = 0;
 					a = 255 - a;
+					r = g = b = a;
+					break;
+				default:
+					r = g = b = a;
+					a = 255; // Knightmare- fix for alpha test
 					break;
 				}
-
-				dest[0] = r;
-				dest[1] = g;
-				dest[2] = b;
-				dest[3] = a;
+				// Knightmare- changed to BGRA
+				if (gl_lms.external_format == GL_BGRA)
+				{
+					dest[0] = b;
+					dest[1] = g;
+					dest[2] = r;
+					dest[3] = a;
+				}
+				else
+				{
+					dest[0] = r;
+					dest[1] = g;
+					dest[2] = b;
+					dest[3] = a;
+				}
 
 				bl += 3;
 				dest += 4;

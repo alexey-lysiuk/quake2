@@ -34,7 +34,6 @@ unsigned	d_8to24table[256];
 qboolean GL_Upload8 (byte *data, int width, int height,  qboolean mipmap, qboolean is_sky );
 qboolean GL_Upload32 (unsigned *data, int width, int height,  qboolean mipmap);
 
-
 int		gl_solid_format = 3;
 int		gl_alpha_format = 4;
 
@@ -77,12 +76,14 @@ void GL_EnableMultitexture( qboolean enable )
 		GL_SelectTexture( GL_TEXTURE1 );
 		qglEnable( GL_TEXTURE_2D );
 		GL_TexEnv( GL_REPLACE );
+		gl_state.multitextureEnabled = true;	// Knightmare added
 	}
 	else
 	{
 		GL_SelectTexture( GL_TEXTURE1 );
 		qglDisable( GL_TEXTURE_2D );
 		GL_TexEnv( GL_REPLACE );
+		gl_state.multitextureEnabled = false;	// Knightmare added
 	}
 	GL_SelectTexture( gl_texture0 );
 	GL_TexEnv( GL_REPLACE );
@@ -178,6 +179,7 @@ glmode_t modes[] = {
 
 #define NUM_GL_MODES (sizeof(modes) / sizeof (glmode_t))
 
+//#if 0	// Knightmare- removed this, all textures are now GL_RGBA
 typedef struct
 {
 	char *name;
@@ -208,6 +210,89 @@ gltmode_t gl_solid_modes[] = {
 };
 
 #define NUM_GL_SOLID_MODES (sizeof(gl_solid_modes) / sizeof (gltmode_t))
+
+/*
+===============
+GL_TextureAlphaMode
+===============
+*/
+void GL_TextureAlphaMode (char *string)
+{
+	int		i;
+
+	for (i=0; i< NUM_GL_ALPHA_MODES; i++)
+	{
+		if ( !Q_stricmp( gl_alpha_modes[i].name, string ) )
+			break;
+	}
+
+	if (i == NUM_GL_ALPHA_MODES)
+	{
+		ri.Con_Printf (PRINT_ALL, "bad alpha texture mode name\n");
+		return;
+	}
+
+	gl_tex_alpha_format = gl_alpha_modes[i].mode;
+}
+
+/*
+===============
+GL_TextureSolidMode
+===============
+*/
+void GL_TextureSolidMode (char *string)
+{
+	int		i;
+
+	for (i=0; i< NUM_GL_SOLID_MODES; i++)
+	{
+		if ( !Q_stricmp( gl_solid_modes[i].name, string ) )
+			break;
+	}
+
+	if (i == NUM_GL_SOLID_MODES)
+	{
+		ri.Con_Printf (PRINT_ALL, "bad solid texture mode name\n");
+		return;
+	}
+
+	gl_tex_solid_format = gl_solid_modes[i].mode;
+}
+//#endif	// end Knightmare
+
+
+// Knightmare- added anisotropic filter update
+/*
+===============
+GL_UpdateAnisoMode
+===============
+*/
+void GL_UpdateAnisoMode (void)
+{
+	int		i;
+	image_t	*glt;
+
+	// clamp selected anisotropy
+	if (gl_config.anisotropic)
+	{
+		if (gl_anisotropic->value > gl_config.max_anisotropy)
+			ri.Cvar_SetValue("gl_anisotropic", gl_config.max_anisotropy);
+		else if (gl_anisotropic->value < 1.0)
+			ri.Cvar_SetValue("gl_anisotropic", 1.0);
+	}
+
+	// change all the existing mipmap texture objects
+	for (i=0, glt=gltextures; i<numgltextures; i++, glt++)
+	{
+		if (glt->type != it_pic && glt->type != it_sky)
+		{
+			GL_Bind (glt->texnum);
+			// Set anisotropic filter if supported and enabled
+			if (gl_config.anisotropic && gl_anisotropic->value)
+				qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, gl_anisotropic->value);
+		}
+	}
+}
 
 /*
 ===============
@@ -259,53 +344,6 @@ void GL_TextureMode( char *string )
 	}
 }
 
-/*
-===============
-GL_TextureAlphaMode
-===============
-*/
-void GL_TextureAlphaMode( char *string )
-{
-	int		i;
-
-	for (i=0 ; i< NUM_GL_ALPHA_MODES ; i++)
-	{
-		if ( !Q_stricmp( gl_alpha_modes[i].name, string ) )
-			break;
-	}
-
-	if (i == NUM_GL_ALPHA_MODES)
-	{
-		ri.Con_Printf (PRINT_ALL, "bad alpha texture mode name\n");
-		return;
-	}
-
-	gl_tex_alpha_format = gl_alpha_modes[i].mode;
-}
-
-/*
-===============
-GL_TextureSolidMode
-===============
-*/
-void GL_TextureSolidMode( char *string )
-{
-	int		i;
-
-	for (i=0 ; i< NUM_GL_SOLID_MODES ; i++)
-	{
-		if ( !Q_stricmp( gl_solid_modes[i].name, string ) )
-			break;
-	}
-
-	if (i == NUM_GL_SOLID_MODES)
-	{
-		ri.Con_Printf (PRINT_ALL, "bad solid texture mode name\n");
-		return;
-	}
-
-	gl_tex_solid_format = gl_solid_modes[i].mode;
-}
 
 /*
 ===============
@@ -1116,13 +1154,13 @@ and non-power-of-two texture support
 #if 1
 qboolean GL_Upload32 (unsigned *data, int width, int height,  qboolean mipmap)
 {
-	int			samples;
 	unsigned	*scaled;
 	unsigned char *paletted_texture; //paletted_texture[256*256];
 	int			scaled_width, scaled_height;
-	int			i, c;
+	int			i, c, comp;
+	int			samples;
 	byte		*scan;
-	int			comp;
+	qboolean	hasAlpha;
 	qboolean	isPaletted;
 
 	uploaded_paletted = false;
@@ -1131,28 +1169,37 @@ qboolean GL_Upload32 (unsigned *data, int width, int height,  qboolean mipmap)
 	c = width*height;
 	scan = ((byte *)data) + 3;
 	samples = gl_solid_format;
+	hasAlpha = false;
 	for (i=0 ; i<c ; i++, scan += 4)
 	{
 		if ( *scan != 255 )
 		{
 			samples = gl_alpha_format;
+			hasAlpha = true;
 			break;
 		}
 	}
 
-	if (samples == gl_solid_format)
-	    comp = gl_tex_solid_format;
-	else if (samples == gl_alpha_format)
-	    comp = gl_tex_alpha_format;
-	else {
-	    ri.Con_Printf (PRINT_ALL, "Unknown number of texture components %i\n", samples);
-	    comp = samples;
+	// use either old or new texture formats
+	if ( gl_config.newTexFormat ) {
+		comp = GL_RGBA;
 	}
-
-	isPaletted = (qglColorTableEXT && gl_ext_palettedtexture->value && samples == gl_solid_format);
+	else
+	{
+		if (samples == gl_solid_format)
+			comp = gl_tex_solid_format;
+		else if (samples == gl_alpha_format)
+			comp = gl_tex_alpha_format;
+		else {
+			ri.Con_Printf (PRINT_ALL, "Unknown number of texture components %i\n", samples);
+			comp = samples;
+		}
+	}
+//	isPaletted = (qglColorTableEXT && gl_ext_palettedtexture->value && samples == gl_solid_format);
+	isPaletted = (qglColorTableEXT && gl_ext_palettedtexture->value && !hasAlpha);
 
 	// find sizes to scale to
-	if (gl_config.arbTextureNonPowerOfTwo) {
+	if ( gl_config.arbTextureNonPowerOfTwo && (!mipmap || gl_nonpoweroftwo_mipmaps->value) ) {
 		scaled_width = width;
 		scaled_height = height;
 	}
@@ -1235,7 +1282,8 @@ qboolean GL_Upload32 (unsigned *data, int width, int height,  qboolean mipmap)
 	if (mipmap && gl_config.anisotropic && gl_anisotropic->value)
 		qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, gl_anisotropic->value);
 
-	return (samples == gl_alpha_format);
+//	return (samples == gl_alpha_format);
+	return hasAlpha;
 }
 #else
 qboolean GL_Upload32 (unsigned *data, int width, int height,  qboolean mipmap)
@@ -1538,6 +1586,7 @@ image_t *GL_LoadPic (char *name, byte *pic, int width, int height, imagetype_t t
 	if (strlen(name) >= sizeof(image->name))
 		ri.Sys_Error (ERR_DROP, "Draw_LoadPic: \"%s\" is too long", name);
 	strcpy (image->name, name);
+	image->hash = Com_HashFileName(name, 0, false);	// Knightmare added
 	image->registration_sequence = registration_sequence;
 
 	image->width = width;
@@ -1638,20 +1687,35 @@ image_t	*GL_FindImage (char *name, imagetype_t type)
 	int		i, len;
 	byte	*pic, *palette;
 	int		width, height;
+	// Knightmare added
+	char	*tmp;
+	long	hash;
 
 	if (!name)
 		return NULL;	//	ri.Sys_Error (ERR_DROP, "GL_FindImage: NULL name");
 	len = strlen(name);
-	if (len<5)
+	if (len < 5)
 		return NULL;	//	ri.Sys_Error (ERR_DROP, "GL_FindImage: bad name: %s", name);
 
+	// Knightmare- fix up bad image paths
+    tmp = name;
+    while ( *tmp != 0 )
+    {
+        if ( *tmp == '\\' )
+            *tmp = '/';
+        tmp++;
+    }
+
 	// look for it
+	hash = Com_HashFileName(name, 0, false);	// Knightmare added
 	for (i=0, image=gltextures ; i<numgltextures ; i++,image++)
 	{
-		if (!strcmp(name, image->name))
-		{
-			image->registration_sequence = registration_sequence;
-			return image;
+		if (hash == image->hash) {	// Knightmare- compare hash first
+			if (!strcmp(name, image->name))
+			{
+				image->registration_sequence = registration_sequence;
+				return image;
+			}
 		}
 	}
 
@@ -1803,7 +1867,7 @@ void	GL_InitImages (void)
 	}
 
 //	if ( gl_config.renderer & ( GL_RENDERER_VOODOO | GL_RENDERER_VOODOO2 ) )
-	if ( gl_config.renderer & GL_RENDERER_VOODOO )
+	if ( gl_config.renderer == GL_RENDERER_VOODOO )
 	{
 		g = 1.0F;
 	}

@@ -44,6 +44,56 @@ glwstate_t glw_state;
 extern cvar_t *vid_fullscreen;
 extern cvar_t *vid_ref;
 
+// Knightmare- added Vic's hardware gammaramp
+WORD original_ramp[3][256];	// Knightmare- hardware gamma 
+WORD gamma_ramp[3][256];
+
+void InitGammaRamp (void)
+{
+	if (!r_ignorehwgamma->value)
+		gl_state.gammaRamp = GetDeviceGammaRamp ( glw_state.hDC, original_ramp );
+	else
+		gl_state.gammaRamp = false;
+
+	if (gl_state.gammaRamp)
+		vid_gamma->modified = true;
+}
+
+void ShutdownGammaRamp (void)
+{
+//	if (r_ignorehwgamma->value)
+	if (!gl_state.gammaRamp)
+		return;
+
+	SetDeviceGammaRamp (glw_state.hDC, original_ramp);
+}
+
+void UpdateGammaRamp (void)
+{
+	int i, o;
+
+	if (!gl_state.gammaRamp)
+		return;
+	
+	memcpy (gamma_ramp, original_ramp, sizeof(original_ramp));
+
+	for (o = 0; o < 3; o++) 
+	{
+		for (i = 0; i < 256; i++) 
+		{
+			signed int v;
+
+			v = 255 * pow ((i+0.5)/255.5, vid_gamma->value ) + 0.5;
+			if (v > 255) v = 255;
+			if (v < 0) v = 0;
+			gamma_ramp[o][i] = ((WORD)v) << 8;
+		}
+	}
+
+	SetDeviceGammaRamp ( glw_state.hDC, gamma_ramp );
+}
+// end Vic's hardware gammaramp
+
 static qboolean VerifyDriver( void )
 {
 	char buffer[1024];
@@ -194,6 +244,14 @@ rserr_t GLimp_SetMode( int *pwidth, int *pheight, int mode, qboolean fullscreen 
 		dm.dmPelsHeight = height;
 		dm.dmFields     = DM_PELSWIDTH | DM_PELSHEIGHT;
 
+		// Knightmare- added refresh rate control
+		if ( r_displayrefresh->value != 0 )
+		{
+			dm.dmDisplayFrequency = (int)r_displayrefresh->value;
+			dm.dmFields |= DM_DISPLAYFREQUENCY;
+			ri.Con_Printf( PRINT_ALL, "...using r_displayrefresh of %d\n", (int)r_displayrefresh->value );
+		}
+
 		if ( gl_bitdepth->value != 0 )
 		{
 			dm.dmBitsPerPel = gl_bitdepth->value;
@@ -299,15 +357,11 @@ rserr_t GLimp_SetMode( int *pwidth, int *pheight, int mode, qboolean fullscreen 
 ** for the window.  The state structure is also nulled out.
 **
 */
-WORD original_ramp[3][256];	// Knightmare- hardware gamma 
-WORD gamma_ramp[3][256];
 
 void GLimp_Shutdown( void )
 {
 	// Knightmare- added Vic's hardware gamma ramp
-	if ( !r_ignorehwgamma->value )
-		SetDeviceGammaRamp (glw_state.hDC, original_ramp);
-	// end Knightmare
+	ShutdownGammaRamp ();
 
 	if ( qwglMakeCurrent && !qwglMakeCurrent( NULL, NULL ) )
 		ri.Con_Printf( PRINT_ALL, "ref_gl::R_Shutdown() - wglMakeCurrent failed\n");
@@ -542,14 +596,7 @@ qboolean GLimp_InitGL (void)
 	ri.Con_Printf( PRINT_ALL, "GL PFD: color(%d-bits) Z(%d-bit)\n", ( int ) pfd.cColorBits, ( int ) pfd.cDepthBits );
 
 	// Knightmare- Vic's hardware gamma stuff
-	if ( !r_ignorehwgamma->value )
-		gl_state.gammaRamp = GetDeviceGammaRamp ( glw_state.hDC, original_ramp );
-	else
-		gl_state.gammaRamp = false;
-
-	if (gl_state.gammaRamp)
-		vid_gamma->modified = true;
-	// end hardware gamma
+	InitGammaRamp ();
 
 	// Knightmare- stencil buffer
 	{
@@ -590,31 +637,6 @@ fail:
 	return false;
 }
 
-// Knightmare- added Vic's hardware gammaramp
-void UpdateGammaRamp (void)
-{
-	int i, o;
-
-	if (!gl_state.gammaRamp)
-		return;
-	
-	memcpy (gamma_ramp, original_ramp, sizeof(original_ramp));
-
-	for (o = 0; o < 3; o++) 
-	{
-		for (i = 0; i < 256; i++) 
-		{
-			signed int v;
-
-			v = 255 * pow ((i+0.5)/255.5, vid_gamma->value ) + 0.5;
-			if (v > 255) v = 255;
-			if (v < 0) v = 0;
-			gamma_ramp[o][i] = ((WORD)v) << 8;
-		}
-	}
-
-	SetDeviceGammaRamp ( glw_state.hDC, gamma_ramp );
-}
 
 /*
 ** GLimp_BeginFrame
@@ -657,7 +679,12 @@ void GLimp_EndFrame (void)
 	int		err;
 
 	err = qglGetError();
-	assert( err == GL_NO_ERROR );
+//	assert( err == GL_NO_ERROR );
+	// Knightmare- Output error code instead
+	if (err != GL_NO_ERROR)
+	//	ri.Con_Printf (PRINT_DEVELOPER, "GLimp_EndFrame: OpenGL Error 0x%x\n", err);
+		GL_PrintError (err, "GLimp_EndFrame");
+	// end Knightmare
 
 	if ( stricmp( gl_drawbuffer->string, "GL_BACK" ) == 0 )
 	{

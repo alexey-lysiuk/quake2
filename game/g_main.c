@@ -147,7 +147,7 @@ void Sys_Error (char *error, ...)
 
 	va_start (argptr, error);
 //	vsprintf (text, error, argptr);
-	Q_vsnprintf (text, sizeof(text), error, argptr);
+	Q_vsnprintf (text, sizeof(text), error, argptr);	// Knightmare- buffer overflow fix
 	va_end (argptr);
 
 	gi.error (ERR_FATAL, "%s", text);
@@ -160,7 +160,7 @@ void Com_Printf (char *msg, ...)
 
 	va_start (argptr, msg);
 //	vsprintf (text, msg, argptr);
-	Q_vsnprintf (text, sizeof(text), msg, argptr);
+	Q_vsnprintf (text, sizeof(text), msg, argptr);	// Knightmare- buffer overflow fix
 	va_end (argptr);
 
 	gi.dprintf ("%s", text);

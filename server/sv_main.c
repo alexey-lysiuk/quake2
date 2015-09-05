@@ -238,7 +238,10 @@ void SVC_Info (void)
 	version = atoi (Cmd_Argv(1));
 
 	if (version != PROTOCOL_VERSION)
-		Com_sprintf (string, sizeof(string), "%s: wrong version\n", hostname->string, sizeof(string));
+	{	// According to r1ch, this can be used to make servers endlessly ping each other
+	//	Com_sprintf (string, sizeof(string), "%s: wrong version\n", hostname->string, sizeof(string));
+		return;
+	}
 	else
 	{
 		count = 0;

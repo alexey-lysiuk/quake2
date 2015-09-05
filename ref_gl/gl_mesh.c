@@ -464,6 +464,25 @@ static qboolean R_CullAliasModel( vec3_t bbox[8], entity_t *e )
 		}
 	}
 
+#if 1	// Knightmare- jitspore's fix for correct bbox rotation
+	//
+	// compute bounding box and rotate
+	//
+	VectorCopy( e->angles, angles );
+	AngleVectors( angles, vectors[0], vectors[1], vectors[2] );
+	VectorSubtract(vec3_origin, vectors[1], vectors[1]); // AngleVectors returns "right" instead of "left"
+	for (i = 0; i < 8; i++)
+	{
+		vec3_t   tmp;
+		tmp[0] = ((i & 1) ? mins[0] : maxs[0]);
+		tmp[1] = ((i & 2) ? mins[1] : maxs[1]);
+		tmp[2] = ((i & 4) ? mins[2] : maxs[2]);
+
+		bbox[i][0] = vectors[0][0] * tmp[0] + vectors[1][0] * tmp[1] + vectors[2][0] * tmp[2] + e->origin[0];
+		bbox[i][1] = vectors[0][1] * tmp[0] + vectors[1][1] * tmp[1] + vectors[2][1] * tmp[2] + e->origin[1];
+		bbox[i][2] = vectors[0][2] * tmp[0] + vectors[1][2] * tmp[1] + vectors[2][2] * tmp[2] + e->origin[2];
+	}
+#else
 	/*
 	** compute a full bounding box
 	*/
@@ -508,7 +527,9 @@ static qboolean R_CullAliasModel( vec3_t bbox[8], entity_t *e )
 
 		VectorAdd( e->origin, bbox[i], bbox[i] );
 	}
+#endif
 
+	// cull
 	{
 		int p, f, aggregatemask = ~0;
 
@@ -840,20 +861,48 @@ void R_DrawAliasModel (entity_t *e)
 
 	qglPopMatrix ();
 
-#if 0
-	qglDisable( GL_CULL_FACE );
-	qglPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	qglDisable( GL_TEXTURE_2D );
-	qglBegin( GL_TRIANGLE_STRIP );
-	for ( i = 0; i < 8; i++ )
+//#if 1
+	if (gl_showbbox->value)	// Knightmare- show bbox option
 	{
-		qglVertex3fv( bbox[i] );
+		qglColor4f (1.0f, 1.0f, 1.0f, 1.0f);
+		qglDisable( GL_CULL_FACE );
+		qglPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		qglDisable( GL_TEXTURE_2D );
+	/*	qglBegin( GL_TRIANGLE_STRIP );
+		for ( i = 0; i < 8; i++ )
+		{
+			qglVertex3fv( bbox[i] );
+		}
+		qglEnd();*/
+		qglBegin( GL_QUADS );
+
+		qglVertex3fv( bbox[0] );
+		qglVertex3fv( bbox[1] );
+		qglVertex3fv( bbox[3] );
+		qglVertex3fv( bbox[2] );
+
+		qglVertex3fv( bbox[4] );
+		qglVertex3fv( bbox[5] );
+		qglVertex3fv( bbox[7] );
+		qglVertex3fv( bbox[6] );
+
+		qglVertex3fv( bbox[0] );
+		qglVertex3fv( bbox[1] );
+		qglVertex3fv( bbox[5] );
+		qglVertex3fv( bbox[4] );
+
+		qglVertex3fv( bbox[2] );
+		qglVertex3fv( bbox[3] );
+		qglVertex3fv( bbox[7] );
+		qglVertex3fv( bbox[6] );
+
+		qglEnd();
+
+		qglEnable( GL_TEXTURE_2D );
+		qglPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+		qglEnable( GL_CULL_FACE );
 	}
-	qglEnd();
-	qglEnable( GL_TEXTURE_2D );
-	qglPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-	qglEnable( GL_CULL_FACE );
-#endif
+//#endif
 
 	if ( ( currententity->flags & RF_WEAPONMODEL ) && ( r_lefthand->value == 1.0F ) )
 	{

@@ -261,6 +261,11 @@ extern	cvar_t	*cl_autoskins;
 // Knightmare- whether to adjust fov for wide aspect rattio
 extern	cvar_t	*cl_widescreen_fov;
 
+// Knightmare- whether to try to play OGGs instead of CD tracks
+extern	cvar_t	*cl_ogg_music;
+extern	cvar_t	*cl_rogue_music; // whether to play Rogue tracks
+extern	cvar_t	*cl_xatrix_music; // whether to play Xatrix tracks
+
 extern	cvar_t	*cl_upspeed;
 extern	cvar_t	*cl_forwardspeed;
 extern	cvar_t	*cl_sidespeed;
@@ -425,6 +430,7 @@ void CL_ParseFrame (void);
 
 void CL_ParseTEnt (void);
 void CL_ParseConfigString (void);
+void CL_PlayBackgroundTrack (void); // Knightmare added
 void CL_ParseMuzzleFlash (void);
 void CL_ParseMuzzleFlash2 (void);
 void SmokeAndFlash(vec3_t origin);
@@ -468,6 +474,7 @@ void CL_GetChallengePacket (void);
 void CL_PingServers_f (void);
 void CL_Snd_Restart_f (void);
 void CL_RequestNextDownload (void);
+void CL_WriteConfig_f (void);	// Knightmare- added writeconfig command
 
 //
 // cl_input

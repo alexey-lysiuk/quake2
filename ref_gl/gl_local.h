@@ -87,6 +87,7 @@ typedef enum
 typedef struct image_s
 {
 	char	name[MAX_QPATH];			// game path, including extension
+	long		hash;					// Knightmare- added to speed up searching
 	imagetype_t	type;
 	int		width, height;				// source image
 	int		upload_width, upload_height;	// after power of two and picmip
@@ -100,11 +101,13 @@ typedef struct image_s
 	qboolean paletted;
 } image_t;
 
-#define	TEXNUM_LIGHTMAPS	1024
-#define	TEXNUM_SCRAPS		1152
-#define	TEXNUM_IMAGES		1153
+#define	MAX_LIGHTMAPS	128		// Knightmare- moved this here for use by macros
 
-#define		MAX_GLTEXTURES	1024
+#define	TEXNUM_LIGHTMAPS	1024
+#define	TEXNUM_SCRAPS		TEXNUM_LIGHTMAPS + MAX_LIGHTMAPS	// Knightmare- changed to use macro, was 1152
+#define	TEXNUM_IMAGES		TEXNUM_SCRAPS + 1	// Knightmare- changed to use macro, was 1153
+
+#define		MAX_GLTEXTURES	2048	// Knightmare increased, was 1024
 
 //===================================================================
 
@@ -125,6 +128,7 @@ void GL_EndRendering (void);
 
 void GL_SetDefaultState( void );
 void GL_UpdateSwapInterval( void );
+void GL_PrintError (int errorCode, char *funcName);	// Knightmare added
 
 extern	float	gldepthmin, gldepthmax;
 
@@ -140,6 +144,49 @@ typedef struct
 
 #define BACKFACE_EPSILON	0.01
 
+//====================================================
+// Knightmare- moved these here from gl_rsurf.c
+
+#define LIGHTMAP_BYTES 4
+
+#define	LM_BLOCK_WIDTH	128
+#define	LM_BLOCK_HEIGHT	128
+
+#define GL_LIGHTMAP_FORMAT GL_BGRA	// was GL_RGBA
+#define GL_LIGHTMAP_TYPE GL_UNSIGNED_INT_8_8_8_8_REV	// was GL_UNSIGNED_BYTE
+
+#define BATCH_LM_UPDATES
+
+typedef struct
+{
+	unsigned int	left;
+	unsigned int	right;
+	unsigned int	top;
+	unsigned int	bottom;
+} rect_t;
+
+typedef struct
+{
+	int			internal_format;
+	int			external_format;	// Knightmare added
+	int			type;				// Knightmare added
+	int			current_lightmap_texture;
+
+	msurface_t	*lightmap_surfaces[MAX_LIGHTMAPS];
+
+	int			allocated[LM_BLOCK_WIDTH];
+
+	// the lightmap texture data needs to be kept in
+	// main memory so texsubimage can update properly
+	unsigned	lightmap_buffer[LM_BLOCK_WIDTH*LM_BLOCK_HEIGHT];
+#ifdef BATCH_LM_UPDATES	// Knightmare added
+	unsigned	*lightmap_update[MAX_LIGHTMAPS];
+	rect_t		lightrect[MAX_LIGHTMAPS];
+	qboolean	modified[MAX_LIGHTMAPS];
+#endif
+} gllightmapstate_t;
+
+extern gllightmapstate_t gl_lms;
 
 //====================================================
 
@@ -184,6 +231,7 @@ extern	cvar_t	*r_novis;
 extern	cvar_t	*r_nocull;
 extern	cvar_t	*r_lerpmodels;
 extern	cvar_t	*r_ignorehwgamma; // Knightmare- hardware gamma
+extern	cvar_t	*r_displayrefresh; // Knightmare- refresh rate control
 
 extern	cvar_t	*r_dlights_normal; // Knightmare- lerped dlights on models
 
@@ -196,8 +244,10 @@ extern cvar_t	*gl_ext_palettedtexture;
 extern cvar_t	*gl_ext_multitexture;
 extern cvar_t	*gl_ext_pointparameters;
 extern cvar_t	*gl_ext_compiled_vertex_array;
-extern cvar_t	*gl_arb_texturenonpoweroftwo;
+extern cvar_t	*gl_arb_texturenonpoweroftwo;	// Knightmare- non-power-of-two texture support
+extern cvar_t	*gl_nonpoweroftwo_mipmaps;		// Knightmare- non-power-of-two texture support
 
+extern cvar_t	*gl_newtextureformat;			// Knightmare- whether to use RGBA textures / BGRA lightmaps
 
 extern cvar_t	*gl_particle_min_size;
 extern cvar_t	*gl_particle_max_size;
@@ -223,6 +273,7 @@ extern	cvar_t	*gl_round_down;
 extern	cvar_t	*gl_picmip;
 extern	cvar_t	*gl_skymip;
 extern	cvar_t	*gl_showtris;
+extern	cvar_t	*gl_showbbox;	// Knightmare- show model bounding box
 extern	cvar_t	*gl_finish;
 extern	cvar_t	*gl_ztrick;
 extern	cvar_t	*gl_clear;
@@ -290,6 +341,7 @@ void	R_Shutdown( void );
 
 void R_RenderView (refdef_t *fd);
 void GL_ScreenShot_f (void);
+void GL_ScreenShot_Silent_f (void);
 void R_DrawAliasModel (entity_t *e);
 void R_DrawBrushModel (entity_t *e);
 void R_DrawSpriteModel (entity_t *e);
@@ -348,6 +400,7 @@ struct image_s *R_RegisterSkin (char *name);
 void LoadPCX (char *filename, byte **pic, byte **palette, int *width, int *height);
 image_t *GL_LoadPic (char *name, byte *pic, int width, int height, imagetype_t type, int bits);
 image_t	*GL_FindImage (char *name, imagetype_t type);
+void	GL_UpdateAnisoMode (void);	// Knightmare- added anisotropic filter update
 void	GL_TextureMode( char *string );
 void	GL_ImageList_f (void);
 int nearest_power_of_2 (int size);
@@ -446,6 +499,10 @@ typedef struct
 	const char *vendor_string;
 	const char *version_string;
 	const char *extensions_string;
+	// Knightmare- for parsing newer OpenGL versions
+	int			version_major;
+	int			version_minor;
+	int			version_release;
 
 	qboolean	allow_cds;
 
@@ -459,6 +516,8 @@ typedef struct
 
 	qboolean	anisotropic;				// anisotropic filtering
 	float		max_anisotropy;
+
+	qboolean	newTexFormat;			// whether to use GL_RGBA textures / GL_BGRA lightmaps
 
 } glconfig_t;
 
@@ -480,6 +539,7 @@ typedef struct
 	qboolean	stereo_enabled;
 
 	qboolean	gammaRamp;
+	qboolean	multitextureEnabled;	// Knightmare added
 
 	unsigned char originalRedGammaTable[256];
 	unsigned char originalGreenGammaTable[256];
